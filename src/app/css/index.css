@@ -1,0 +1,206 @@
+body {
+  margin: 0;
+  font-family: 'Poppins', sans-serif !important;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-size: 62.5%;
+  color: #000;
+  background: #f9f9f9 !important;
+}
+
+.navbar {
+  font-weight: 600;
+  font-size: .8rem;
+  background-color: #fff !important;
+  box-shadow: 1px 2px 3px #eee;
+}
+
+.dropdown-item {
+  font-size: .8rem !important;
+  font-weight: 600 !important;
+  color: #434343 !important;
+}
+
+.nav-avatar, 
+.avatar-img {
+  height: 30px;
+  width: 30px;
+}
+
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.event-form-container {
+  margin-top: 10rem;
+}
+
+.event-dashboard {
+  margin: 8rem 0 8rem 0;
+}
+
+
+.auth-form {
+  margin-top: 4rem;
+  padding: 2rem;
+}
+
+.auth-header {
+  padding-bottom: 2rem;
+  color: #484848;
+  font-size: 1.4rem;
+  font-weight: 700;
+  text-align: center;
+}
+
+.label {
+  text-transform: uppercase;
+  font-size: .7rem;
+  font-weight: 600;
+  color: #484848;
+  letter-spacing: .06rem;
+}
+
+.m-right {
+  margin-top: 2rem;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.card {
+  box-shadow: 0px -1px 12px 2px #f0f0f0 !important;
+  border-radius: 10px !important;
+  color: #484848;
+}
+
+.card-title {
+  font-size: 1.5rem !important;
+  text-transform: uppercase;
+  font-weight: 800 !important;
+}
+
+.card-link {
+  text-decoration: none !important;
+}
+
+.event-info {
+  font-size: .69rem;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: #00264d;
+}
+
+.people-going {
+  margin-top: -1rem;
+  font-size: .8rem;
+  font-weight: 600;
+}
+
+.avatar-img {
+  margin-top: -.5rem;
+}
+
+.event-list-item {
+  display: flex !important;
+  justify-content: flex-end !important;
+}
+
+.event-form-container {
+  width: 60% !important;
+  margin-bottom: 8rem;
+}
+
+.event-form-heading {
+  margin-bottom: 3rem;
+  font-weight: 600;
+  color: #464646;
+}
+
+.form-btns {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.event-details {
+  display: flex;
+  justify-content: center;
+}
+
+.event-details-top {
+  background: #fff;
+  border-bottom: 1px solid #eee;
+  padding: 6rem 0 2rem 0;
+}
+
+.event-details-top-h1 {
+  font-weight: 800;
+  padding-bottom: 1rem;
+}
+
+.event-details-top-h5 {
+  font-weight: 400;
+  font-size: 1.2rem;
+}
+
+.event-details-top-h6 {
+  font-weight: 600;
+  font-size: 1.2rem;
+  color: #333;
+}
+
+.event-details-top-host {
+  display: flex;
+  align-items: center;
+}
+
+.event-details-top-host img {
+  height: 50px;
+  margin-right: 1rem;
+  border-radius: 50% ;
+}
+
+.event-details-card {
+  margin-top: 2rem;
+  width: 100%;
+}
+
+.event-details-img {
+  width: 90%;
+}
+
+.event-details-info {
+  text-align: left;
+  margin-top: 4rem;
+}
+
+.event-details-heading {
+  font-weight: 600;
+  font-size: 1.5rem;
+}
+
+.event-details-attendees {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.attendee-card {
+  margin-right: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: .5rem 0 .5rem 0;
+}
+
+.attendee-card-img {
+  height: 80px;
+  border-radius: 50%;
+}
+
+.attendee-card-name {
+  margin-top: .5rem;
+  text-align: center;
+}

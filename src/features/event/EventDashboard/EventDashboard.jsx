@@ -1,17 +1,28 @@
 import React, { Component } from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
+import EventList from '../EventList/EventList';
+import { connect } from 'react-redux';
 
 class EventDashboard extends Component {
   render() {
+    const {events} = this.props;
     return (
-      <Container>
+      <Container className='event-dashboard'>
         <Row>
-          <Col lg={true}>Right</Col>
-          <Col lg={true}>Left</Col>
+          <Col lg={8}>
+            <EventList events={events}/>
+          </Col>
+          <Col md={true}>Left</Col>
         </Row>
       </Container>
     );
   }
 }
 
-export default EventDashboard;
+const mapStateToProps = (state) => {
+  return {
+    events: state.events
+  }
+} 
+
+export default connect(mapStateToProps)(EventDashboard);

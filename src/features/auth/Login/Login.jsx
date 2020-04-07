@@ -5,7 +5,7 @@ const Login = () => {
   return (
     <Container className='login-container'>
         <Form className='auth-form'>
-        <h3 className='auth-header'>Sign up</h3>
+        <h3 className='auth-header'>Log in</h3>
           <Form.Group controlId='formBasicEmail'>
             <Form.Label className='label'>Email address</Form.Label>
             <Form.Control type='email' placeholder='Enter email' />
@@ -13,13 +13,12 @@ const Login = () => {
               We'll never share your email with anyone else.
             </Form.Text>
           </Form.Group>
-
           <Form.Group controlId='formBasicPassword'>
             <Form.Label className='label'>Password</Form.Label>
             <Form.Control type='password' placeholder='Password' />
           </Form.Group>
           <div className='m-right'>
-            <Button variant='primary' type='submit'>
+            <Button variant='success' type='submit'>
               Submit
             </Button>
           </div>

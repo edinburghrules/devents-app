@@ -27,7 +27,7 @@ const Signup = () => {
           <Form.Control type='password'/>
         </Form.Group>
         <div className='m-right'>
-          <Button variant='primary' type='submit'>
+          <Button variant='success'>
             Submit
           </Button>
         </div>

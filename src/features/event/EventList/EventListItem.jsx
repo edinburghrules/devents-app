@@ -1,74 +1,78 @@
 import React, { Component } from 'react';
-import { Card } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Card, Button } from 'react-bootstrap';
 import EventListAttendee from './EventListAttendee';
+import { withRouter } from 'react-router-dom';
 
 class EventListItem extends Component {
+  handleClick = (e) => {
+    e.preventDefault();
+    this.props.history.push(`/event/${this.props.event.id}`)
+  }
+
+  attend = (e) => {
+    e.stopPropagation();
+    alert('You are attending');
+  }
   render() {
     const {
-      id,
       title,
       date,
       city,
       venue,
-      hostedBy: {name},
       snip,
       img,
+      attendees,
     } = this.props.event;
     return (
-      <Link to={`/event/${id}`} className='card-link'>
-        <Card className='p-4' style={{ width: '70%' }} border='light'>
+      <a onClick={this.handleClick} href='/#' className='card-link'>
+        <Card className='p-2' style={{ width: '70%' }} border='light'>
           <Card.Body>
-            <img
-              alt='logo'
-              className='rounded'
-              style={{ width: '15%' }}
-              src={img}
-            />
-            <Card.Text>
-            </Card.Text>
+            <div className='card-top'>
+              <img
+                alt='logo'
+                className='rounded'
+                style={{ width: '15%' }}
+                src={img}
+              />
+              <Button onClick={this.attend}>Attend</Button>
+            </div>
             <Card.Title className='card-title mt-5'>{title}</Card.Title>
             <Card.Text className='mt-4'>{snip}</Card.Text>
           </Card.Body>
-          <Card.Body>
-          <div className='event-info'>
-                <div className='mr-2 mb-3'>
-                  <img
-                    className='mr-2'
-                    src='/assets/loc.png'
-                    alt='location icon'
-                  />
-                  <span>
-                    {venue}, {city}
-                  </span>
-                  <br />
-                </div>
-                <div className='mr-2 mb-3'>
-                  <img
-                    className='mr-2'
-                    src='/assets/cal.png'
-                    alt='location icon'
-                  />
-                  <span>{date.toString()}</span> <br />
-                </div>
-                <div className='mr-2 mb-3'>
-                  <img
-                    className='mr-2'
-                    src='/assets/host.png'
-                    alt='location icon'
-                  />
-                  <span>{name}</span> <br />
-                </div>
-              </div>
-            </Card.Body>
           <Card.Body className='people-going'>
-            <p>People going</p>
-            <EventListAttendee />
+            <p>Attendees</p>
+            {attendees &&
+              attendees.map((attendee, index) => {
+                return <EventListAttendee key={index} attendee={attendee} />;
+              })}
+          </Card.Body>
+          <Card.Body>
+            <div className='event-info'>
+              <div className='mr-2'>
+                <img
+                  className='mr-2'
+                  src='/assets/loc.png'
+                  alt='location icon'
+                />
+                <span>
+                  {venue}, {city}
+                </span>
+                <br />
+              </div>
+              <div>
+                <img
+                  className='mr-2 ml-3'
+                  src='/assets/cal.png'
+                  alt='location icon'
+                />
+                <span>{date.toString()}</span> <br />
+              </div>
+            </div>
           </Card.Body>
         </Card>
-      </Link>
+      </a>
     );
   }
 }
 
-export default EventListItem;
+export default withRouter(EventListItem);

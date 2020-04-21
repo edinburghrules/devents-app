@@ -2,9 +2,10 @@ import React from 'react';
 import {Image} from 'react-bootstrap';
 
 
-const EventListAttendee = () => {
+const EventListAttendee = ({attendee}) => {
+  const {photoURL} = attendee;
   return (
-      <Image className='avatar-img' src="https://randomuser.me/api/portraits/thumb/men/75.jpg" roundedCircle alt='attendee' />
+      <Image className='avatar-img mr-2' src={photoURL} roundedCircle alt='attendee' />
   )
 }
 

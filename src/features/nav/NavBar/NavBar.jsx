@@ -5,7 +5,7 @@ import SignedInMenu from '../Menus/SignedInMenu';
 
 class NavBar extends Component {
   render() {
-    const authenticated = false;
+    const authenticated = true;
     return (
       <Navbar fixed='top' className='navbar' expand='lg'>
         <Navbar.Toggle aria-controls='basic-navbar-nav' />

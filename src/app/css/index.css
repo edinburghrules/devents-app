@@ -5,24 +5,28 @@ body {
   -moz-osx-font-smoothing: grayscale;
   font-size: 62.5%;
   color: #000;
-  background: #f9f9f9 !important;
+  background: #f0f0f0 !important;
 }
 
 .navbar {
   font-weight: 600;
-  font-size: .8rem;
+  font-size: .95rem;
+  padding: 1rem !important;
   background-color: #fff !important;
   box-shadow: 1px 2px 3px #eee;
 }
 
-.dropdown-item {
-  font-size: .8rem !important;
-  font-weight: 600 !important;
-  color: #434343 !important;
+.dropdown-menu {
+  border: none !important;
 }
 
-.nav-avatar, 
-.avatar-img {
+.dropdown-item {
+  font-size: .9rem !important;
+  font-weight: 600 !important;
+  color: #464646 !important;
+}
+
+.nav-avatar {
   height: 30px;
   width: 30px;
 }
@@ -71,13 +75,19 @@ body {
 }
 
 .card {
-  box-shadow: 0px -1px 12px 2px #f0f0f0 !important;
+  box-shadow: 0px 2px 2px 2px #e0e0e0 !important;
   border-radius: 10px !important;
   color: #484848;
 }
 
+.card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
 .card-title {
-  font-size: 1.5rem !important;
+  font-size: 1.8rem !important;
   text-transform: uppercase;
   font-weight: 800 !important;
 }
@@ -87,20 +97,21 @@ body {
 }
 
 .event-info {
-  font-size: .69rem;
+  font-size: .8rem;
   text-transform: uppercase;
-  font-weight: 600;
+  font-weight: 500;
   color: #00264d;
+  display: flex;
 }
 
 .people-going {
-  margin-top: -1rem;
-  font-size: .8rem;
+  font-size: .9rem;
   font-weight: 600;
+  text-transform: uppercase;
 }
 
 .avatar-img {
-  margin-top: -.5rem;
+  height: 3rem;
 }
 
 .event-list-item {
@@ -126,18 +137,24 @@ body {
 
 .event-details {
   display: flex;
-  justify-content: center;
 }
 
 .event-details-top {
   background: #fff;
   border-bottom: 1px solid #eee;
-  padding: 6rem 0 2rem 0;
+  padding: 8rem 0 2rem 0;
+  margin-bottom: 2rem;
+}
+
+.event-details-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
 }
 
 .event-details-top-h1 {
   font-weight: 800;
-  padding-bottom: 1rem;
+  padding-bottom: 1.8rem;
 }
 
 .event-details-top-h5 {
@@ -163,7 +180,6 @@ body {
 }
 
 .event-details-card {
-  margin-top: 2rem;
   width: 100%;
 }
 
@@ -179,6 +195,7 @@ body {
 .event-details-heading {
   font-weight: 600;
   font-size: 1.5rem;
+  margin-bottom: 1.4rem;
 }
 
 .event-details-attendees {
@@ -196,11 +213,37 @@ body {
 }
 
 .attendee-card-img {
-  height: 80px;
+  height: 60px;
   border-radius: 50%;
 }
 
 .attendee-card-name {
   margin-top: .5rem;
   text-align: center;
+  font-size: .8rem;
+  font-weight: 600;
+}
+
+.event-info-panel {
+  background: #fff;
+  width: 75%;
+  margin-left: 20%;
+  padding: 1rem 0 2rem 1.5rem;
+  border-radius: 4px;
+  box-shadow: 0px 2px 2px 2px #e0e0e0 !important;
+}
+
+.event-info-panel-heading {
+  font-weight: 600;
+  font-size: 1.4rem;
+  margin-bottom: 2rem;
+}
+
+.event-info-panel.map {
+  margin-top: -5px;
+  padding: 0;
+}
+
+.event-info-container-info {
+  margin-top: .5rem;
 }

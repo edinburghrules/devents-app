@@ -9,7 +9,7 @@ const SignedInMenu = () => {
       <Link className='nav-link mr-5' to='/'>Events</Link> 
       <Image className='nav-avatar' src="https://randomuser.me/api/portraits/thumb/men/75.jpg" roundedCircle />
         <NavDropdown title='Sean Adamson' id='basic-nav-dropdown'>
-          <Link className='dropdown-item' to='/eventform'>Create Event</Link>
+          <Link className='dropdown-item' to='/createEvent'>Create Event</Link>
         </NavDropdown>
       </Nav>
     </Navbar.Collapse>

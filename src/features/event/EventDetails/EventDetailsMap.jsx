@@ -19,7 +19,7 @@ class EventDetailsMap extends Component {
         <GoogleMapReact
           bootstrapURLKeys={{ key: 'AIzaSyCBz-5RIvlMTb-ghvy_VoXxCxQlaJLV-AY' }}
           defaultCenter={this.props.latlng}
-          defaultZoom={11}
+          defaultZoom={16}
           yesIWantToUseGoogleMapApiInternals={true}
           onGoogleApiLoaded={({map, maps}) => renderMarkers(map, maps)}
         >

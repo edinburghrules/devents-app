@@ -5,7 +5,6 @@ import { withFormik, Field } from 'formik';
 import { connect } from 'react-redux';
 import * as Yup from 'yup';
 import { geocodeByAddress, getLatLng } from 'react-places-autocomplete';
-import { v4 as uuid } from 'uuid';
 import TextInput from '../../../app/form-inputs/TextInput';
 import TextAreaInput from '../../../app/form-inputs/TextAreaInput';
 import CategoryInput from '../../../app/form-inputs/CategoryInput';
@@ -13,14 +12,6 @@ import DatePickerInput from '../../../app/form-inputs/DatePickerInput';
 import PlaceInput from '../../../app/form-inputs/PlaceInput';
 import CostInput from '../../../app/form-inputs/CostInput';
 import { createEvent, editEvent } from '../../../app/redux/actions/eventActions';
-
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    createEvent: (event) => dispatch(createEvent(event)),
-    editEvent: (event) => dispatch(editEvent(event))
-  };
-};
 
 const coords = {
   city: {},
@@ -35,7 +26,7 @@ class EventForm extends Component {
   };
   render() {
     const { handleSubmit, errors, touched } = this.props;
-    console.log(this.props)
+    console.log(errors)
     return (
       <Container className='event-form-container'>
         <h2 className='event-form-heading'>Create Event</h2>
@@ -155,12 +146,10 @@ const formikEventForm = withFormik({
     date: Yup.date().required(),
   }),
   handleSubmit: (values, formikBag) => {
-    console.log(formikBag)
     const { event, location, history, createEvent, editEvent } = formikBag.props;
 
     if (location.pathname === '/createEvent') {
       const newEvent = {
-        id: uuid(),
         hostedBy: {
           name: 'Sean Adamson',
           hostPhoto: 'https://randomuser.me/api/portraits/men/81.jpg',
@@ -190,5 +179,10 @@ const mapStateToProps = (state, ownProps) => {
     return event ? { event } : {};
   }
 };
+
+const mapDispatchToProps = {
+  createEvent, 
+  editEvent
+}
 
 export default connect(mapStateToProps, mapDispatchToProps)(formikEventForm);

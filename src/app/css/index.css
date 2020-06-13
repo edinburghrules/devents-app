@@ -38,18 +38,34 @@ body {
   height: 100vh;
 }
 
+.accnt-msg {
+  font-size: 0.9rem;
+  text-align: center;
+  margin-top: 4rem;
+  font-weight: 500;
+}
+
+.accnt-msg-link {
+  border-bottom: 2px solid ;
+  padding-bottom: .1rem;
+} 
+
+.accnt-msg-link:hover {
+  text-decoration: none;
+}
+
 .event-form-container {
   margin-top: 10rem;
 }
 
-.event-dashboard {
+.page-content {
   margin: 8rem 0 8rem 0;
 }
 
 
 .auth-form {
   margin-top: 4rem;
-  padding: 2rem;
+  width: 24rem;
 }
 
 .auth-header {

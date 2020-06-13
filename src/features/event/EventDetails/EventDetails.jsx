@@ -2,6 +2,7 @@ import React, { Component, Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Container, Image, Row, Col, Button } from 'react-bootstrap';
+import {fromUnixTime, format} from 'date-fns';
 import EventListAttendee from './EventDetailsAttendee';
 import EventDetailsMap from './EventDetailsMap';
 
@@ -21,6 +22,7 @@ class EventDetails extends Component {
       attendees,
     } = this.props.event;
 
+    let parsedDate = fromUnixTime(date.seconds)
     return (
       <Fragment>
         <div className='event-details-top'>
@@ -51,7 +53,7 @@ class EventDetails extends Component {
         </div>
         <Container className='event-details'>
           <Row>
-            <Col lg={6}>
+            <Col lg={4}>
               <div className='event-details-card'>
                 <Image className='event-details-img' src={img && img} />
                 <div className='event-details-info'>
@@ -73,16 +75,16 @@ class EventDetails extends Component {
                 </div>
               </div>
             </Col>
-            <Col md={true}>
+            <Col lg={8}>
               <Container className='event-info-container'>
                 <div className='event-info-panel'>
                   <h5 className='event-info-panel-heading'>Information</h5>
                   <div className='event-info-container-info'>
-                    <img src='/assets/callg.png' alt='calednar icon' />
-                    <span className='ml-3 '>{date.toString()}</span>
+                    <img src='/assets/cal.png' alt='calendar iconz' />
+                    <span className='ml-3 '>{date && format(parsedDate, 'EEEE do, MMMM yyyy')}</span>
                   </div>
                   <div className='event-info-container-info'>
-                    <img src='/assets/loclg.png' alt='location icon' />
+                    <img src='/assets/loc.png' alt='location icon' />
                     <span className='ml-3 '>
                       {venue}, {city}
                     </span>

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Card, Button } from 'react-bootstrap';
 import EventListAttendee from './EventListAttendee';
+import {fromUnixTime, format} from 'date-fns';
 import { withRouter } from 'react-router-dom';
 
 class EventListItem extends Component {
@@ -23,6 +24,11 @@ class EventListItem extends Component {
       img,
       attendees,
     } = this.props.event;
+
+    let parsedDate = fromUnixTime(date.seconds);
+
+
+    console.log(parsedDate);
     return (
       <a onClick={this.handleClick} href='/#' className='card-link'>
         <Card className='p-2' style={{ width: '70%' }} border='light'>
@@ -65,7 +71,7 @@ class EventListItem extends Component {
                   src='/assets/cal.png'
                   alt='location icon'
                 />
-                <span>{date.toString()}</span> <br />
+                <span>{date && format(parsedDate, 'EEEE do, MMMM yyyy')}</span> <br />
               </div>
             </div>
           </Card.Body>

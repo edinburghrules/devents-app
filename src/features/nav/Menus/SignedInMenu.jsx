@@ -1,19 +1,44 @@
 import React from 'react';
-import { Navbar, Nav, NavDropdown, Image } from 'react-bootstrap';
+import { connect } from 'react-redux';
+import { Navbar, Nav, NavDropdown, Image, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
- 
-const SignedInMenu = () => {
+import { logout } from '../../../app/redux/actions/authActions';
+
+const SignedInMenu = ({ logout, userProfile }) => {
   return (
     <Navbar.Collapse id='basic-navbar-nav'>
       <Nav className='ml-auto'>
-      <Link className='nav-link mr-5' to='/'>Events</Link> 
-      <Image className='nav-avatar' src="https://randomuser.me/api/portraits/thumb/men/75.jpg" roundedCircle />
-        <NavDropdown title='Sean Adamson' id='basic-nav-dropdown'>
-          <Link className='dropdown-item' to='/createEvent'>Create Event</Link>
+        <Link className='nav-link mr-5' to='/'>
+          Events
+        </Link>
+        <Image
+          className='nav-avatar'
+          src={
+            userProfile && userProfile.photoURL ? userProfile.photoURL : '/assets/profile.png'
+          }
+          roundedCircle
+        />
+        <NavDropdown
+          title={(userProfile && userProfile.displayName) || 'displayname'}
+          id='basic-nav-dropdown'
+        >
+          <Link className='dropdown-item' to='/createEvent'>
+            Create Event
+          </Link>
+          <Link to={'/user'} className='dropdown-item'>
+            Account
+          </Link>
+          <Button as={Link} to={'/'} className='dropdown-item' onClick={logout}>
+            Log out
+          </Button>
         </NavDropdown>
       </Nav>
     </Navbar.Collapse>
   );
 };
 
-export default SignedInMenu;
+const mapDispatchToProps = {
+  logout,
+};
+
+export default connect(null, mapDispatchToProps)(SignedInMenu);

@@ -7,7 +7,7 @@ class EventDashboard extends Component {
   render() {
     const {events} = this.props;
     return (
-      <Container className='event-dashboard'>
+      <Container className='page-content'>
         <Row>
           <Col lg={8}>
             <EventList events={events}/>

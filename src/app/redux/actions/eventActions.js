@@ -47,8 +47,17 @@ const createEvent = (event) => {
 };
 
 const editEvent = (event) => {
-  return (dispatch) => {
-    dispatch({ type: 'EDIT_EVENT', payload: event });
+  return async (dispatch) => {
+    try{
+      await firebase
+        .firestore()
+        .collection('events')
+        .doc(event.id)
+        .set(event)
+      dispatch(getEvents());
+    } catch (err) {
+      console.log(err);
+    }
   };
 };
 

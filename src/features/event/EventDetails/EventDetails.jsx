@@ -14,7 +14,6 @@ class EventDetails extends Component {
       description,
       date,
       hostedBy: { name, hostPhoto },
-      city,
       venue,
       img,
       cost,
@@ -23,6 +22,7 @@ class EventDetails extends Component {
     } = this.props.event;
 
     let parsedDate = fromUnixTime(date.seconds)
+
     return (
       <Fragment>
         <div className='event-details-top'>
@@ -81,12 +81,12 @@ class EventDetails extends Component {
                   <h5 className='event-info-panel-heading'>Information</h5>
                   <div className='event-info-container-info'>
                     <img src='/assets/cal.png' alt='calendar iconz' />
-                    <span className='ml-3 '>{date && format(parsedDate, 'EEEE do, MMMM yyyy')}</span>
+                    <span className='ml-3 '>{date && format(parsedDate, 'EEEE, do MMMM yyyy')} at {format(parsedDate, 'h:mm a')}</span>
                   </div>
                   <div className='event-info-container-info'>
                     <img src='/assets/loc.png' alt='location icon' />
                     <span className='ml-3 '>
-                      {venue}, {city}
+                      {venue}
                     </span>
                   </div>
                   <div className='event-info-container-info'>

@@ -26,7 +26,6 @@ class EventForm extends Component {
   };
   render() {
     const { handleSubmit, errors, touched } = this.props;
-    console.log(errors)
     return (
       <Container className='event-form-container'>
         <h2 className='event-form-heading'>Create Event</h2>

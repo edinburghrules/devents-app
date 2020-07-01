@@ -18,7 +18,6 @@ class EventListItem extends Component {
     const {
       title,
       date,
-      city,
       venue,
       snip,
       img,
@@ -28,7 +27,6 @@ class EventListItem extends Component {
     let parsedDate = fromUnixTime(date.seconds);
 
 
-    console.log(parsedDate);
     return (
       <a onClick={this.handleClick} href='/#' className='card-link'>
         <Card className='p-2' style={{ width: '70%' }} border='light'>
@@ -61,7 +59,7 @@ class EventListItem extends Component {
                   alt='location icon'
                 />
                 <span>
-                  {venue}, {city}
+                  {venue}
                 </span>
                 <br />
               </div>
@@ -71,7 +69,7 @@ class EventListItem extends Component {
                   src='/assets/cal.png'
                   alt='location icon'
                 />
-                <span>{date && format(parsedDate, 'EEEE do, MMMM yyyy')}</span> <br />
+                <span>{date && format(parsedDate, 'EEEE, do MMMM yyyy')} at {format(parsedDate, 'h:mm a')}</span> <br />
               </div>
             </div>
           </Card.Body>

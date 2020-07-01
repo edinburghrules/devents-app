@@ -11,7 +11,6 @@ const Login = ({ handleSubmit, logInWithGoogle, history, errorMsg }) => {
   const handleClick = () => {
     logInWithGoogle(history);
   }
-  console.log(errorMsg)
   return (
     <Container className='login-container'>
       <Form className='auth-form' onSubmit={handleSubmit}>

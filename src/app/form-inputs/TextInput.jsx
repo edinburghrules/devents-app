@@ -7,6 +7,13 @@ const TextInput = (props) => {
       return 'First name';
     } else if (inputName === 'lastName') {
       return 'Last name';
+    } else if (inputName === 'confirmpassword' || inputName === 'newpassword') {
+      return (
+        inputName.charAt(0).toUpperCase() +
+        inputName.slice(1, inputName.indexOf('p')) +
+        ' ' +
+        inputName.slice(inputName.indexOf('p'))
+      );
     } else {
       return inputName.charAt(0).toUpperCase() + inputName.slice(1);
     }

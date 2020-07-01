@@ -5,7 +5,6 @@ import AccountNav from './AccountNav';
 import PhotoPage from './PhotoPage';
 import AccountPage from './AccountPage';
 import Profile from './Profile';
-import PublicProfile from './PublicProfile';
 
 const AccountDashboard = () => {
   return (
@@ -22,7 +21,6 @@ const AccountDashboard = () => {
             <Route path='/user/photo' component={PhotoPage}/>
             <Route path='/user/account' component={AccountPage}/>
             <Route path='/user/profile' component={Profile}/>
-            <Route path='/user/public-profile' component={PublicProfile}/>
           </Switch>
           </Col>
         </Row>

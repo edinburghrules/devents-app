@@ -6,13 +6,15 @@ const PlaceInput = (props) => {
   const {
     field: { name },
     form: { setFieldValue },
-    getCoords
+    getCoords,
   } = props;
 
   const handleChange = (value) => {
-    if(name === 'city') {
+    if (name === 'city') {
       setFieldValue(name, value);
       getCoords(name, value);
+    } else if (name === 'homeCity') {
+      setFieldValue(name, value);
     } else {
       setFieldValue(name, value);
       getCoords(name, value);
@@ -28,7 +30,7 @@ const PlaceInput = (props) => {
       {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
         <Form.Group>
           <Form.Label>
-            Event { name }
+            {name === 'homeCity' ? 'Hometown' : `Event ${name}`}
           </Form.Label>
           <Form.Control
             {...getInputProps({

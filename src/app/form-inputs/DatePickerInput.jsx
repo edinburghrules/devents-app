@@ -5,17 +5,21 @@ import 'react-datepicker/dist/react-datepicker.css';
 
 const DatePickerInput = (props) => {
   const {field, form} = props;
-  const handleChange = (date) => form.setFieldValue('date', date);
+  const handleChange = (date) => form.setFieldValue(field.name, date);
   return (
     <Form.Group>
-      <Form.Label>Event date</Form.Label>
+      <Form.Label>
+        {field.name === 'date' ? 'Event date' : 'Date of birth'}
+      </Form.Label>
       <div>
         <Form.Control
           as={DatePicker}
           selected={field.value}
           onChange={handleChange}
-          showTimeSelect
-          dateFormat='MMMM d, h:mm aa'
+          showTimeSelect={field.name === 'date' ? true : false}
+          dateFormat={field.name === 'date' ? 'MMMM d, h:mm aa' : 'MMMM d Y'}
+          showYearDropdown={field.name === 'dob' ? true : false}
+          showMonthDropdown
           {...props}
         />
       </div>

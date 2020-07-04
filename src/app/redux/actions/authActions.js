@@ -12,6 +12,9 @@ const signUp = (creds, history) => {
         displayName: `${creds.firstName} ${creds.lastName}`,
         photoURL: signup.user.photoURL,
         joined: new Date(),
+        dob: null,
+        homeCity: '',
+        about: ''
       };
 
       await firebase
@@ -26,7 +29,7 @@ const signUp = (creds, history) => {
       dispatch({ type: 'LOAD_USER_PROFILE', payload: { ...userProfile } });
       history.push('/');
     } catch (err) {
-      dispatch({type: 'SIGNUP_FAILED', payload: err.message});
+      dispatch({ type: 'SIGNUP_FAILED', payload: err.message });
     }
   };
 };
@@ -43,11 +46,11 @@ const login = (creds, history) => {
       dispatch({ type: 'LOGIN', payload: currentUser });
       history.push('/');
     } catch (err) {
-      console.log(err)
+      console.log(err);
       if (err.code === 'auth/user-not-found') {
-        err.message = 'The provided email is not recognised!'
+        err.message = 'The provided email is not recognised!';
       } else if (err.code === 'auth/wrong-password') {
-        err.message = 'The provided password is incorrect!'
+        err.message = 'The provided password is incorrect!';
       }
       dispatch({ type: 'LOGIN_FAILED', payload: err.message });
     }
@@ -75,6 +78,9 @@ const logInWithGoogle = (history) => {
           displayName: currentUser.displayName,
           photoURL: currentUser.photoURL,
           joined: new Date(),
+          dob: null,
+          homeCity: '',
+          about: ''
         };
 
         firebase
@@ -92,9 +98,43 @@ const logInWithGoogle = (history) => {
 
       history.push('/');
     } catch (err) {
-        dispatch({type: 'LOGIN_FAILED', payload: err.message})
+      dispatch({ type: 'LOGIN_FAILED', payload: err.message });
     }
   };
 };
 
-export { login, logout, logInWithGoogle, signUp };
+const editPassword = (newPassword) => {
+  try {
+    firebase.auth().currentUser.updatePassword(newPassword);
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+const updateProfile = (updatedInfo) => {
+  const currentUser = firebase.auth().currentUser.uid;
+  return async (dispatch) => {
+    try {
+      await firebase
+        .firestore()
+        .collection('users')
+        .doc(currentUser)
+        .update({
+          ...updatedInfo,
+        });
+        console.log('Updated!')
+
+      const getUser = firebase.firestore().collection('users').doc(currentUser)
+
+      const getUserProfile = await getUser.get();
+
+      const profileData = getUserProfile.data();
+      
+      dispatch({type: 'UPDATE_USER_PROFILE', payload: profileData})
+    } catch (err) {
+      console.log(err);
+    }
+  };
+};
+
+export { login, logout, logInWithGoogle, signUp, editPassword, updateProfile };

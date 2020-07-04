@@ -45,10 +45,13 @@ const authReducer = (state = initState, action) => {
         ...state,
         errMsg: action.payload
       }
-    default:
+    case 'UPDATE_USER_PROFILE':
       return {
         ...state,
-      };
+        userProfile: {...action.payload}
+      }
+    default:
+      return state
   }
 };
 

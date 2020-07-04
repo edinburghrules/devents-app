@@ -30,7 +30,6 @@ let render = () => {
 firebase.auth().onAuthStateChanged((user) => {
   if (user) {
     store.dispatch({ type: 'GET_AUTH_STATUS', payload: user });
-    
     firebase
       .firestore()
       .collection('users')

@@ -8,20 +8,19 @@ import DatePickerInput from '../../../app/form-inputs/DatePickerInput';
 import PlaceInput from '../../../app/form-inputs/PlaceInput';
 import TextAreaInput from '../../../app/form-inputs/TextAreaInput';
 import CheckboxInput from '../../../app/form-inputs/CheckboxInput';
-import { updateProfile } from '../../../app/redux/actions/authActions';
+import { updateProfile } from '../../../app/redux/actions/profileActions';
 
 const mapDispatchToProps = {
   updateProfile,
 };
 
-const Profile = ({ handleSubmit, values }) => {
-  console.log(values)
+const Profile = ({ handleSubmit }) => {
   return (
     <div>
       <h2>Profile</h2>
       <p>Add information about yourself</p>
       <Form onSubmit={handleSubmit}>
-        <Field name='name' as={TextInput} placeholder='Enter your name' />
+        <Field name='displayName' as={TextInput} placeholder='Enter your name' />
         <Field
           component={DatePickerInput}
           name='dob'
@@ -47,18 +46,18 @@ const Profile = ({ handleSubmit, values }) => {
 };
 
 const formikProfile = withFormik({
-  mapPropsToValues: ({ user }) => {
-    if (user) {
+  mapPropsToValues: ({ profile }) => {
+    if (profile) {
       return {
-        name: user.displayName,
-        dob: user.dob ? fromUnixTime(user.dob.seconds) : null,
-        homeCity: user.homeCity ? user.homeCity : '',
-        about: user.about ? user.about : '',
-        interests: user.interests ? user.interests : []
+        displayName: profile.displayName,
+        dob: profile.dob ? fromUnixTime(profile.dob.seconds) : null,
+        homeCity: profile.homeCity ? profile.homeCity : '',
+        about: profile.about ? profile.about : '',
+        interests: profile.interests ? profile.interests : []
       };
     } else {
       return {
-        name: '',
+        displayName: '',
         dob: null,
         homeCity: '',
         about: '',

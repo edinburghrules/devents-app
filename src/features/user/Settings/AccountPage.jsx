@@ -3,7 +3,7 @@ import { Alert, Container, Form, Button } from 'react-bootstrap';
 import { withFormik, Field } from 'formik';
 import * as Yup from 'yup';
 import TextInput from '../../../app/form-inputs/TextInput';
-import { editPassword } from '../../../app/redux/actions/authActions';
+import { editPassword } from '../../../app/redux/actions/profileActions';
 
 const AccountPage = ({ handleSubmit, errors, touched, providerId }) => {
   if (providerId === 'password') {

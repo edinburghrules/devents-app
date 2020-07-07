@@ -9,10 +9,10 @@ import Profile from './Profile';
 
 const mapStateToProps = (state) => ({
   providerId: state.user.currentUser.providerData['0'].providerId,
-  user: state.user.userProfile
+  profile: state.profile.userProfile
 });
 
-const AccountDashboard = ({providerId, user}) => {
+const AccountDashboard = ({providerId, profile}) => {
   return (
     <div className='page-content'>
       <Container>
@@ -26,7 +26,7 @@ const AccountDashboard = ({providerId, user}) => {
             <Redirect exact from='/user' to='user/profile' />
             <Route path='/user/photo' component={PhotoPage}/>
             <Route path='/user/account' render={() => <AccountPage providerId={providerId}/>}/>
-            <Route path='/user/profile' render={() => <Profile user={user}/>}/>
+            <Route path='/user/profile' render={() => <Profile profile={profile}/>}/>
           </Switch>
           </Col>
         </Row>

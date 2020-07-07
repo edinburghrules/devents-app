@@ -1,6 +1,5 @@
 const initState = {
   currentUser: {},
-  userProfile: {},
   errMsg: null
 };
 
@@ -16,11 +15,6 @@ const authReducer = (state = initState, action) => {
         ...state,
         currentUser: { ...action.payload }
       };
-    case 'LOAD_USER_PROFILE':
-      return {
-        ...state,
-        userProfile: { ...action.payload }
-      };
     case 'LOGIN':
       return {
         ...state,
@@ -28,11 +22,12 @@ const authReducer = (state = initState, action) => {
       };
     case 'LOGOUT':
       return {
-        currentUser: {},
-        userProfile: {}
+        ...state,
+        currentUser: {}
       };
     case 'GOOGLE_LOGIN':
       return {
+        ...state,
         currentUser: { ...action.payload }
       };
     case 'LOGIN_FAILED':
@@ -44,11 +39,6 @@ const authReducer = (state = initState, action) => {
       return {
         ...state,
         errMsg: action.payload
-      }
-    case 'UPDATE_USER_PROFILE':
-      return {
-        ...state,
-        userProfile: {...action.payload}
       }
     default:
       return state

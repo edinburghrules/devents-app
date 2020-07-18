@@ -81,17 +81,20 @@ class PhotoPage extends React.Component {
         window.URL.revokeObjectURL(this.fileUrl);
         this.fileUrl = window.URL.createObjectURL(blob);
         resolve(this.fileUrl);
-        this.setState({blob:blob})
+        this.setState({ blob: blob });
       }, 'image/jpeg');
     });
   }
 
-  handleClick = () => {
-    this.props.handlePhotoUpload(this.state.blob);
-  }
+  handleClick = async () => {
+    try {
+      await this.props.handlePhotoUpload(this.state.blob);
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   render() {
-    console.log(this.props);
     const { crop, src } = this.state;
 
     return (
@@ -109,14 +112,14 @@ class PhotoPage extends React.Component {
         <div>
           <input type='file' accept='image/*' onChange={this.onSelectFile} />
         </div>
-        {src && (<button onClick={this.handleClick}>Upload</button>)}
+        {src && <button onClick={this.handleClick}>Upload</button>}
       </div>
     );
   }
 }
 
 const mapDispatchToProps = {
-  handlePhotoUpload
-}
+  handlePhotoUpload,
+};
 
 export default connect(null, mapDispatchToProps)(PhotoPage);

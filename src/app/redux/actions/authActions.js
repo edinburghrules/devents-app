@@ -59,8 +59,12 @@ const login = (creds, history) => {
 
 const logout = () => {
   return async (dispatch) => {
-    await firebase.auth().signOut();
-    dispatch({ type: 'LOGOUT' });
+    try{  
+      await firebase.auth().signOut();
+      dispatch({ type: 'LOGOUT' });
+    } catch (err) {
+        console.log(err);
+    }
   };
 };
 

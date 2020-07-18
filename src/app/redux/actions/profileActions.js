@@ -36,13 +36,34 @@ const updateProfile = (updatedInfo) => {
 
 const handlePhotoUpload = (file) => {
   let currentUser = firebase.auth().currentUser;
-  return async dispatch => {
-    let storageRef = firebase.storage().ref(`${currentUser.uid}/images/${file.name}`);
-    storageRef.put(file).then(() => {
-      console.log('done!');
-    });
-  }
+  return async (dispatch) => {
+    try {
+      const path = `${currentUser.uid}/images/${file.name}`;
+      const storageRef = firebase.storage().ref(path);
+      await storageRef.put(file);
+      const userRef = firebase
+        .firestore()
+        .collection('users')
+        .doc(currentUser.uid);
 
+        let imageUrl = await storageRef.getDownloadURL();
+
+        await userRef.update({
+          photoURL: imageUrl
+        });
+
+        const userProfileData = await firebase
+        .firestore()
+        .collection('users')
+        .doc(currentUser.uid)
+        .get();
+        
+        dispatch({ type: 'UPDATE_USER_PROFILE', payload: userProfileData.data() });
+      
+    } catch (err) {
+      console.log('Error getting document.', err);
+    }
+  };
 };
 
 export { editPassword, handlePhotoUpload, updateProfile };

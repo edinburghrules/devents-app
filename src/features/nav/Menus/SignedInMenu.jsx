@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Navbar, Nav, NavDropdown, Image, Button } from 'react-bootstrap';
+import { Navbar, Nav, NavDropdown, Image, Button, Spinner } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { logout } from '../../../app/redux/actions/authActions';
 
@@ -12,7 +12,7 @@ class SignedInMenu extends React.Component {
           <Link className='nav-link mr-5' to='/'>
             Events
           </Link>
-          <Image
+          {this.props.loading ? (<Spinner animation='border' variant='primary' size='sm'/>) : (<Image
             className='nav-avatar'
             src={
               this.props.userProfile && this.props.userProfile.photoURL
@@ -20,7 +20,7 @@ class SignedInMenu extends React.Component {
                 : '/assets/profile.png'
             }
             roundedCircle
-          />
+          />)}
           <NavDropdown
             title={(this.props.userProfile && this.props.userProfile.displayName) || 'displayname'}
             id='basic-nav-dropdown'

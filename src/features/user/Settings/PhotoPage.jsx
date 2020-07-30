@@ -1,11 +1,23 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import {
+  Button,
+  InputGroup,
+  FormControl,
+  Form,
+  Spinner,
+} from 'react-bootstrap';
 import ReactCrop from 'react-image-crop';
 import 'react-image-crop/dist/ReactCrop.css';
 import { handlePhotoUpload } from '../../../app/redux/actions/profileActions';
+import {
+  startLoading,
+  stopLoading,
+} from '../../../app/redux/actions/asyncActions';
 
 class PhotoPage extends React.Component {
   state = {
+    filename: null,
     src: null,
     crop: {
       unit: '%',
@@ -21,6 +33,9 @@ class PhotoPage extends React.Component {
         this.setState({ src: reader.result })
       );
       reader.readAsDataURL(e.target.files[0]);
+      this.setState({
+        filename: e.target.files[0].name,
+      });
     }
   };
 
@@ -87,8 +102,14 @@ class PhotoPage extends React.Component {
   }
 
   handleClick = async () => {
+    this.props.startLoading();
     try {
       await this.props.handlePhotoUpload(this.state.blob);
+      this.setState(prevState => ({
+        ...prevState,
+        src: null, 
+        filename: null
+      }))
     } catch (err) {
       console.log(err);
     }
@@ -96,7 +117,6 @@ class PhotoPage extends React.Component {
 
   render() {
     const { crop, src } = this.state;
-
     return (
       <div className='App'>
         {src && (
@@ -109,17 +129,54 @@ class PhotoPage extends React.Component {
             onChange={this.onCropChange}
           />
         )}
-        <div>
-          <input type='file' accept='image/*' onChange={this.onSelectFile} />
-        </div>
-        {src && <button onClick={this.handleClick}>Upload</button>}
+        <InputGroup className='custom-file'>
+          <FormControl
+            as='input'
+            type='file'
+            className='custom-file-input'
+            id='customFile'
+            onChange={this.onSelectFile}
+          />
+          <Form.Label className='custom-file-label' htmlFor='customFile'>
+            {this.state.filename ? this.state.filename : 'Choose file'}
+          </Form.Label>
+        </InputGroup>
+        {src && (
+          <Button onClick={this.handleClick}>
+            {this.props.loading ? (
+              <Spinner
+                as='span'
+                animation='border'
+                size='sm'
+                role='status'
+                aria-hidden='true'
+              />
+            ) : (
+              'Upload'
+            )}
+          </Button>
+        )}
       </div>
     );
   }
 }
 
-const mapDispatchToProps = {
-  handlePhotoUpload,
+const mapStateToProps = (state) => ({
+  loading: state.async.loading,
+});
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    handlePhotoUpload: (file) => {
+      return dispatch(handlePhotoUpload(file));
+    },
+    startLoading: () => {
+      dispatch(startLoading());
+    },
+    stopLoading: () => {
+      dispatch(stopLoading());
+    },
+  };
 };
 
-export default connect(null, mapDispatchToProps)(PhotoPage);
+export default connect(mapStateToProps, mapDispatchToProps)(PhotoPage);

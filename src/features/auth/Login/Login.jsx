@@ -1,15 +1,31 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { Container, Form, Button, Alert} from 'react-bootstrap';
+import { Container, Form, Button, Alert, Spinner } from 'react-bootstrap';
 import { withFormik, Field } from 'formik';
 import * as Yup from 'yup';
 import TextInput from '../../../app/form-inputs/TextInput';
-import { login, logInWithGoogle } from '../../../app/redux/actions/authActions';
+import { login, logInWithGoogle, clearLoginErrMsg } from '../../../app/redux/actions/authActions';
 
-const Login = ({ handleSubmit, logInWithGoogle, history, errorMsg }) => {
+
+const Login = ({
+  handleSubmit,
+  logInWithGoogle,
+  clearLoginErrMsg,
+  history,
+  error,
+  errors,
+  isLoggingIn,
+  isGoogleLoggingIn,
+  touched,
+  setFieldValue
+}) => {
   const handleClick = () => {
     logInWithGoogle(history);
+  };
+  const handleChange = (e) => {
+    setFieldValue(e.target.name, e.target.value, true)
+    clearLoginErrMsg();
   }
   return (
     <Container className='login-container'>
@@ -20,30 +36,56 @@ const Login = ({ handleSubmit, logInWithGoogle, history, errorMsg }) => {
           as={TextInput}
           type='email'
           placeholder='Enter your email'
+          onChange={handleChange}
+          isInvalid={
+            (error !== null && error.errorType === 'email') ||
+            (touched.email && errors.hasOwnProperty('email'))
+          }
+          isValid={touched.email && !errors.hasOwnProperty('email')}
         />
         <Field
           name='password'
           as={TextInput}
           type='password'
+          onChange={handleChange}
           placeholder='Enter your password'
+          isInvalid={
+            (error !== null && error.errorType === 'password') ||
+            (touched.password && errors.hasOwnProperty('password'))
+          }
+          isValid={touched.password && !errors.hasOwnProperty('password')}
         />
-        {errorMsg && <Alert variant='danger'>{errorMsg}</Alert>}
+        {error && <Alert variant='danger'>{error.msg || error}</Alert>}
         <div className='m-right mt-5'>
           <Button block variant='success' type='submit'>
-            Log in
+            {isLoggingIn ? <Spinner animation='border' size='sm' /> : 'Log in'}
           </Button>
         </div>
-        <div className='mt-4 mb-2' style={{ 'textAlign': 'center' }}>
+        <div className='mt-4 mb-2' style={{ textAlign: 'center' }}>
           or
         </div>
         <hr className='mt-4 mb-5' />
-        <Button onClick={handleClick} className='pl-3 pr-3' variant='light' block>
+        <Button
+          onClick={handleClick}
+          className='pl-3 pr-3'
+          variant='light'
+          block
+        >
+        {isGoogleLoggingIn ? <Spinner animation='border' size='sm' variant='primary' /> : (
+          <React.Fragment>
           <img className='mr-1' src='/assets/google.png' alt='google logo' />
-          <span className='ml-2'>Log in with google</span>
+          <span className='ml-2'>
+            Log in with Google
+          </span>
+          </React.Fragment>
+        )}
+  
         </Button>
         <div className='accnt-msg'>
           <span className='mr-2'>New to Devents?</span>
-          <Link className='accnt-msg-link' to={'/signup'}>Create an account</Link>
+          <Link className='accnt-msg-link' to={'/signup'}>
+            Create an account
+          </Link>
         </div>
       </Form>
     </Container>
@@ -65,15 +107,18 @@ const formikLogin = withFormik({
   },
 })(Login);
 
-const mapStateToProps = state => {
-  return {  
-    errorMsg: state.user.errMsg
-  }
-}
+const mapStateToProps = (state) => {
+  return {
+    error: state.user.error,
+    isLoggingIn: state.async.loggingIn,
+    isGoogleLoggingIn: state.async.googleLoggingIn
+  };
+};
 
 const mapDispatchToProps = {
   login,
-  logInWithGoogle
-};
+  logInWithGoogle,
+  clearLoginErrMsg
+}
 
 export default connect(mapStateToProps, mapDispatchToProps)(formikLogin);

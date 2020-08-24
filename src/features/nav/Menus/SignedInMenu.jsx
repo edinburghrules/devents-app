@@ -1,11 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Navbar, Nav, NavDropdown, Image, Button, Spinner } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import { logout } from '../../../app/redux/actions/authActions';
 
 class SignedInMenu extends React.Component {
   render() {
+    console.log(this.props);
     return (
       <Navbar.Collapse id='basic-navbar-nav'>
         <Nav className='ml-auto'>
@@ -35,7 +36,7 @@ class SignedInMenu extends React.Component {
               as={Link}
               to={'/'}
               className='dropdown-item'
-              onClick={this.props.logout}
+              onClick={() => this.props.logout(this.props.history)}
             >
               Log out
             </Button>
@@ -48,6 +49,6 @@ class SignedInMenu extends React.Component {
 
 const mapDispatchToProps = {
   logout
-};
+}
 
-export default connect(null, mapDispatchToProps)(SignedInMenu);
+export default connect(null, mapDispatchToProps)(withRouter(SignedInMenu));

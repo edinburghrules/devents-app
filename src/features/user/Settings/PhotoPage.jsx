@@ -2,9 +2,11 @@ import React from 'react';
 import { connect } from 'react-redux';
 import {
   Button,
+  Image,
   InputGroup,
   FormControl,
   Form,
+  Jumbotron,
   Spinner,
 } from 'react-bootstrap';
 import ReactCrop from 'react-image-crop';
@@ -105,11 +107,11 @@ class PhotoPage extends React.Component {
     this.props.startLoading();
     try {
       await this.props.handlePhotoUpload(this.state.blob);
-      this.setState(prevState => ({
+      this.setState((prevState) => ({
         ...prevState,
-        src: null, 
-        filename: null
-      }))
+        src: null,
+        filename: null,
+      }));
     } catch (err) {
       console.log(err);
     }
@@ -117,6 +119,7 @@ class PhotoPage extends React.Component {
 
   render() {
     const { crop, src } = this.state;
+    const {profilePhoto} = this.props;
     return (
       <div className='App'>
         {src && (
@@ -124,11 +127,17 @@ class PhotoPage extends React.Component {
             src={src}
             crop={crop}
             ruleOfThirds
+            maxWidth='250'
+            maxHeight='250'
             onImageLoaded={this.onImageLoaded}
             onComplete={this.onCropComplete}
             onChange={this.onCropChange}
           />
         )}
+        {src === null && (<Jumbotron flex>
+          <h4>Profile photo</h4>
+          <Image src={profilePhoto} fluid />
+        </Jumbotron>)}
         <InputGroup className='custom-file'>
           <FormControl
             as='input'

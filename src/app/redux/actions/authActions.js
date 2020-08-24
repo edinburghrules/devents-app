@@ -1,4 +1,5 @@
 import firebase from '../../config/firebase';
+import { startLogin, stopLogin, startGoogleLogin, stopGoogleLogin } from '../actions/asyncActions';
 
 const signUp = (creds, history) => {
   return async (dispatch) => {
@@ -36,6 +37,7 @@ const signUp = (creds, history) => {
 
 const login = (creds, history) => {
   return async (dispatch) => {
+    dispatch(startLogin());
     try {
       const signin = await firebase
         .auth()
@@ -45,23 +47,29 @@ const login = (creds, history) => {
 
       dispatch({ type: 'LOGIN', payload: currentUser });
       history.push('/');
+      dispatch(stopLogin());
     } catch (err) {
-      console.log(err);
+      dispatch(stopLogin());
+      let errType;
       if (err.code === 'auth/user-not-found') {
         err.message = 'The provided email is not recognised!';
+        errType = 'email'
       } else if (err.code === 'auth/wrong-password') {
+        errType = 'password';    
         err.message = 'The provided password is incorrect!';
       }
-      dispatch({ type: 'LOGIN_FAILED', payload: err.message });
+      dispatch({ type: 'LOGIN_FAILED', payload: {errorType: errType, msg: err.message} });
     }
   };
 };
 
-const logout = () => {
+const logout = (history) => {
   return async (dispatch) => {
     try{  
       await firebase.auth().signOut();
       dispatch({ type: 'LOGOUT' });
+      history.push('/login')
+      dispatch(stopLogin());
     } catch (err) {
         console.log(err);
     }
@@ -71,6 +79,7 @@ const logout = () => {
 const logInWithGoogle = (history) => {
   const provider = new firebase.auth.GoogleAuthProvider();
   return async (dispatch) => {
+    dispatch(startGoogleLogin());
     try {
       const signin = await firebase.auth().signInWithPopup(provider);
       const isNewUser = signin.additionalUserInfo.isNewUser;
@@ -101,12 +110,21 @@ const logInWithGoogle = (history) => {
       dispatch({ type: 'GOOGLE_LOGIN', payload: currentUser });
 
       history.push('/');
+      dispatch(stopGoogleLogin());
     } catch (err) {
+      dispatch(stopGoogleLogin());
       dispatch({ type: 'LOGIN_FAILED', payload: err.message });
     }
   };
 };
 
+const clearLoginErrMsg = () => {
+  return dispatch => {
+    dispatch({type: 'CLEAR_LOGIN_ERROR'});
+  }
+}
 
 
-export { login, logout, logInWithGoogle, signUp };
+
+
+export { login, logout, logInWithGoogle, signUp, clearLoginErrMsg };

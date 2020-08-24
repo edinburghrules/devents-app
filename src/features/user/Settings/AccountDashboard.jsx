@@ -13,6 +13,7 @@ const mapStateToProps = (state) => ({
 });
 
 const AccountDashboard = ({providerId, profile}) => {
+  console.log(profile);
   return (
     <div className='page-content'>
       <Container>
@@ -24,7 +25,7 @@ const AccountDashboard = ({providerId, profile}) => {
           <Col lg={8}>
           <Switch>
             <Redirect exact from='/user' to='user/profile' />
-            <Route path='/user/photo' component={PhotoPage}/>
+            <Route path='/user/photo' render={() => <PhotoPage profilePhoto={profile.photoURL}/>}/>
             <Route path='/user/account' render={() => <AccountPage providerId={providerId}/>}/>
             <Route path='/user/profile' render={() => <Profile profile={profile}/>}/>
           </Switch>

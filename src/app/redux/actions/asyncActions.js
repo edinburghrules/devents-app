@@ -34,4 +34,16 @@ const stopGoogleLogin = () => {
   }
 }
 
-export {startLoading, stopLoading, startLogin, startGoogleLogin, stopLogin, stopGoogleLogin };
+const startSignUp = () => {
+  return {
+    type: 'START_SIGNUP'
+  }
+}
+
+const stopSignUp = () => {
+  return {
+    type: 'STOP_SIGNUP'
+  }
+}
+
+export {startLoading, stopLoading, startLogin, startGoogleLogin, stopLogin, stopGoogleLogin, startSignUp, stopSignUp };

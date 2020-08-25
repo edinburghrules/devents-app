@@ -1,8 +1,9 @@
 import firebase from '../../config/firebase';
-import { startLogin, stopLogin, startGoogleLogin, stopGoogleLogin } from '../actions/asyncActions';
+import { startLogin, stopLogin, startGoogleLogin, stopGoogleLogin, startSignUp, stopSignUp } from '../actions/asyncActions';
 
 const signUp = (creds, history) => {
   return async (dispatch) => {
+    dispatch(startSignUp());
     try {
       const signup = await firebase
         .auth()
@@ -28,8 +29,10 @@ const signUp = (creds, history) => {
 
       dispatch({ type: 'SIGN_UP', payload: { ...signup.user } });
       dispatch({ type: 'LOAD_USER_PROFILE', payload: { ...userProfile } });
-      history.push('/');
+      history.push('/user/profile');
+      dispatch(stopSignUp());
     } catch (err) {
+      dispatch(stopSignUp());
       dispatch({ type: 'SIGNUP_FAILED', payload: err.message });
     }
   };

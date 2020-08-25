@@ -7,13 +7,8 @@ import PhotoPage from './PhotoPage';
 import AccountPage from './AccountPage';
 import Profile from './Profile';
 
-const mapStateToProps = (state) => ({
-  providerId: state.user.currentUser.providerData['0'].providerId,
-  profile: state.profile.userProfile
-});
-
 const AccountDashboard = ({providerId, profile}) => {
-  console.log(profile);
+  console.log(providerId)
   return (
     <div className='page-content'>
       <Container>
@@ -21,6 +16,7 @@ const AccountDashboard = ({providerId, profile}) => {
         <Row>
           <Col>
             <AccountNav/>
+            {/* <h6>{providerId}</h6> */}
           </Col>
           <Col lg={8}>
           <Switch>
@@ -35,5 +31,10 @@ const AccountDashboard = ({providerId, profile}) => {
     </div>
   );
 };
+
+const mapStateToProps = (state) => ({
+  providerId: state.user.currentUser.providerData[0].providerId,
+  profile: state.profile.userProfile
+});
 
 export default connect(mapStateToProps)(AccountDashboard);

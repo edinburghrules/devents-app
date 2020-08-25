@@ -6,7 +6,6 @@ import { logout } from '../../../app/redux/actions/authActions';
 
 class SignedInMenu extends React.Component {
   render() {
-    console.log(this.props);
     return (
       <Navbar.Collapse id='basic-navbar-nav'>
         <Nav className='ml-auto'>

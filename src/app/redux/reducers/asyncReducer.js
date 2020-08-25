@@ -1,4 +1,5 @@
 const initState = {
+  appLoaded: false,
   loading: false,
   loggingIn: false,
   googleLoggingIn: false,
@@ -7,6 +8,11 @@ const initState = {
 
 const asyncReducer = (state = initState, action) => {
   switch(action.type) {
+    case 'APP_LOADED':
+      return {
+        ...state,
+        appLoaded: true
+      } 
     case 'START_LOADING':
       return {
         ...state,

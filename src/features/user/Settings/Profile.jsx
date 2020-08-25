@@ -20,7 +20,8 @@ const Profile = ({ handleSubmit }) => {
       <h2>Profile</h2>
       <p>Add information about yourself</p>
       <Form onSubmit={handleSubmit}>
-        <Field name='displayName' as={TextInput} placeholder='Enter your name' />
+        <Field name='name' as={TextInput} placeholder='Enter your name' />
+        <Field name='occupation' as={TextInput} placeholder='Enter your name' />
         <Field
           component={DatePickerInput}
           name='dob'
@@ -49,7 +50,8 @@ const formikProfile = withFormik({
   mapPropsToValues: ({ profile }) => {
     if (profile) {
       return {
-        displayName: profile.displayName,
+        name: profile.displayName,
+        occupation: profile.occupation ? profile.occupation : '',
         dob: profile.dob ? fromUnixTime(profile.dob.seconds) : null,
         homeCity: profile.homeCity ? profile.homeCity : '',
         about: profile.about ? profile.about : '',
@@ -57,7 +59,8 @@ const formikProfile = withFormik({
       };
     } else {
       return {
-        displayName: '',
+        name: '',
+        occupation: '',
         dob: null,
         homeCity: '',
         about: '',

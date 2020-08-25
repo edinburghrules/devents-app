@@ -136,7 +136,7 @@ class PhotoPage extends React.Component {
         )}
         {src === null && (<Jumbotron flex>
           <h4>Profile photo</h4>
-          <Image src={profilePhoto} fluid />
+          <Image src={profilePhoto || '/assets/profile.png'} fluid />
         </Jumbotron>)}
         <InputGroup className='custom-file'>
           <FormControl

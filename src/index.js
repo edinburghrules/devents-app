@@ -5,22 +5,18 @@ import App from './app/layout/App';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import configureStore from './app/redux/store/configureStore';
-import {persistStore} from 'redux-persist';
-import { PersistGate } from 'redux-persist/integration/react'
 import { getEvents } from './app/redux/actions/eventActions';
 import firebase from './app/config/firebase';
 
 const store = configureStore();
-let persistor = persistStore(store);
+
 store.dispatch(getEvents());
 
 let render = () => {
   ReactDOM.render(
     <Provider store={store}>
       <Router>
-      <PersistGate loading={null} persistor={persistor}>
         <App />
-      </PersistGate>
       </Router>
     </Provider>,
     document.getElementById('root')
@@ -30,7 +26,6 @@ let render = () => {
 firebase.auth().onAuthStateChanged((user) => {
   if (user) {
     store.dispatch({ type: 'GET_AUTH_STATUS', payload: user });
-    store.dispatch({type: 'APP_LOADED'})
     firebase
       .firestore()
       .collection('users')
@@ -39,11 +34,12 @@ firebase.auth().onAuthStateChanged((user) => {
         querySnapshot.forEach((doc) => {
           if (doc.id === user.uid) {
             store.dispatch({ type: 'LOAD_USER_PROFILE', payload: doc.data() });
+            store.dispatch({type: 'APP_LOADED'});
           }
         });
       });
   } else {
-    store.dispatch({type: 'APP_LOADED'})
+    store.dispatch({type: 'APP_LOADED'});
     console.log('No user');
   }
 });

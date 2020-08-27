@@ -1,31 +1,22 @@
 import React, { Component } from 'react';
 import { Card, Button } from 'react-bootstrap';
 import EventListAttendee from './EventListAttendee';
-import {fromUnixTime, format} from 'date-fns';
+import { fromUnixTime, format } from 'date-fns';
 import { withRouter } from 'react-router-dom';
 
 class EventListItem extends Component {
   handleClick = (e) => {
     e.preventDefault();
-    this.props.history.push(`/event/${this.props.event.id}`)
-  }
+    this.props.history.push(`/event/${this.props.event.id}`);
+  };
 
   attend = (e) => {
     e.stopPropagation();
     alert('You are attending');
-  }
+  };
+
   render() {
-    const {
-      title,
-      date,
-      venue,
-      snip,
-      img,
-      attendees,
-    } = this.props.event;
-
-    let parsedDate = fromUnixTime(date.seconds);
-
+    const { title, date, venue, snip, img, attendees } = this.props.event;
 
     return (
       <a onClick={this.handleClick} href='/#' className='card-link'>
@@ -58,9 +49,7 @@ class EventListItem extends Component {
                   src='/assets/loc.png'
                   alt='location icon'
                 />
-                <span>
-                  {venue}
-                </span>
+                <span>{venue}</span>
                 <br />
               </div>
               <div>
@@ -69,7 +58,7 @@ class EventListItem extends Component {
                   src='/assets/cal.png'
                   alt='location icon'
                 />
-                <span>{date && format(parsedDate, 'EEEE, do MMMM yyyy')} at {format(parsedDate, 'h:mm a')}</span> <br />
+                <span>{date.seconds && format(fromUnixTime(date.seconds), 'EEEE, do MMMM yyyy')} </span> <br/>
               </div>
             </div>
           </Card.Body>

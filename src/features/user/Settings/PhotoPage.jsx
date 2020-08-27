@@ -134,7 +134,7 @@ class PhotoPage extends React.Component {
             onChange={this.onCropChange}
           />
         )}
-        {src === null && (<Jumbotron flex>
+        {src === null && (<Jumbotron>
           <h4>Profile photo</h4>
           <Image src={profilePhoto || '/assets/profile.png'} fluid />
         </Jumbotron>)}

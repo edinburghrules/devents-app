@@ -12,10 +12,10 @@ import EventForm from '../../features/event/EventForm/EventForm';
 import EventDetails from '../../features/event/EventDetails/EventDetails';
 import AccountDashboard from '../../features/user/Settings/AccountDashboard';
 import DetailedUserPage from '../../features/user/DetailedUser/DetailedUserPage';
-import Dimmer from './Dimmer';
+import LoadingPage from './LoadingPage';
 
 function App(props) {
-  if (!props.isAppLoaded) return <Dimmer />;
+  if (!props.isAppLoaded) return <LoadingPage />;
   return (
     <Fragment>
       <NavBar />

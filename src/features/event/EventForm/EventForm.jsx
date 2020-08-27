@@ -149,10 +149,6 @@ const formikEventForm = withFormik({
 
     if (location.pathname === '/createEvent') {
       const newEvent = {
-        hostedBy: {
-          name: 'Sean Adamson',
-          hostPhoto: 'https://randomuser.me/api/portraits/men/81.jpg',
-        },
         ...values,
         latlng: coords.venue,
       };

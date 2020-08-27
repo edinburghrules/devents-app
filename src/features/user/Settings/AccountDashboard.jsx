@@ -6,6 +6,7 @@ import AccountNav from './AccountNav';
 import PhotoPage from './PhotoPage';
 import AccountPage from './AccountPage';
 import Profile from './Profile';
+import DetailedUserPage from '../DetailedUser/DetailedUserPage';
 
 const AccountDashboard = ({providerId, profile}) => {
   return (
@@ -15,11 +16,11 @@ const AccountDashboard = ({providerId, profile}) => {
         <Row>
           <Col>
             <AccountNav/>
-            {/* <h6>{providerId}</h6> */}
           </Col>
           <Col lg={8}>
           <Switch>
             <Redirect exact from='/user' to='user/profile' />
+            <Route path='/detailed-user' render={() => <DetailedUserPage/>}/>
             <Route path='/user/photo' render={() => <PhotoPage profilePhoto={profile.photoURL}/>}/>
             <Route path='/user/account' render={() => <AccountPage providerId={providerId}/>}/>
             <Route path='/user/profile' render={() => <Profile profile={profile}/>}/>

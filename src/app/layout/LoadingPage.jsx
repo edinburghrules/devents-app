@@ -1,14 +1,14 @@
 import React from 'react';
 import { Spinner } from 'react-bootstrap';
 
-const Dimmer = () => {
+const LoadingPage = () => {
   return (
-    <div className='dimmer'>
-      <div className='spinner-container'>
+    <div className='loading-page'>
+      <div className='loader-container'>
         <Spinner variant='primary' animation='border' />
       </div>
     </div>
   );
 };
 
-export default Dimmer;
+export default LoadingPage;

@@ -278,10 +278,14 @@ body {
     height: 10rem;
 }
 
-.dimmer {
+.loading-page {
   height: 100vh;
   width: 100vw;
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.selected {
+  color:black;
 }

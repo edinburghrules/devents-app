@@ -31,13 +31,17 @@ const getEvents = () => {
 };
 
 const createEvent = (event) => {
-  return async (dispatch) => {
+  return async (dispatch, getState) => {
+    let hostedBy = {
+      name: getState().profile.userProfile.name,
+      hostPhoto: getState().profile.userProfile.photoURL
+    }
     try {
+      console.log(hostedBy)
       await firebase
         .firestore()
         .collection('events')
-        .add({ ...event });
-      dispatch({ type: 'CREATE_EVENT', payload: event });
+        .add({ ...event, hostedBy });
       dispatch(getEvents());
       toast('🎉 Your event has been created! 🎉', toastOptions);
     } catch (err) {
@@ -48,12 +52,8 @@ const createEvent = (event) => {
 
 const editEvent = (event) => {
   return async (dispatch) => {
-    try{
-      await firebase
-        .firestore()
-        .collection('events')
-        .doc(event.id)
-        .set(event)
+    try {
+      await firebase.firestore().collection('events').doc(event.id).set(event);
       dispatch(getEvents());
     } catch (err) {
       console.log(err);

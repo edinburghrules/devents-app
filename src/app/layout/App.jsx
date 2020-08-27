@@ -1,8 +1,8 @@
 import React, { Fragment } from 'react';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Switch, Route, withRouter } from 'react-router-dom';
-import {ToastContainer} from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import EventDashboard from '../../features/event/EventDashboard/EventDashboard';
 import NavBar from '../../features/nav/NavBar/NavBar';
@@ -12,13 +12,14 @@ import EventForm from '../../features/event/EventForm/EventForm';
 import EventDetails from '../../features/event/EventDetails/EventDetails';
 import AccountDashboard from '../../features/user/Settings/AccountDashboard';
 import DetailedUserPage from '../../features/user/DetailedUser/DetailedUserPage';
+import Dimmer from './Dimmer';
 
 function App(props) {
-  if(!props.isAppLoaded) return 'LOADING!'
+  if (!props.isAppLoaded) return <Dimmer />;
   return (
     <Fragment>
       <NavBar />
-      <ToastContainer/>
+      <ToastContainer />
       <Switch>
         <Route exact path='/' component={EventDashboard} />
         <Route exact path='/signup' component={Signup} />
@@ -39,6 +40,6 @@ function App(props) {
 
 const mapStateToProps = (state) => ({
   isAppLoaded: state.async.appLoaded
-})
+});
 
 export default connect(mapStateToProps)(withRouter(App));

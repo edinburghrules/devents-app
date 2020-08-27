@@ -43,6 +43,7 @@ firebase.auth().onAuthStateChanged((user) => {
         });
       });
   } else {
+    store.dispatch({type: 'APP_LOADED'})
     console.log('No user');
   }
 });

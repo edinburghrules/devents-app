@@ -8,7 +8,6 @@ import AccountPage from './AccountPage';
 import Profile from './Profile';
 
 const AccountDashboard = ({providerId, profile}) => {
-  console.log(providerId)
   return (
     <div className='page-content'>
       <Container>

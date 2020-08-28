@@ -67,7 +67,6 @@ class EventDetails extends Component {
                   <div className='event-details-attendees'>
                     {attendees &&
                       Object.keys(attendees).map((attendee, index) => {
-                        console.log(attendee);
                         return (
                           <EventListAttendee
                             key={index}

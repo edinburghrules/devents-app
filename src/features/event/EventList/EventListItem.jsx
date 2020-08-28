@@ -37,8 +37,8 @@ class EventListItem extends Component {
           <Card.Body className='people-going'>
             <p>Attendees</p>
             {attendees &&
-              attendees.map((attendee, index) => {
-                return <EventListAttendee key={index} attendee={attendee} />;
+              Object.keys(attendees).map((attendee, index) => {
+                return <EventListAttendee key={index} attendee={attendees[attendee]} />;
               })}
           </Card.Body>
           <Card.Body>

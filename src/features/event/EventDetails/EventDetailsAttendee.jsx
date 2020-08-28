@@ -1,7 +1,6 @@
 import React from 'react'
 
 const EventDetailsAttendee = (props) => {
-  console.log(props);
   return (
     <div className='attendee-card'>
       <img className='attendee-card-img' src={props.attendee.hostPhoto} alt='event attendee'/>

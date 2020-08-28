@@ -144,7 +144,7 @@ const formikEventForm = withFormik({
     venue: Yup.string().required(),
     date: Yup.date().required(),
   }),
-  handleSubmit: (values, formikBag) => {
+  handleSubmit: async (values, formikBag) => {
     const { event, location, history, createEvent, editEvent } = formikBag.props;
 
     if (location.pathname === '/createEvent') {
@@ -152,7 +152,8 @@ const formikEventForm = withFormik({
         ...values,
         latlng: coords.venue,
       };
-      createEvent(newEvent);
+      let createdEventId = await createEvent(newEvent);
+      history.push(`/event/${createdEventId}`)
     } else {
       const editedEvent = {
         ...event,
@@ -160,7 +161,6 @@ const formikEventForm = withFormik({
       }
       editEvent(editedEvent);
     }
-    history.push('/');
   },
 })(EventForm);
 

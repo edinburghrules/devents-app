@@ -40,7 +40,7 @@ const PlaceInput = (props) => {
           />
           <div className='autocomplete-dropdown-container'>
             {loading && <div>Loading...</div>}
-            {suggestions.map((suggestion) => {
+            {suggestions.length > 0 && suggestions.map((suggestion, index) => {
               const className = suggestion.active
                 ? 'suggestion-item--active'
                 : 'suggestion-item';
@@ -60,6 +60,7 @@ const PlaceInput = (props) => {
                   };
               return (
                 <div
+                  key={index}
                   {...getSuggestionItemProps(suggestion, {
                     className,
                     style,

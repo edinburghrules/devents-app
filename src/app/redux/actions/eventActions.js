@@ -32,18 +32,46 @@ const getEvents = () => {
 
 const createEvent = (event) => {
   return async (dispatch, getState) => {
-    let hostedBy = {
-      name: getState().profile.userProfile.name,
-      hostPhoto: getState().profile.userProfile.photoURL
+    let userId = getState().profile.userProfile.uid;
+    let name = getState().profile.userProfile.name;
+    let hostPhoto = getState().profile.userProfile.photoURL;
+    let joined = getState().profile.userProfile.joined;
+    let createdEvent = {
+      ...event, 
+      hostedBy: {
+        userId,
+        name,
+        hostPhoto
+      },
+      attendees: {
+        [userId]: {
+          attending: true,
+          joined,
+          hostPhoto, 
+          name
+        }
+      }
     }
     try {
-      console.log(hostedBy)
-      await firebase
+      let docRef = await firebase
         .firestore()
         .collection('events')
-        .add({ ...event, hostedBy });
-      dispatch(getEvents());
+        .add(createdEvent);
+
+      await firebase
+        .firestore()
+        .collection('event_attendee')
+        .doc(`${docRef.id}_${userId}`)
+        .set({
+          eventId: docRef.id,
+          userId,
+          eventDate: event.date,
+          host: true,
+        });
+      await dispatch(getEvents());
       toast('🎉 Your event has been created! 🎉', toastOptions);
+
+      return docRef.id;
     } catch (err) {
       console.log(err);
     }

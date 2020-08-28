@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Container, Image, Row, Col, Button } from 'react-bootstrap';
-import {fromUnixTime, format} from 'date-fns';
+import { fromUnixTime, format } from 'date-fns';
 import EventListAttendee from './EventDetailsAttendee';
 import EventDetailsMap from './EventDetailsMap';
 
@@ -21,7 +21,7 @@ class EventDetails extends Component {
       attendees,
     } = this.props.event;
 
-    let parsedDate = fromUnixTime(date.seconds)
+    let parsedDate = fromUnixTime(date.seconds);
 
     return (
       <Fragment>
@@ -39,14 +39,14 @@ class EventDetails extends Component {
             </div>
             <div>
               <Button size='lg'>Attend</Button>
-              <Button 
+              <Button
                 as={Link}
                 to={`/manageEvent/${id}`}
                 size='lg'
                 variant='info'
                 className='ml-2'
               >
-              Edit
+                Edit
               </Button>
             </div>
           </Container>
@@ -66,9 +66,13 @@ class EventDetails extends Component {
                   </h3>
                   <div className='event-details-attendees'>
                     {attendees &&
-                      attendees.map((attendee, index) => {
+                      Object.keys(attendees).map((attendee, index) => {
+                        console.log(attendee);
                         return (
-                          <EventListAttendee key={index} attendee={attendee} />
+                          <EventListAttendee
+                            key={index}
+                            attendee={attendees[attendee]}
+                          />
                         );
                       })}
                   </div>
@@ -81,13 +85,14 @@ class EventDetails extends Component {
                   <h5 className='event-info-panel-heading'>Information</h5>
                   <div className='event-info-container-info'>
                     <img src='/assets/cal.png' alt='calendar iconz' />
-                    <span className='ml-3 '>{date && format(parsedDate, 'EEEE, do MMMM yyyy')} at {format(parsedDate, 'h:mm a')}</span>
+                    <span className='ml-3 '>
+                      {date && format(parsedDate, 'EEEE, do MMMM yyyy')} at{' '}
+                      {format(parsedDate, 'h:mm a')}
+                    </span>
                   </div>
                   <div className='event-info-container-info'>
                     <img src='/assets/loc.png' alt='location icon' />
-                    <span className='ml-3 '>
-                      {venue}
-                    </span>
+                    <span className='ml-3 '>{venue}</span>
                   </div>
                   <div className='event-info-container-info'>
                     <img src='/assets/pound.png' alt='cost icon' />
@@ -110,8 +115,7 @@ const mapStateToProps = (state, ownProps) => {
   let event = state.events.find((event) => {
     return event.id.toString() === ownProps.match.params.id.toString();
   });
-  return {event}
-}
-
+  return { event };
+};
 
 export default connect(mapStateToProps)(EventDetails);

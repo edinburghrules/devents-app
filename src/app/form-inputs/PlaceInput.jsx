@@ -4,14 +4,19 @@ import { Form } from 'react-bootstrap';
 
 class PlaceInput extends React.Component {
   handleChange = (value) => {
-    if (this.props.field.name === 'city') {
-      this.props.form.setFieldValue(this.props.field.name, value);
-      this.props.getCoords(this.props.field.name, value);
-    } else if (this.props.field.name === 'homeCity') {
-      this.props.form.setFieldValue(this.props.field.name, value);
+    const {
+      field: { name },
+      form: { setFieldValue },
+      getCoords,
+    } = this.props;
+    if (name === 'city') {
+      setFieldValue(name, value);
+      getCoords(name, value);
+    } else if (name === 'homeCity') {
+      setFieldValue(name, value);
     } else {
-      this.props.form.setFieldValue(this.props.field.name, value);
-      this.props.getCoords(this.props.field.name, value);
+      setFieldValue(name, value);
+      getCoords(name, value);
     }
   };
 
@@ -63,11 +68,11 @@ class PlaceInput extends React.Component {
                       };
                   return (
                     <div
-                      key={index}
                       {...getSuggestionItemProps(suggestion, {
                         className,
                         style,
                       })}
+                      key={index}
                     >
                       <span>{suggestion.description}</span>
                     </div>

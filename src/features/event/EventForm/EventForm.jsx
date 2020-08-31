@@ -11,7 +11,10 @@ import CategoryInput from '../../../app/form-inputs/CategoryInput';
 import DatePickerInput from '../../../app/form-inputs/DatePickerInput';
 import PlaceInput from '../../../app/form-inputs/PlaceInput';
 import CostInput from '../../../app/form-inputs/CostInput';
-import { createEvent, editEvent } from '../../../app/redux/actions/eventActions';
+import {
+  createEvent,
+  editEvent,
+} from '../../../app/redux/actions/eventActions';
 
 const coords = {
   city: {},
@@ -20,10 +23,15 @@ const coords = {
 
 class EventForm extends Component {
   getCoords = async (name, city) => {
-    const geoCodeFetch = await geocodeByAddress(city);
-    const results = await getLatLng(geoCodeFetch[0]);
-    coords[name] = results;
+    try {
+      const geoCodeFetch = await geocodeByAddress(city);
+      const results = await getLatLng(geoCodeFetch[0]);
+      coords[name] = results;
+    } catch (err) {
+      console.log(err);
+    }
   };
+
   render() {
     const { handleSubmit, errors, touched } = this.props;
     return (
@@ -89,8 +97,8 @@ class EventForm extends Component {
               types: ['establishment'],
             }}
           />
-          {touched.city && errors.hasOwnProperty('venue') && (
-            <Alert variant='danger'>{errors.city}</Alert>
+          {touched.venue && errors.hasOwnProperty('venue') && (
+            <Alert variant='danger'>{errors.venue}</Alert>
           )}
 
           <br />
@@ -141,11 +149,17 @@ const formikEventForm = withFormik({
     city: Yup.string().required(
       'You must provide the city or town of your event.'
     ),
-    venue: Yup.string().required(),
-    date: Yup.date().required(),
+    venue: Yup.string().required('You must provide an event venue.'),
+    date: Yup.date().required('Please provide and event date.').nullable(),
   }),
   handleSubmit: async (values, formikBag) => {
-    const { event, location, history, createEvent, editEvent } = formikBag.props;
+    const {
+      event,
+      location,
+      history,
+      createEvent,
+      editEvent,
+    } = formikBag.props;
 
     if (location.pathname === '/createEvent') {
       const newEvent = {
@@ -153,13 +167,14 @@ const formikEventForm = withFormik({
         latlng: coords.venue,
       };
       let createdEventId = await createEvent(newEvent);
-      history.push(`/event/${createdEventId}`)
+      history.push(`/event/${createdEventId}`);
     } else {
       const editedEvent = {
         ...event,
-        ...values
-      }
-      editEvent(editedEvent);
+        ...values,
+      };
+      let editedEventId = await editEvent(editedEvent);
+      history.push(`/event/${editedEventId}`);
     }
   },
 })(EventForm);
@@ -176,8 +191,8 @@ const mapStateToProps = (state, ownProps) => {
 };
 
 const mapDispatchToProps = {
-  createEvent, 
-  editEvent
-}
+  createEvent,
+  editEvent,
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(formikEventForm);

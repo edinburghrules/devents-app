@@ -5,9 +5,13 @@ import { Container, Image, Row, Col, Button } from 'react-bootstrap';
 import { fromUnixTime, format } from 'date-fns';
 import EventListAttendee from './EventDetailsAttendee';
 import EventDetailsMap from './EventDetailsMap';
+import EventDashboard from '../EventDashboard/EventDashboard';
 
 class EventDetails extends Component {
   render() {
+
+    if (this.props.event === undefined) return (<EventDashboard/>) 
+
     const {
       id,
       title,

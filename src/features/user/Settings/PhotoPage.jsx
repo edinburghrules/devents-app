@@ -112,6 +112,8 @@ class PhotoPage extends React.Component {
         src: null,
         filename: null,
       }));
+      this.props.stopLoading();
+      
     } catch (err) {
       console.log(err);
     }

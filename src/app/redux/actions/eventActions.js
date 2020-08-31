@@ -83,6 +83,7 @@ const editEvent = (event) => {
     try {
       await firebase.firestore().collection('events').doc(event.id).set(event);
       dispatch(getEvents());
+      return event.id;
     } catch (err) {
       console.log(err);
     }

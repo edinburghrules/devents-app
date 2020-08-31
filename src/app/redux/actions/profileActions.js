@@ -1,5 +1,4 @@
 import firebase from '../../config/firebase';
-import { stopLoading } from '../../redux/actions/asyncActions';
 
 const editPassword = (newPassword) => {
   try {
@@ -36,7 +35,7 @@ const updateProfile = (updatedInfo) => {
 };
 
 const handlePhotoUpload = (file) => {
-  console.log('is it working?')
+  console.log('is it working?');
   let currentUser = firebase.auth().currentUser;
   return async (dispatch) => {
     try {
@@ -66,15 +65,11 @@ const handlePhotoUpload = (file) => {
         payload: userProfileData.data(),
       });
 
-      return new Promise((resolve, reject) => {
-        console.log('is it working in the promise?');
-        if (userProfileData) {
-          setTimeout(resolve, 1200);
-          dispatch(stopLoading());
-        } else {
-          reject('Sorry there has been an error');
-        }
-      });
+      if (userProfileData) {
+        return;
+      } else {
+        console.log('Sorry, there has been an error.');
+      }
     } catch (err) {
       console.log('Error getting document.', err);
     }

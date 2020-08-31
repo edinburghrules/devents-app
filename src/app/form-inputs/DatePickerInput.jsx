@@ -13,6 +13,10 @@ const DatePickerInput = (props) => {
       </Form.Label>
       <div>
         <Form.Control
+          {...props}
+          onBlur={(e) => {
+            form.setFieldTouched(field.name, 'true');
+          }} 
           as={DatePicker}
           selected={field.value}
           onChange={handleChange}
@@ -20,7 +24,6 @@ const DatePickerInput = (props) => {
           dateFormat={field.name === 'date' ? 'MMMM d, h:mm aa' : 'MMMM d Y'}
           showYearDropdown={field.name === 'dob' ? true : false}
           showMonthDropdown
-          {...props}
         />
       </div>
     </Form.Group>

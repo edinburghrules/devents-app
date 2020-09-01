@@ -5,8 +5,11 @@ import { Container, Form, Button, Alert, Spinner } from 'react-bootstrap';
 import { withFormik, Field } from 'formik';
 import * as Yup from 'yup';
 import TextInput from '../../../app/form-inputs/TextInput';
-import { login, logInWithGoogle, clearLoginErrMsg } from '../../../app/redux/actions/authActions';
-
+import {
+  login,
+  logInWithGoogle,
+  clearLoginErrMsg,
+} from '../../../app/redux/actions/authActions';
 
 const Login = ({
   handleSubmit,
@@ -18,15 +21,15 @@ const Login = ({
   isLoggingIn,
   isGoogleLoggingIn,
   touched,
-  setFieldValue
+  setFieldValue,
 }) => {
   const handleClick = () => {
     logInWithGoogle(history);
   };
   const handleChange = (e) => {
-    setFieldValue(e.target.name, e.target.value, true)
+    setFieldValue(e.target.name, e.target.value, true);
     clearLoginErrMsg();
-  }
+  };
   return (
     <Container className='login-container'>
       <Form className='auth-form' onSubmit={handleSubmit}>
@@ -71,15 +74,18 @@ const Login = ({
           variant='light'
           block
         >
-        {isGoogleLoggingIn ? <Spinner animation='border' size='sm' variant='primary' /> : (
-          <React.Fragment>
-          <img className='mr-1' src='/assets/google.png' alt='google logo' />
-          <span className='ml-2'>
-            Log in with Google
-          </span>
-          </React.Fragment>
-        )}
-  
+          {isGoogleLoggingIn ? (
+            <Spinner animation='border' size='sm' variant='primary' />
+          ) : (
+            <React.Fragment>
+              <img
+                className='mr-1'
+                src='/assets/google.png'
+                alt='google logo'
+              />
+              <span className='ml-2'>Log in with Google</span>
+            </React.Fragment>
+          )}
         </Button>
         <div className='accnt-msg'>
           <span className='mr-2'>New to Devents?</span>
@@ -111,14 +117,14 @@ const mapStateToProps = (state) => {
   return {
     error: state.user.error,
     isLoggingIn: state.async.loggingIn,
-    isGoogleLoggingIn: state.async.googleLoggingIn
+    isGoogleLoggingIn: state.async.googleLoggingIn,
   };
 };
 
 const mapDispatchToProps = {
   login,
   logInWithGoogle,
-  clearLoginErrMsg
-}
+  clearLoginErrMsg,
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(formikLogin);

@@ -1,24 +1,23 @@
 const initState = {
-  userProfile: {}
+  userProfile: {},
 };
-
 
 const profileReducer = (state = initState, action) => {
   switch (action.type) {
     case 'LOAD_USER_PROFILE':
       return {
-        userProfile: { ...action.payload }
+        userProfile: { ...action.payload },
       };
     case 'UPDATE_USER_PROFILE':
       return {
-        userProfile: {...action.payload}
-      }
+        userProfile: { ...action.payload },
+      };
     case 'LOGOUT':
       return {
-        userProfile: {}
-      }
+        userProfile: {},
+      };
     default:
-      return state
+      return state;
   }
 };
 

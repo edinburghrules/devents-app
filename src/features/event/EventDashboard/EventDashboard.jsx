@@ -5,12 +5,12 @@ import { connect } from 'react-redux';
 
 class EventDashboard extends Component {
   render() {
-    const {events} = this.props;
+    const { events } = this.props;
     return (
       <Container className='page-content'>
         <Row>
           <Col lg={8}>
-            <EventList events={events}/>
+            <EventList events={events} />
           </Col>
           <Col md={true}>Left</Col>
         </Row>
@@ -21,8 +21,8 @@ class EventDashboard extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    events: state.events
-  }
-} 
+    events: state.events,
+  };
+};
 
 export default connect(mapStateToProps)(EventDashboard);

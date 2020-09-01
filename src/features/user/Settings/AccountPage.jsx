@@ -10,21 +10,21 @@ const AccountPage = ({ handleSubmit, errors, touched, providerId }) => {
     return (
       <div>
         <h2>Account Page</h2>
-          <Form onSubmit={handleSubmit}>
-            <Field name='newpassword' as={TextInput} type='password' />
-            {touched.newpassword && errors.hasOwnProperty('newpassword') && (
-              <Alert variant='danger'>{errors.newpassword}</Alert>
+        <Form onSubmit={handleSubmit}>
+          <Field name='newpassword' as={TextInput} type='password' />
+          {touched.newpassword && errors.hasOwnProperty('newpassword') && (
+            <Alert variant='danger'>{errors.newpassword}</Alert>
+          )}
+          <Field name='confirmpassword' as={TextInput} type='password' />
+          {touched.confirmpassword &&
+            errors.hasOwnProperty('confirmpassword') && (
+              <Alert variant='danger'>{errors.confirmpassword}</Alert>
             )}
-            <Field name='confirmpassword' as={TextInput} type='password' />
-            {touched.confirmpassword &&
-              errors.hasOwnProperty('confirmpassword') && (
-                <Alert variant='danger'>{errors.confirmpassword}</Alert>
-              )}
-            {errors.hasOwnProperty('error') && (
-              <Alert variant='danger'>{errors.error}</Alert>
-            )}
-            <Button type='submit'>Update password</Button>
-          </Form>
+          {errors.hasOwnProperty('error') && (
+            <Alert variant='danger'>{errors.error}</Alert>
+          )}
+          <Button type='submit'>Update password</Button>
+        </Form>
       </div>
     );
   } else if (providerId === 'google.com') {

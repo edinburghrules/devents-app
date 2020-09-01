@@ -16,7 +16,7 @@ class EventListItem extends Component {
   };
 
   render() {
-    const { title, date, venue, snip, img, attendees } = this.props.event;
+    const { title, date, venue, snip, img, attendees, cancelled } = this.props.event;
 
     return (
       <a onClick={this.handleClick} href='/#' className='card-link'>
@@ -29,16 +29,22 @@ class EventListItem extends Component {
                 style={{ width: '15%' }}
                 src={img}
               />
-              <Button onClick={this.attend}>Attend</Button>
+              <Button disabled={cancelled} onClick={this.attend}>Attend</Button>
             </div>
             <Card.Title className='card-title mt-5'>{title}</Card.Title>
+            <Card.Subtitle >{cancelled && ('❌ EVENT CANCELLED ❌')}</Card.Subtitle>
             <Card.Text className='mt-4'>{snip}</Card.Text>
           </Card.Body>
           <Card.Body className='people-going'>
             <p>Attendees</p>
             {attendees &&
               Object.keys(attendees).map((attendee, index) => {
-                return <EventListAttendee key={index} attendee={attendees[attendee]} />;
+                return (
+                  <EventListAttendee
+                    key={index}
+                    attendee={attendees[attendee]}
+                  />
+                );
               })}
           </Card.Body>
           <Card.Body>
@@ -58,7 +64,14 @@ class EventListItem extends Component {
                   src='/assets/cal.png'
                   alt='location icon'
                 />
-                <span>{date.seconds && format(fromUnixTime(date.seconds), 'EEEE, do MMMM yyyy')} </span> <br/>
+                <span className={cancelled ? 'cancelled-date' : 'event-date'}>
+                  {date.seconds &&
+                    format(
+                      fromUnixTime(date.seconds),
+                      'EEEE, do MMMM yyyy'
+                    )}{' '}
+                </span>{' '}
+                <br />
               </div>
             </div>
           </Card.Body>

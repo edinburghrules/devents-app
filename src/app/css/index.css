@@ -136,6 +136,10 @@ body {
   justify-content: flex-end !important;
 }
 
+.cancelled-date {
+  text-decoration: line-through;
+}
+
 .event-form-container {
   width: 60% !important;
   margin-bottom: 8rem;

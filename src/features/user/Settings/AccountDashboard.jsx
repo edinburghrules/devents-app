@@ -8,23 +8,35 @@ import AccountPage from './AccountPage';
 import Profile from './Profile';
 import DetailedUserPage from '../DetailedUser/DetailedUserPage';
 
-const AccountDashboard = ({providerId, profile}) => {
+const AccountDashboard = ({ providerId, profile }) => {
   return (
     <div className='page-content'>
       <Container>
         <h2 className='mb-5'>Account Dashboard</h2>
         <Row>
           <Col>
-            <AccountNav/>
+            <AccountNav />
           </Col>
           <Col lg={8}>
-          <Switch>
-            <Redirect exact from='/user' to='user/profile' />
-            <Route path='/detailed-user' render={() => <DetailedUserPage/>}/>
-            <Route path='/user/photo' render={() => <PhotoPage profilePhoto={profile.photoURL}/>}/>
-            <Route path='/user/account' render={() => <AccountPage providerId={providerId}/>}/>
-            <Route path='/user/profile' render={() => <Profile profile={profile}/>}/>
-          </Switch>
+            <Switch>
+              <Redirect exact from='/user' to='user/profile' />
+              <Route
+                path='/detailed-user'
+                render={() => <DetailedUserPage />}
+              />
+              <Route
+                path='/user/photo'
+                render={() => <PhotoPage profilePhoto={profile.photoURL} />}
+              />
+              <Route
+                path='/user/account'
+                render={() => <AccountPage providerId={providerId} />}
+              />
+              <Route
+                path='/user/profile'
+                render={() => <Profile profile={profile} />}
+              />
+            </Switch>
           </Col>
         </Row>
       </Container>
@@ -34,7 +46,7 @@ const AccountDashboard = ({providerId, profile}) => {
 
 const mapStateToProps = (state) => ({
   providerId: state.user.currentUser.providerData[0].providerId,
-  profile: state.profile.userProfile
+  profile: state.profile.userProfile,
 });
 
 export default connect(mapStateToProps)(AccountDashboard);

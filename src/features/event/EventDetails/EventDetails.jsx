@@ -9,8 +9,7 @@ import EventDashboard from '../EventDashboard/EventDashboard';
 
 class EventDetails extends Component {
   render() {
-
-    if (this.props.event === undefined) return (<EventDashboard/>) 
+    if (this.props.event === undefined) return <EventDashboard />;
 
     const {
       id,
@@ -23,6 +22,7 @@ class EventDetails extends Component {
       cost,
       latlng,
       attendees,
+      cancelled
     } = this.props.event;
 
     let parsedDate = fromUnixTime(date.seconds);
@@ -33,6 +33,7 @@ class EventDetails extends Component {
           <Container className='event-details-container'>
             <div>
               <h1 className='event-details-top-h1'>{title}</h1>
+              <h3 className='event-details-top-h1'>{cancelled && ('❌ Event Cancelled ❌')}</h3>
               <div className='event-details-top-host'>
                 <img src={hostPhoto && hostPhoto} alt='host' />
                 <div>
@@ -42,7 +43,7 @@ class EventDetails extends Component {
               </div>
             </div>
             <div>
-              <Button size='lg'>Attend</Button>
+              <Button disabled={cancelled} size='lg'>Attend</Button>
               <Button
                 as={Link}
                 to={`/manageEvent/${id}`}
@@ -88,7 +89,7 @@ class EventDetails extends Component {
                   <h5 className='event-info-panel-heading'>Information</h5>
                   <div className='event-info-container-info'>
                     <img src='/assets/cal.png' alt='calendar iconz' />
-                    <span className='ml-3 '>
+                    <span className={cancelled ? 'cancelled-date' : 'event-date'}>
                       {date && format(parsedDate, 'EEEE, do MMMM yyyy')} at{' '}
                       {format(parsedDate, 'h:mm a')}
                     </span>

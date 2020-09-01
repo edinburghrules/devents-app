@@ -7,24 +7,24 @@ import DetailedUserEdit from './DetailedUserEdit';
 
 class DetailedUserPage extends React.Component {
   render() {
-    const {userDetails} = this.props;
+    const { userDetails } = this.props;
     return (
       <div className='detailed-user-page'>
         <div className='detailed-user-page-col-left'>
-        <DetailedUserHeader userDetails={userDetails}/>
-        <DetailedUserAbout userDetails={userDetails}/>
-        <DetailedUserEvents />
+          <DetailedUserHeader userDetails={userDetails} />
+          <DetailedUserAbout userDetails={userDetails} />
+          <DetailedUserEvents />
         </div>
-        <div className="detailed-user-page-col-right">
-          <DetailedUserEdit/>
+        <div className='detailed-user-page-col-right'>
+          <DetailedUserEdit />
         </div>
       </div>
-    )
+    );
   }
 }
 
-const mapStateToProps = state => ({
-  userDetails: state.profile.userProfile
-})
+const mapStateToProps = (state) => ({
+  userDetails: state.profile.userProfile,
+});
 
 export default connect(mapStateToProps)(DetailedUserPage);

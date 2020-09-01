@@ -32,14 +32,8 @@ const Profile = ({ handleSubmit }) => {
           name='homeCity'
           searchOptions={{ types: ['(cities)'] }}
         />
-        <Field 
-          as={TextAreaInput} 
-          name='about' 
-        />
-        <FieldArray 
-          component={CheckboxInput}
-          name='interests' 
-        />
+        <Field as={TextAreaInput} name='about' />
+        <FieldArray component={CheckboxInput} name='interests' />
         <Button type='submit'>Update profile</Button>
       </Form>
     </div>
@@ -55,7 +49,7 @@ const formikProfile = withFormik({
         dob: profile.dob ? fromUnixTime(profile.dob.seconds) : null,
         homeCity: profile.homeCity ? profile.homeCity : '',
         about: profile.about ? profile.about : '',
-        interests: profile.interests ? profile.interests : []
+        interests: profile.interests ? profile.interests : [],
       };
     } else {
       return {
@@ -64,12 +58,12 @@ const formikProfile = withFormik({
         dob: null,
         homeCity: '',
         about: '',
-        interests: []
+        interests: [],
       };
     }
   },
   handleSubmit: (values, { props: { updateProfile } }) => {
-    console.log(values)
+    console.log(values);
     updateProfile(values);
   },
 })(Profile);

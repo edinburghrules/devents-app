@@ -113,7 +113,6 @@ class PhotoPage extends React.Component {
         filename: null,
       }));
       this.props.stopLoading();
-      
     } catch (err) {
       console.log(err);
     }
@@ -121,7 +120,7 @@ class PhotoPage extends React.Component {
 
   render() {
     const { crop, src } = this.state;
-    const {profilePhoto} = this.props;
+    const { profilePhoto } = this.props;
     return (
       <div className='App'>
         {src && (
@@ -136,10 +135,12 @@ class PhotoPage extends React.Component {
             onChange={this.onCropChange}
           />
         )}
-        {src === null && (<Jumbotron>
-          <h4>Profile photo</h4>
-          <Image src={profilePhoto || '/assets/profile.png'} fluid />
-        </Jumbotron>)}
+        {src === null && (
+          <Jumbotron>
+            <h4>Profile photo</h4>
+            <Image src={profilePhoto || '/assets/profile.png'} fluid />
+          </Jumbotron>
+        )}
         <InputGroup className='custom-file'>
           <FormControl
             as='input'

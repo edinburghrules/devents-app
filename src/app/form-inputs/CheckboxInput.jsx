@@ -14,7 +14,7 @@ const interestOptions = [
 
 const CheckboxInput = (props) => {
   const handleChange = (e) => {
-    if(e.target.checked) {
+    if (e.target.checked) {
       props.push(e.target.name);
     } else {
       const index = props.form.values.interests.indexOf(e.target.name);

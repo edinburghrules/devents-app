@@ -1,5 +1,12 @@
 import firebase from '../../config/firebase';
-import { startLogin, stopLogin, startGoogleLogin, stopGoogleLogin, startSignUp, stopSignUp } from '../actions/asyncActions';
+import {
+  startLogin,
+  stopLogin,
+  startGoogleLogin,
+  stopGoogleLogin,
+  startSignUp,
+  stopSignUp,
+} from '../actions/asyncActions';
 
 const signUp = (creds, history) => {
   return async (dispatch) => {
@@ -16,7 +23,7 @@ const signUp = (creds, history) => {
         joined: new Date(),
         dob: null,
         homeCity: '',
-        about: ''
+        about: '',
       };
 
       await firebase
@@ -56,25 +63,28 @@ const login = (creds, history) => {
       let errType;
       if (err.code === 'auth/user-not-found') {
         err.message = 'The provided email is not recognised!';
-        errType = 'email'
+        errType = 'email';
       } else if (err.code === 'auth/wrong-password') {
-        errType = 'password';    
+        errType = 'password';
         err.message = 'The provided password is incorrect!';
       }
-      dispatch({ type: 'LOGIN_FAILED', payload: {errorType: errType, msg: err.message} });
+      dispatch({
+        type: 'LOGIN_FAILED',
+        payload: { errorType: errType, msg: err.message },
+      });
     }
   };
 };
 
 const logout = (history) => {
   return async (dispatch) => {
-    try{  
+    try {
       await firebase.auth().signOut();
       dispatch({ type: 'LOGOUT' });
-      history.push('/login')
+      history.push('/login');
       dispatch(stopLogin());
     } catch (err) {
-        console.log(err);
+      console.log(err);
     }
   };
 };
@@ -96,7 +106,7 @@ const logInWithGoogle = (history) => {
           joined: new Date(),
           dob: null,
           homeCity: '',
-          about: ''
+          about: '',
         };
 
         firebase
@@ -122,12 +132,9 @@ const logInWithGoogle = (history) => {
 };
 
 const clearLoginErrMsg = () => {
-  return dispatch => {
-    dispatch({type: 'CLEAR_LOGIN_ERROR'});
-  }
-}
-
-
-
+  return (dispatch) => {
+    dispatch({ type: 'CLEAR_LOGIN_ERROR' });
+  };
+};
 
 export { login, logout, logInWithGoogle, signUp, clearLoginErrMsg };

@@ -3,7 +3,7 @@ import { fromUnixTime, formatDistanceToNowStrict } from 'date-fns';
 
 const DetailedUserHeader = ({ userDetails }) => {
   let parsedDob = fromUnixTime(userDetails.dob.seconds);
-  let age = formatDistanceToNowStrict(parsedDob, [])
+  let age = formatDistanceToNowStrict(parsedDob, []);
   return (
     <div className='detailed-user-header'>
       <div className='detailed-user-header-img-container'>

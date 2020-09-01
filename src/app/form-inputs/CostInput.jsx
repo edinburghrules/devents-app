@@ -13,8 +13,8 @@ const CostInput = (props) => {
       <Form.Control
         {...props}
         as={CurrencyInput}
-        id="input-example"
-        placeholder="£0"
+        id='input-example'
+        placeholder='£0'
         defaultValue={field.value}
         allowDecimals={true}
         decimalsLimit={2}

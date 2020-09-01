@@ -1,5 +1,4 @@
 import firebase from '../../config/firebase';
-
 import { toast } from 'react-toastify';
 
 const toastOptions = {
@@ -37,21 +36,21 @@ const createEvent = (event) => {
     let hostPhoto = getState().profile.userProfile.photoURL;
     let joined = getState().profile.userProfile.joined;
     let createdEvent = {
-      ...event, 
+      ...event,
       hostedBy: {
         userId,
         name,
-        hostPhoto
+        hostPhoto,
       },
       attendees: {
         [userId]: {
           attending: true,
           joined,
-          hostPhoto, 
-          name
-        }
-      }
-    }
+          hostPhoto,
+          name,
+        },
+      },
+    };
     try {
       let docRef = await firebase
         .firestore()
@@ -82,12 +81,13 @@ const editEvent = (event) => {
   return async (dispatch) => {
     try {
       await firebase.firestore().collection('events').doc(event.id).set(event);
-      dispatch(getEvents());
+      await dispatch(getEvents());
       return event.id;
     } catch (err) {
       console.log(err);
     }
   };
 };
+
 
 export { getEvents, createEvent, editEvent };

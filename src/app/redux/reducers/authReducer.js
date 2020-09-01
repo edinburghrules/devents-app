@@ -1,6 +1,6 @@
 const initState = {
   currentUser: {},
-  error: null
+  error: null,
 };
 
 const authReducer = (state = initState, action) => {
@@ -8,47 +8,47 @@ const authReducer = (state = initState, action) => {
     case 'SIGN_UP':
       return {
         ...state,
-        currentUser: { ...action.payload }
+        currentUser: { ...action.payload },
       };
     case 'GET_AUTH_STATUS':
       return {
         ...state,
-        currentUser: { ...action.payload }
+        currentUser: { ...action.payload },
       };
     case 'LOGIN':
       return {
         ...state,
-        currentUser: { ...action.payload }
+        currentUser: { ...action.payload },
       };
     case 'LOGOUT':
       return {
         ...state,
-        currentUser: {}
+        currentUser: {},
       };
     case 'GOOGLE_LOGIN':
       return {
         ...state,
-        currentUser: { ...action.payload }
+        currentUser: { ...action.payload },
       };
     case 'LOGIN_FAILED':
       return {
         ...state,
-        error: action.payload
-      }
+        error: action.payload,
+      };
     case 'CLEAR_LOGIN_ERROR':
-        return {
-          ...state,
-          error: null
-        }
+      return {
+        ...state,
+        error: null,
+      };
     case 'SIGNUP_FAILED':
       return {
         ...state,
-        error: action.payload
-      }
+        error: action.payload,
+      };
     default:
       return {
-        ...state
-      }
+        ...state,
+      };
   }
 };
 

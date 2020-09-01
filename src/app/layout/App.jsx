@@ -39,7 +39,7 @@ function App(props) {
 }
 
 const mapStateToProps = (state) => ({
-  isAppLoaded: state.async.appLoaded
+  isAppLoaded: state.async.appLoaded,
 });
 
 export default connect(mapStateToProps)(withRouter(App));

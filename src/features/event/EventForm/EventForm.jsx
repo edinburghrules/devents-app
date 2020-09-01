@@ -33,82 +33,119 @@ class EventForm extends Component {
   };
 
   render() {
-    const { handleSubmit, errors, touched } = this.props;
+    const {
+      event,
+      handleSubmit,
+      handleChange,
+      errors,
+      touched,
+      location,
+      history,
+      values,
+    } = this.props;
     return (
       <Container className='event-form-container'>
-        <h2 className='event-form-heading'>Create Event</h2>
-        <Form onSubmit={handleSubmit}>
-          <Field as={TextInput} name='title' placeholder='Enter event title' />
-          {touched.title && errors.hasOwnProperty('title') && (
-            <Alert variant='danger'>{errors.title}</Alert>
-          )}
+        <h2 className='event-form-heading'>
+          {event.id ? 'Edit Event' : 'Create Event'}
+        </h2>
+        <fieldset disabled={values.cancelled}>
+          <Form id='eventForm' onSubmit={handleSubmit}>
+            <Field
+              as={TextInput}
+              name='title'
+              placeholder='Enter event title'
+            />
+            {touched.title && errors.hasOwnProperty('title') && (
+              <Alert variant='danger'>{errors.title}</Alert>
+            )}
 
-          <Field
-            as={TextInput}
-            name='summary'
-            placeholder='Enter event summary'
+            <Field
+              as={TextInput}
+              name='summary'
+              placeholder='Enter event summary'
+            />
+            {touched.summary && errors.hasOwnProperty('summary') && (
+              <Alert variant='danger'>{errors.summary}</Alert>
+            )}
+
+            <Field component={CategoryInput} name='category' />
+            {touched.category && errors.hasOwnProperty('category') && (
+              <Alert variant='danger'>{errors.summary}</Alert>
+            )}
+
+            <Field component={CostInput} name='cost' />
+
+            <Field
+              as={TextAreaInput}
+              name='description'
+              placeholder='Enter event description'
+            />
+            {touched.description && errors.hasOwnProperty('description') && (
+              <Alert variant='danger'>{errors.description}</Alert>
+            )}
+
+            <Field
+              component={DatePickerInput}
+              name='date'
+              placeholderText='Enter event date'
+            />
+            {touched.date && errors.hasOwnProperty('date') && (
+              <Alert variant='danger'>{errors.date}</Alert>
+            )}
+
+            <Field
+              component={PlaceInput}
+              name='city'
+              getCoords={this.getCoords}
+              searchOptions={{ types: ['(cities)'] }}
+            />
+            {touched.city && errors.hasOwnProperty('city') && (
+              <Alert variant='danger'>{errors.city}</Alert>
+            )}
+
+            <Field
+              component={PlaceInput}
+              name='venue'
+              getCoords={this.getCoords}
+              searchOptions={{
+                location: new google.maps.LatLng(coords.city),
+                radius: 2000,
+                types: ['establishment'],
+              }}
+            />
+            {touched.venue && errors.hasOwnProperty('venue') && (
+              <Alert variant='danger'>{errors.venue}</Alert>
+            )}
+          </Form>
+        </fieldset>
+        {event.id && <Form.Label>Cancel Event</Form.Label>}
+        {location.pathname !== '/createEvent' ? (
+          <Form.Check
+            name='cancelled'
+            onChange={handleChange}
+            type='switch'
+            id='custom-switch'
+            checked={values.cancelled}
+            label={''}
           />
-          {touched.summary && errors.hasOwnProperty('summary') && (
-            <Alert variant='danger'>{errors.summary}</Alert>
-          )}
-
-          <Field component={CategoryInput} name='category' />
-          {touched.category && errors.hasOwnProperty('category') && (
-            <Alert variant='danger'>{errors.summary}</Alert>
-          )}
-
-          <Field component={CostInput} name='cost' />
-
-          <Field
-            as={TextAreaInput}
-            name='description'
-            placeholder='Enter event description'
-          />
-          {touched.description && errors.hasOwnProperty('description') && (
-            <Alert variant='danger'>{errors.description}</Alert>
-          )}
-
-          <Field
-            component={DatePickerInput}
-            name='date'
-            placeholderText='Enter event date'
-          />
-          {touched.date && errors.hasOwnProperty('date') && (
-            <Alert variant='danger'>{errors.date}</Alert>
-          )}
-
-          <Field
-            component={PlaceInput}
-            name='city'
-            getCoords={this.getCoords}
-            searchOptions={{ types: ['(cities)'] }}
-          />
-          {touched.city && errors.hasOwnProperty('city') && (
-            <Alert variant='danger'>{errors.city}</Alert>
-          )}
-
-          <Field
-            component={PlaceInput}
-            name='venue'
-            getCoords={this.getCoords}
-            searchOptions={{
-              location: new google.maps.LatLng(coords.city),
-              radius: 2000,
-              types: ['establishment'],
+        ) : null}
+        <div className='form-btns'>
+          <Button form='eventForm' type='submit' variant='success'>
+            Submit
+          </Button>
+          <Button
+            onClick={() => {
+              if (event.id) {
+                history.push(`/event/${event.id}`);
+              } else {
+                history.push('/');
+              }
             }}
-          />
-          {touched.venue && errors.hasOwnProperty('venue') && (
-            <Alert variant='danger'>{errors.venue}</Alert>
-          )}
-
-          <br />
-          <div className='form-btns'>
-            <Button type='submit' variant='success'>
-              Submit
-            </Button>
-            <Button variant='danger'>Cancel</Button>
-          </div>
-        </Form>
+            variant='danger'
+          >
+            Cancel
+          </Button>
+        </div>
       </Container>
     );
   }
@@ -173,20 +210,24 @@ const formikEventForm = withFormik({
         ...event,
         ...values,
       };
-      let editedEventId = await editEvent(editedEvent);
-      history.push(`/event/${editedEventId}`);
+      try {
+        let editedEventId = await editEvent(editedEvent);
+        history.push(`/event/${editedEventId}`);
+      } catch (err) {
+        console.log(err);
+      }
     }
   },
 })(EventForm);
 
 const mapStateToProps = (state, ownProps) => {
   if (ownProps.match.params.id === undefined) {
-    return {};
+    return { event: {} };
   } else {
     let event = state.events.find((event) => {
       return event.id.toString() === ownProps.match.params.id.toString();
     });
-    return event ? { event } : {};
+    return event ? { event } : { event: {} };
   }
 };
 

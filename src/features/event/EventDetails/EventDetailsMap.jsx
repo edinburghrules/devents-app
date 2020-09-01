@@ -6,14 +6,14 @@ class EventDetailsMap extends Component {
     let marker;
     const renderMarkers = (map, maps) => {
       marker = new maps.Marker({
-        position: this.props.latlng, 
+        position: this.props.latlng,
         map: map,
-        animation: maps.Animation.BOUNCE
-      })
+        animation: maps.Animation.BOUNCE,
+      });
       setTimeout(() => {
-        marker.setAnimation(null)
+        marker.setAnimation(null);
       }, 1500);
-    }
+    };
     return (
       <div style={{ height: '20.5rem', width: '100%' }}>
         <GoogleMapReact
@@ -21,12 +21,12 @@ class EventDetailsMap extends Component {
           defaultCenter={this.props.latlng}
           defaultZoom={16}
           yesIWantToUseGoogleMapApiInternals={true}
-          onGoogleApiLoaded={({map, maps}) => renderMarkers(map, maps)}
+          onGoogleApiLoaded={({ map, maps }) => renderMarkers(map, maps)}
         >
-        {marker}
+          {marker}
         </GoogleMapReact>
       </div>
-    )
+    );
   }
 }
 

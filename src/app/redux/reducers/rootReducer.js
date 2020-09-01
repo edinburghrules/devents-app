@@ -6,9 +6,9 @@ import asyncReducer from './asyncReducer';
 
 const rootReducer = combineReducers({
   events: eventReducer,
-  user: authReducer, 
+  user: authReducer,
   profile: profileReducer,
-  async: asyncReducer
-})
+  async: asyncReducer,
+});
 
 export default rootReducer;

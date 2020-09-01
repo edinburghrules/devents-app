@@ -12,7 +12,7 @@ class EventDashboard extends Component {
           <Col lg={8}>
             <EventList events={events} />
           </Col>
-          <Col md={true}>Left</Col>
+          <Col lg={4}>Left</Col>
         </Row>
       </Container>
     );

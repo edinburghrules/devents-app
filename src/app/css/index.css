@@ -156,10 +156,6 @@ body {
   justify-content: flex-end;
 }
 
-.event-details {
-  display: flex;
-}
-
 .event-details-top {
   background: #fff;
   border-bottom: 1px solid #eee;
@@ -168,6 +164,8 @@ body {
 }
 
 .event-details-container {
+  background: red;
+  margin: 0 auto;
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
@@ -201,7 +199,7 @@ body {
 }
 
 .event-details-card {
-  width: 100%;
+  /* width: 100%; */
 }
 
 .event-details-img {
@@ -247,7 +245,6 @@ body {
 
 .event-info-panel {
   background: #fff;
-  width: 75%;
   margin-left: 20%;
   padding: 1rem 0 2rem 1.5rem;
   border-radius: 4px;

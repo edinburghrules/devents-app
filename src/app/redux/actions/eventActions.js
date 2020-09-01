@@ -31,19 +31,19 @@ const getEvents = () => {
 
 const createEvent = (event) => {
   return async (dispatch, getState) => {
-    let userId = getState().profile.userProfile.uid;
+    let hostId = getState().profile.userProfile.uid;
     let name = getState().profile.userProfile.name;
     let hostPhoto = getState().profile.userProfile.photoURL;
     let joined = getState().profile.userProfile.joined;
     let createdEvent = {
       ...event,
       hostedBy: {
-        userId,
+        hostId,
         name,
         hostPhoto,
       },
       attendees: {
-        [userId]: {
+        [hostId]: {
           attending: true,
           joined,
           hostPhoto,
@@ -60,10 +60,10 @@ const createEvent = (event) => {
       await firebase
         .firestore()
         .collection('event_attendee')
-        .doc(`${docRef.id}_${userId}`)
+        .doc(`${docRef.id}_${hostId}`)
         .set({
           eventId: docRef.id,
-          userId,
+          hostId,
           eventDate: event.date,
           host: true,
         });

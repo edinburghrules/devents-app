@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { Card, Button } from 'react-bootstrap';
 import EventListAttendee from './EventListAttendee';
 import { fromUnixTime, format } from 'date-fns';
@@ -16,11 +17,34 @@ class EventListItem extends Component {
   };
 
   render() {
-    const { title, date, venue, snip, img, attendees, cancelled } = this.props.event;
+    const {
+      event: {
+        title,
+        date,
+        venue,
+        snip,
+        img,
+        attendees,
+        cancelled,
+        hostedBy: { hostId }
+      },
+      user
+    } = this.props;
+
+    let isHost = hostId === user;
+    let isGoing;
+
+    for (const k in attendees) {
+      if (k === user) {
+        isGoing = true;
+      } else {
+        isGoing = false;
+      }
+    }
 
     return (
       <a onClick={this.handleClick} href='/#' className='card-link'>
-        <Card className='p-2' style={{ width: '70%' }} border='light'>
+        <Card className='p-2' border='light'>
           <Card.Body>
             <div className='card-top'>
               <img
@@ -29,10 +53,17 @@ class EventListItem extends Component {
                 style={{ width: '15%' }}
                 src={img}
               />
-              <Button disabled={cancelled} onClick={this.attend}>Attend</Button>
+              {!isHost && (
+                <Button disabled={cancelled} onClick={this.attend}>
+                  {isGoing ? 'Cancel your place' : 'Book your place'}
+              </Button>
+              )}
+
             </div>
             <Card.Title className='card-title mt-5'>{title}</Card.Title>
-            <Card.Subtitle >{cancelled && ('❌ EVENT CANCELLED ❌')}</Card.Subtitle>
+            <Card.Subtitle>
+              {cancelled && '❌ EVENT CANCELLED ❌'}
+            </Card.Subtitle>
             <Card.Text className='mt-4'>{snip}</Card.Text>
           </Card.Body>
           <Card.Body className='people-going'>
@@ -81,4 +112,10 @@ class EventListItem extends Component {
   }
 }
 
-export default withRouter(EventListItem);
+const mapStateToProps = state => {
+  return {
+    user: state.profile.userProfile.uid
+  }
+}
+
+export default connect()(withRouter(EventListItem));

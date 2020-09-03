@@ -26,16 +26,16 @@ class EventListItem extends Component {
         img,
         attendees,
         cancelled,
-        hostedBy: { hostId }
+        hostedBy: { hostId },
       },
-      user
+      user,
     } = this.props;
 
     let isHost = hostId === user;
     let isGoing;
 
-    for (const k in attendees) {
-      if (k === user) {
+    for (const attendee in attendees) {
+      if (attendee === user) {
         isGoing = true;
       } else {
         isGoing = false;
@@ -56,13 +56,19 @@ class EventListItem extends Component {
               {!isHost && (
                 <Button disabled={cancelled} onClick={this.attend}>
                   {isGoing ? 'Cancel your place' : 'Book your place'}
-              </Button>
+                </Button>
               )}
-
             </div>
             <Card.Title className='card-title mt-5'>{title}</Card.Title>
             <Card.Subtitle>
-              {cancelled && '❌ EVENT CANCELLED ❌'}
+              {cancelled && (
+                <React.Fragment>
+                  <span role='img' aria-label='cross icon'>
+                    ❌
+                  </span>
+                  <span> Event Cancelled</span>
+                </React.Fragment>
+              )}
             </Card.Subtitle>
             <Card.Text className='mt-4'>{snip}</Card.Text>
           </Card.Body>
@@ -81,27 +87,32 @@ class EventListItem extends Component {
           <Card.Body>
             <div className='event-info'>
               <div className='mr-2'>
-                <img
-                  className='mr-2'
-                  src='/assets/loc.png'
-                  alt='location icon'
-                />
-                <span>{venue}</span>
+                {
+                  <React.Fragment>
+                    <span role='img' aria-label='compass icon'>
+                      🧭
+                    </span>
+                    <span> {venue}</span>
+                  </React.Fragment>
+                }
                 <br />
               </div>
               <div>
-                <img
-                  className='mr-2 ml-3'
-                  src='/assets/cal.png'
-                  alt='location icon'
-                />
                 <span className={cancelled ? 'cancelled-date' : 'event-date'}>
-                  {date.seconds &&
-                    format(
-                      fromUnixTime(date.seconds),
-                      'EEEE, do MMMM yyyy'
-                    )}{' '}
-                </span>{' '}
+                  {date.seconds && (
+                    <React.Fragment>
+                      <span role='img' aria-label='date icon'>
+                        🗓
+                      </span>
+                      <span>
+                        {format(
+                          fromUnixTime(date.seconds),
+                          ' EEEE, do MMMM yyyy'
+                        )}
+                      </span>
+                    </React.Fragment>
+                  )}
+                </span>
                 <br />
               </div>
             </div>
@@ -112,10 +123,10 @@ class EventListItem extends Component {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
-    user: state.profile.userProfile.uid
-  }
-}
+    user: state.user.currentUser.uid,
+  };
+};
 
-export default connect()(withRouter(EventListItem));
+export default connect(mapStateToProps)(withRouter(EventListItem));

@@ -1,5 +1,6 @@
 import firebase from '../../config/firebase';
 import { toast } from 'react-toastify';
+import { startSubmit, stopSubmit } from './asyncActions';
 
 const toastOptions = {
   position: 'bottom-right',
@@ -31,8 +32,9 @@ const getEvents = () => {
 
 const createEvent = (event) => {
   return async (dispatch, getState) => {
+    dispatch(startSubmit())
     let hostId = getState().profile.userProfile.uid;
-    let name = getState().profile.userProfile.name;
+    let name = getState().profile.userProfile.name || getState().profile.userProfile.displayName;
     let hostPhoto = getState().profile.userProfile.photoURL;
     let joined = getState().profile.userProfile.joined;
     let createdEvent = {
@@ -68,10 +70,11 @@ const createEvent = (event) => {
           host: true,
         });
       await dispatch(getEvents());
-      toast('🎉 Your event has been created! 🎉', toastOptions);
-
+      dispatch(stopSubmit())
+      toast('🎉 Your event has been created!', toastOptions);
       return docRef.id;
     } catch (err) {
+      dispatch(stopSubmit())
       console.log(err);
     }
   };
@@ -79,11 +82,14 @@ const createEvent = (event) => {
 
 const editEvent = (event) => {
   return async (dispatch) => {
+    dispatch(startSubmit())
     try {
       await firebase.firestore().collection('events').doc(event.id).set(event);
       await dispatch(getEvents());
+      dispatch(stopSubmit())
       return event.id;
     } catch (err) {
+      dispatch(stopSubmit())
       console.log(err);
     }
   };

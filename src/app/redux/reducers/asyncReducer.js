@@ -1,9 +1,8 @@
 const initState = {
   appLoaded: false,
   loading: false,
-  loggingIn: false,
-  googleLoggingIn: false,
-  signingUp: false,
+  authorised: false,
+  submitting: false,
 };
 
 const asyncReducer = (state = initState, action) => {
@@ -23,35 +22,25 @@ const asyncReducer = (state = initState, action) => {
         ...state,
         loading: false,
       };
-    case 'START_LOGIN':
+    case 'START_AUTHORISING':
       return {
         ...state,
-        loggingIn: true,
+        authorised: true,
       };
-    case 'START_GOOGLE_LOGIN':
+    case 'STOP_AUTHORISING':
       return {
         ...state,
-        googleLoggingIn: true,
+        authorised: false,
       };
-    case 'STOP_LOGIN':
+    case 'START_SUBMIT':
       return {
         ...state,
-        loggingIn: false,
+        submitting: true,
       };
-    case 'STOP_GOOGLE_LOGIN':
+    case 'STOP_SUBMIT':
       return {
         ...state,
-        googleLoggingIn: false,
-      };
-    case 'START_SIGNUP':
-      return {
-        ...state,
-        signingUp: true,
-      };
-    case 'STOP_SIGNUP':
-      return {
-        ...state,
-        signingUp: false,
+        submitting: false,
       };
     default:
       return {

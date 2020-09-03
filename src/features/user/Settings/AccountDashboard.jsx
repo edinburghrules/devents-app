@@ -34,7 +34,7 @@ const AccountDashboard = ({ providerId, profile }) => {
               />
               <Route
                 path='/user/profile'
-                render={() => <Profile profile={profile} />}
+                render={() => <Profile profile={profile && profile} />}
               />
             </Switch>
           </Col>

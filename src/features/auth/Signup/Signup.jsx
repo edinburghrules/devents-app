@@ -98,8 +98,8 @@ const formikLogin = withFormik({
       .min(6, 'Password must be at least 6 characters.')
       .required('You must enter a password'),
   }),
-  handleSubmit: (values, { props }) => {
-    props.signUp(
+  handleSubmit: async (values, { props: {signUp, history} }) => {
+    const getUserIdAfterSignUp = await signUp(
       {
         firstName:
           values.firstName.toLowerCase().charAt(0).toUpperCase() +
@@ -109,16 +109,16 @@ const formikLogin = withFormik({
           values.lastName.slice(1),
         email: values.email,
         password: values.password,
-      },
-      props.history
+      }
     );
+    history.push(`/user/${getUserIdAfterSignUp}`)
   },
 })(Login);
 
 const mapStateToProps = (state) => {
   return {
     error: state.user.error,
-    isSigningUp: state.async.signingUp,
+    isSigningUp: state.async.authorised,
   };
 };
 

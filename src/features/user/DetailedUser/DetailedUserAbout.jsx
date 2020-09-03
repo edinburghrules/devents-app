@@ -7,13 +7,13 @@ const DetailedUserAbout = ({ userDetails }) => {
   return (
     <div className='detailed-user-about'>
       <div className='detailed-user-about-left'>
-        <h6>About {userDetails.name}</h6>
-        <h6>Member since: {parsedJoinDate}</h6>
-        <p>{userDetails.about || 'No information'}</p>
+        {(userDetails.name && userDetails.about) && (<h6>About {userDetails.name}</h6>)}
+        {userDetails.joined && (<h6>Member since: {parsedJoinDate}</h6>)}
+        {<p>{userDetails.about && userDetails.about}</p>}
         <ul>
-          {userDetails.interests.map((interest, index) => {
+          {userDetails.interests && userDetails.interests.map((interest, index) => {
             return <li key={index}>{interest}</li>;
-          }) || 'No information'}
+          })}
         </ul>
       </div>
     </div>

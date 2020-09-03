@@ -10,49 +10,35 @@ const stopLoading = () => {
   };
 };
 
-const startLogin = () => {
+const startAuthorising = () => {
   return {
-    type: 'START_LOGIN',
+    type: 'START_AUTHORISING'
+  }
+}
+
+const stopAuthorising = () => {
+  return {
+    type: 'STOP_AUTHORISING',
   };
 };
 
-const startGoogleLogin = () => {
+const startSubmit = () => {
   return {
-    type: 'START_GOOGLE_LOGIN',
-  };
-};
+    type: 'START_SUBMIT'
+  }
+}
 
-const stopLogin = () => {
+const stopSubmit = () => {
   return {
-    type: 'STOP_LOGIN',
-  };
-};
-
-const stopGoogleLogin = () => {
-  return {
-    type: 'STOP_GOOGLE_LOGIN',
-  };
-};
-
-const startSignUp = () => {
-  return {
-    type: 'START_SIGNUP',
-  };
-};
-
-const stopSignUp = () => {
-  return {
-    type: 'STOP_SIGNUP',
-  };
-};
+    type: 'STOP_SUBMIT'
+  }
+}
 
 export {
   startLoading,
   stopLoading,
-  startLogin,
-  startGoogleLogin,
-  stopLogin,
-  stopGoogleLogin,
-  startSignUp,
-  stopSignUp,
+  startAuthorising,
+  stopAuthorising,
+  startSubmit,
+  stopSubmit
 };

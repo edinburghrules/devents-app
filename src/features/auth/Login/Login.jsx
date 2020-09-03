@@ -89,7 +89,7 @@ const Login = ({
         </Button>
         <div className='accnt-msg'>
           <span className='mr-2'>New to Devents?</span>
-          <Link className='accnt-msg-link' to={'/signup'}>
+          <Link onClick={() => clearLoginErrMsg()}className='accnt-msg-link' to={'/signup'}>
             Create an account
           </Link>
         </div>
@@ -116,8 +116,8 @@ const formikLogin = withFormik({
 const mapStateToProps = (state) => {
   return {
     error: state.user.error,
-    isLoggingIn: state.async.loggingIn,
-    isGoogleLoggingIn: state.async.googleLoggingIn,
+    isLoggingIn: state.async.authorised,
+    isGoogleLoggingIn: state.async.authorised,
   };
 };
 

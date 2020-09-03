@@ -1,16 +1,9 @@
 import firebase from '../../config/firebase';
-import {
-  startLogin,
-  stopLogin,
-  startGoogleLogin,
-  stopGoogleLogin,
-  startSignUp,
-  stopSignUp,
-} from '../actions/asyncActions';
+import { startAuthorising, stopAuthorising } from '../actions/asyncActions';
 
-const signUp = (creds, history) => {
+const signUp = (creds) => {
   return async (dispatch) => {
-    dispatch(startSignUp());
+    dispatch(startAuthorising());
     try {
       const signup = await firebase
         .auth()
@@ -34,12 +27,15 @@ const signUp = (creds, history) => {
           ...userProfile,
         });
 
-      dispatch({ type: 'SIGN_UP', payload: { ...signup.user } });
-      dispatch({ type: 'LOAD_USER_PROFILE', payload: { ...userProfile } });
-      history.push('/user/profile');
-      dispatch(stopSignUp());
+      await dispatch({ type: 'SIGN_UP', payload: { ...signup.user } });
+      await dispatch({
+        type: 'LOAD_USER_PROFILE',
+        payload: { ...userProfile },
+      });
+      dispatch(stopAuthorising());
+      return signup.user.uid;
     } catch (err) {
-      dispatch(stopSignUp());
+      dispatch(stopAuthorising());
       dispatch({ type: 'SIGNUP_FAILED', payload: err.message });
     }
   };
@@ -47,7 +43,7 @@ const signUp = (creds, history) => {
 
 const login = (creds, history) => {
   return async (dispatch) => {
-    dispatch(startLogin());
+    dispatch(startAuthorising());
     try {
       const signin = await firebase
         .auth()
@@ -57,9 +53,9 @@ const login = (creds, history) => {
 
       dispatch({ type: 'LOGIN', payload: currentUser });
       history.push('/');
-      dispatch(stopLogin());
+      dispatch(stopAuthorising());
     } catch (err) {
-      dispatch(stopLogin());
+      dispatch(stopAuthorising());
       let errType;
       if (err.code === 'auth/user-not-found') {
         err.message = 'The provided email is not recognised!';
@@ -76,13 +72,13 @@ const login = (creds, history) => {
   };
 };
 
-const logout = (history) => {
+const logout = () => {
   return async (dispatch) => {
     try {
       await firebase.auth().signOut();
       dispatch({ type: 'LOGOUT' });
-      history.push('/login');
-      dispatch(stopLogin());
+      dispatch(stopAuthorising());
+      return;
     } catch (err) {
       console.log(err);
     }
@@ -92,7 +88,7 @@ const logout = (history) => {
 const logInWithGoogle = (history) => {
   const provider = new firebase.auth.GoogleAuthProvider();
   return async (dispatch) => {
-    dispatch(startGoogleLogin());
+    dispatch(startAuthorising());
     try {
       const signin = await firebase.auth().signInWithPopup(provider);
       const isNewUser = signin.additionalUserInfo.isNewUser;
@@ -123,9 +119,9 @@ const logInWithGoogle = (history) => {
       dispatch({ type: 'GOOGLE_LOGIN', payload: currentUser });
 
       history.push('/');
-      dispatch(stopGoogleLogin());
+      dispatch(stopAuthorising());
     } catch (err) {
-      dispatch(stopGoogleLogin());
+      dispatch(stopAuthorising());
       dispatch({ type: 'LOGIN_FAILED', payload: err.message });
     }
   };

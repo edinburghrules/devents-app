@@ -60,6 +60,11 @@ body {
   margin-top: 10rem;
 }
 
+.event-form-submit {
+  height: 2.8rem;
+  width: 7rem;
+}
+
 .page-content {
   margin: 8rem 0 8rem 0;
 }

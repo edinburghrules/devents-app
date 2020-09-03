@@ -12,6 +12,10 @@ import { Link, withRouter } from 'react-router-dom';
 import { logout } from '../../../app/redux/actions/authActions';
 
 class SignedInMenu extends React.Component {
+  handleClick = async () => {
+    await this.props.logout();
+    this.props.history.push('/login')
+  }
   render() {
     return (
       <Navbar.Collapse id='basic-navbar-nav'>
@@ -49,7 +53,7 @@ class SignedInMenu extends React.Component {
               as={Link}
               to={'/'}
               className='dropdown-item'
-              onClick={() => this.props.logout(this.props.history)}
+              onClick={this.handleClick}
             >
               Log out
             </Button>

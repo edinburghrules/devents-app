@@ -1,6 +1,7 @@
 /* global google */
 import React, { Component } from 'react';
-import { Form, Button, Container, Alert } from 'react-bootstrap';
+import { Form, Button, Container, Alert, Spinner } from 'react-bootstrap';
+import { addDays, fromUnixTime } from 'date-fns';
 import { withFormik, Field } from 'formik';
 import { connect } from 'react-redux';
 import * as Yup from 'yup';
@@ -36,17 +37,20 @@ class EventForm extends Component {
     const {
       event,
       handleSubmit,
-      handleChange,
       errors,
       touched,
       location,
       history,
       values,
+      setFieldValue,
+      dirty,
+      isSubmitting,
     } = this.props;
+
     return (
       <Container className='event-form-container'>
         <h2 className='event-form-heading'>
-          {event.id ? 'Edit Event' : 'Create Event'}
+          {event && event.id ? 'Edit Event' : 'Create Event'}
         </h2>
         <fieldset disabled={values.cancelled}>
           <Form id='eventForm' onSubmit={handleSubmit}>
@@ -118,20 +122,34 @@ class EventForm extends Component {
             )}
           </Form>
         </fieldset>
-        {event.id && <Form.Label>Cancel Event</Form.Label>}
-        {location.pathname !== '/createEvent' ? (
+        {event && event.id && <Form.Label>Cancel Event</Form.Label>}
+        {location.pathname !== '/createEvent' && (
           <Form.Check
             name='cancelled'
-            onChange={handleChange}
+            onChange={() => {
+              setFieldValue('cancelled', !values.cancelled);
+            }}
             type='switch'
             id='custom-switch'
             checked={values.cancelled}
             label={''}
           />
-        ) : null}
+        )}
         <div className='form-btns'>
-          <Button form='eventForm' type='submit' variant='success'>
-            Submit
+          <Button
+            className='event-form-submit'
+            disabled={!dirty}
+            form='eventForm'
+            type='submit'
+            variant='success'
+          >
+            {isSubmitting ? (
+              <Spinner animation='border' size='sm' variant='light' />
+            ) : event && event.id ? (
+              'Edit Event'
+            ) : (
+              'Create event'
+            )}
           </Button>
           <Button
             onClick={() => {
@@ -153,21 +171,23 @@ class EventForm extends Component {
 
 const formikEventForm = withFormik({
   mapPropsToValues: (props) => {
-    if (props.event) {
-      return {
-        ...props.event,
-        date: new Date(),
-      };
-    } else {
+    const { event } = props;
+    if (event === undefined) {
       return {
         title: '',
         summary: '',
         description: '',
-        date: null,
+        date: addDays(new Date(), 1),
         city: '',
         venue: '',
         category: '',
         cost: 0,
+        cancelled: false,
+      };
+    } else {
+      return {
+        ...event,
+        date: new Date(),
       };
     }
   },
@@ -221,14 +241,19 @@ const formikEventForm = withFormik({
 })(EventForm);
 
 const mapStateToProps = (state, ownProps) => {
-  if (ownProps.match.params.id === undefined) {
-    return { event: {} };
-  } else {
-    let event = state.events.find((event) => {
-      return event.id.toString() === ownProps.match.params.id.toString();
-    });
-    return event ? { event } : { event: {} };
-  }
+  return {
+    event: (() => {
+      if (ownProps.match.params.id === undefined) {
+        return null;
+      } else {
+        let event = state.events.find((event) => {
+          return event.id.toString() === ownProps.match.params.id.toString();
+        });
+        return event;
+      }
+    })(),
+    isSubmitting: state.async.submitting,
+  };
 };
 
 const mapDispatchToProps = {

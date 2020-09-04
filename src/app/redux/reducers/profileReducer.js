@@ -1,5 +1,6 @@
 const initState = {
   userProfile: {},
+  error: null
 };
 
 const profileReducer = (state = initState, action) => {
@@ -12,6 +13,16 @@ const profileReducer = (state = initState, action) => {
       return {
         userProfile: { ...action.payload },
       };
+    case 'PROFILE_UPDATE_ERROR':
+      return {
+        ...state,
+        error: {...action.payload}
+      }
+    case 'CLEAR_PROFILE_UPDATE_ERROR':
+      return {
+        ...state,
+        error: null
+      }
     case 'LOGOUT':
       return {
         userProfile: {},

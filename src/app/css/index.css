@@ -1,8 +1,7 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;400;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;400;500;600;700&display=swap');
 
 body {
-  /* margin: 0; */
-  font-family: 'Poppins', serif;
+  font-family: 'Poppins', serif !important;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-size: 62.5%;
@@ -12,7 +11,7 @@ body {
 
 .navbar {
   font-weight: 400;
-  font-size: 0.95rem;
+  font-size: .9rem;
   padding: 1rem !important;
   background-color: #fff !important;
   box-shadow: 1px 2px 3px #eee;
@@ -23,7 +22,7 @@ body {
 }
 
 .dropdown-item {
-  font-size: 0.9rem !important;
+  font-size: .9rem !important;
   font-weight: 400 !important;
   color: #464646 !important;
 }
@@ -40,16 +39,16 @@ body {
   height: 100vh;
 }
 
+.google-btn {
+  font-size: .9rem !important;
+  font-weight: 600 !important;
+}
+
 .accnt-msg {
-  font-size: 0.9rem;
+  font-size: 0.8rem;
   text-align: center;
   margin-top: 4rem;
   font-weight: 500;
-}
-
-.accnt-msg-link {
-  border-bottom: 2px solid;
-  padding-bottom: 0.1rem;
 }
 
 .accnt-msg-link:hover {
@@ -76,17 +75,16 @@ body {
 
 .auth-header {
   padding-bottom: 2rem;
-  color: #484848;
-  font-size: 1.4rem;
-  font-weight: 700;
+  color: #222;
+  font-size: 1.2rem;
+  font-weight: 600;
   text-align: center;
 }
 
-.label {
-  text-transform: uppercase;
+.form-label {
   font-size: 0.7rem;
   font-weight: 600;
-  color: #484848;
+  color: #222;
   letter-spacing: 0.06rem;
 }
 
@@ -99,7 +97,7 @@ body {
 .card {
   box-shadow: 0px 2px 2px 2px #e0e0e0 !important;
   border-radius: 10px !important;
-  color: #484848;
+  color: #222;
 }
 
 .card-top {
@@ -109,9 +107,8 @@ body {
 }
 
 .card-title {
-  font-size: 1.8rem !important;
-  text-transform: uppercase;
-  font-weight: 800 !important;
+  font-size: 1.6rem !important;
+  font-weight: 600 !important;
 }
 
 .card-link {
@@ -119,17 +116,21 @@ body {
 }
 
 .event-info {
-  font-size: 0.8rem;
-  text-transform: uppercase;
-  font-weight: 500;
-  color: #00264d;
+  margin-top: -2rem;
+  font-size: 0.75rem;
+  letter-spacing: .3px;
+  font-weight: 400;
+  color: #606060;
   display: flex;
+  flex-direction: column;
 }
 
 .people-going {
-  font-size: 0.9rem;
-  font-weight: 600;
-  text-transform: uppercase;
+  font-size: 0.8rem;
+  font-weight:600;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
 }
 
 .avatar-img {
@@ -139,6 +140,16 @@ body {
 .event-list-item {
   display: flex !important;
   justify-content: flex-end !important;
+}
+
+.event-cancelled {
+  display: flex;
+  align-items: center;
+}
+
+.cross-icon {
+  font-size: .65rem;
+  margin-right: .3rem;
 }
 
 .cancelled-date {
@@ -153,7 +164,7 @@ body {
 .event-form-heading {
   margin-bottom: 3rem;
   font-weight: 600;
-  color: #464646;
+  color: #222;
 }
 
 .form-btns {
@@ -164,26 +175,29 @@ body {
 .event-details-top {
   background: #fff;
   border-bottom: 1px solid #eee;
-  padding: 8rem 0 2rem 0;
-  margin-bottom: 2rem;
+  padding: 8rem 2rem 2rem 2rem;
+  width: 100%;
+  margin: 0 auto;
 }
 
-.event-details-container {
-  background: red;
-  margin: 0 auto;
+
+.event-details.container {
+  margin: 6rem auto;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: flex-end;
 }
 
 .event-details-top-h1 {
-  font-weight: 800;
-  padding-bottom: 1.8rem;
+  font-weight: 600;
+  padding-bottom: 1.4rem;
+  color: #222;
 }
 
 .event-details-top-h5 {
-  font-weight: 400;
+  font-weight: 500;
   font-size: 1.2rem;
+  color: #555;
 }
 
 .event-details-top-h6 {
@@ -203,9 +217,14 @@ body {
   border-radius: 50%;
 }
 
-.event-details-card {
-  /* width: 100%; */
+.event-details-information {
+  margin-top: 6rem;
 }
+
+.event-details-card {
+  margin-top: -1.45rem;
+}
+
 
 .event-details-img {
   width: 90%;
@@ -213,12 +232,19 @@ body {
 
 .event-details-info {
   text-align: left;
-  margin-top: 4rem;
+  background: #fff;
+  box-shadow: 0px 2px 2px 2px #e0e0e0 !important;
+  border-radius: 4px !important;
+  padding: 1rem;
+}
+
+.event-details-info.__people-going {
+  margin-top: 2rem ;
 }
 
 .event-details-heading {
   font-weight: 600;
-  font-size: 1.5rem;
+  font-size: 1.3rem;
   margin-bottom: 1.4rem;
 }
 
@@ -237,7 +263,7 @@ body {
 }
 
 .attendee-card-img {
-  height: 60px;
+  height: 30px;
   border-radius: 50%;
 }
 
@@ -250,10 +276,10 @@ body {
 
 .event-info-panel {
   background: #fff;
-  margin-left: 20%;
-  padding: 1rem 0 2rem 1.5rem;
+  padding: 1rem 1.5rem 2rem 1.5rem;
   border-radius: 4px;
   box-shadow: 0px 2px 2px 2px #e0e0e0 !important;
+  font-size: .8rem;
 }
 
 .event-info-panel-heading {
@@ -262,13 +288,9 @@ body {
   margin-bottom: 2rem;
 }
 
-.event-info-panel.map {
-  margin-top: -5px;
+.map {
+  margin-top: 2rem;
   padding: 0;
-}
-
-.event-info-container-info {
-  margin-top: 0.5rem;
 }
 
 .google-btn a:hover {

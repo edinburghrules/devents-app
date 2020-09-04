@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, Button } from 'react-bootstrap';
+import { Form, Button, Spinner } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { Field, FieldArray, withFormik } from 'formik';
 import { fromUnixTime } from 'date-fns';
@@ -10,11 +10,7 @@ import TextAreaInput from '../../../app/form-inputs/TextAreaInput';
 import CheckboxInput from '../../../app/form-inputs/CheckboxInput';
 import { updateProfile } from '../../../app/redux/actions/profileActions';
 
-const mapDispatchToProps = {
-  updateProfile,
-};
-
-const Profile = ({ handleSubmit }) => {
+const Profile = ({ handleSubmit, submitting }) => {
   return (
     <div>
       <h2>Profile</h2>
@@ -34,7 +30,9 @@ const Profile = ({ handleSubmit }) => {
         />
         <Field as={TextAreaInput} name='about' />
         <FieldArray component={CheckboxInput} name='interests' />
-        <Button type='submit'>Update profile</Button>
+        <Button type='submit'>
+          {submitting ? (<Spinner animation='border' size='sm' variant='light' />) : 'Update profile'}
+        </Button>
       </Form>
     </div>
   );
@@ -63,9 +61,18 @@ const formikProfile = withFormik({
     }
   },
   handleSubmit: (values, { props: { updateProfile } }) => {
-    console.log(values);
     updateProfile(values);
   },
 })(Profile);
 
-export default connect(null, mapDispatchToProps)(formikProfile);
+const mapStateToProps = state => {
+  return {
+    submitting: state.async.submitting
+  }
+}
+
+const mapDispatchToProps = {
+  updateProfile
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(formikProfile);

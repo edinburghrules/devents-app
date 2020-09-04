@@ -44,16 +44,16 @@ class EventForm extends Component {
       values,
       setFieldValue,
       dirty,
-      isSubmitting,
+      isSubmitting
     } = this.props;
 
     return (
       <Container className='event-form-container'>
         <h2 className='event-form-heading'>
-          {event && event.id ? 'Edit Event' : 'Create Event'}
+          {event && event.id ? 'Edit Your Event' : 'Host Your Event'}
         </h2>
         <fieldset disabled={values.cancelled}>
-          <Form id='eventForm' onSubmit={handleSubmit}>
+          <Form id='eventForm' onSubmit={handleSubmit} noValidate={true}>
             <Field
               as={TextInput}
               name='title'
@@ -77,7 +77,7 @@ class EventForm extends Component {
               <Alert variant='danger'>{errors.summary}</Alert>
             )}
 
-            <Field component={CostInput} name='cost' />
+            <Field defaultValue={event.cost} component={CostInput} name='cost' />
 
             <Field
               as={TextAreaInput}
@@ -172,7 +172,12 @@ class EventForm extends Component {
 const formikEventForm = withFormik({
   mapPropsToValues: (props) => {
     const { event } = props;
-    if (event === undefined) {
+    if (event.hasOwnProperty('title')) {
+      return {
+        ...event,
+        date: new Date(fromUnixTime(event.date.seconds)),
+      };
+    } else {
       return {
         title: '',
         summary: '',
@@ -183,11 +188,6 @@ const formikEventForm = withFormik({
         category: '',
         cost: 0,
         cancelled: false,
-      };
-    } else {
-      return {
-        ...event,
-        date: new Date(),
       };
     }
   },
@@ -202,7 +202,7 @@ const formikEventForm = withFormik({
       .max(500, 'Too long!')
       .min(8, 'Too short!')
       .required('You must provide a description of your event.'),
-    category: Yup.string().required('Event description is required'),
+    category: Yup.string().required('Event description is required.'),
     city: Yup.string().required(
       'You must provide the city or town of your event.'
     ),
@@ -244,7 +244,7 @@ const mapStateToProps = (state, ownProps) => {
   return {
     event: (() => {
       if (ownProps.match.params.id === undefined) {
-        return null;
+        return {};
       } else {
         let event = state.events.find((event) => {
           return event.id.toString() === ownProps.match.params.id.toString();

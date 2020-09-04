@@ -12,7 +12,6 @@ const AccountDashboard = ({ providerId, profile }) => {
   return (
     <div className='page-content'>
       <Container>
-        <h2 className='mb-5'>Account Dashboard</h2>
         <Row>
           <Col>
             <AccountNav />

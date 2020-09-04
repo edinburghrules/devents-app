@@ -9,10 +9,10 @@ class EventDashboard extends Component {
     return (
       <Container className='page-content'>
         <Row>
-          <Col lg={8}>
+          <Col lg={6}>
             <EventList events={events} />
           </Col>
-          <Col lg={4}>Left</Col>
+          <Col lg={6}>Left</Col>
         </Row>
       </Container>
     );

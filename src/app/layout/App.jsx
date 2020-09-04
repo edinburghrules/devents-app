@@ -15,7 +15,13 @@ import DetailedUserPage from '../../features/user/DetailedUser/DetailedUserPage'
 import LoadingPage from './LoadingPage';
 
 function App(props) {
-  if (!props.isAppLoaded) return <LoadingPage />;
+  if (!props.isAppLoaded || props.loggingOut)
+    return (
+      <Fragment>
+        <NavBar />
+        <LoadingPage />
+      </Fragment>
+    );
   return (
     <Fragment>
       <NavBar />
@@ -40,6 +46,7 @@ function App(props) {
 
 const mapStateToProps = (state) => ({
   isAppLoaded: state.async.appLoaded,
+  loggingOut: state.async.loading,
 });
 
 export default connect(mapStateToProps)(withRouter(App));

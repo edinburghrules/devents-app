@@ -2,11 +2,6 @@ import firebase from '../../config/firebase';
 import { toast } from 'react-toastify';
 import { startSubmit, stopSubmit } from './asyncActions';
 
-const toastOptions = {
-  position: 'bottom-right',
-  hideProgressBar: true,
-};
-
 const getEvents = () => {
   return async (dispatch) => {
     try {
@@ -71,7 +66,11 @@ const createEvent = (event) => {
         });
       await dispatch(getEvents());
       dispatch(stopSubmit())
-      toast('🎉 Your event has been created!', toastOptions);
+      toast.success('🎉 Your event is live!', {
+        position: 'bottom-right',
+        autoClose: 5000,
+        hideProgressBar: true
+      });
       return docRef.id;
     } catch (err) {
       dispatch(stopSubmit())

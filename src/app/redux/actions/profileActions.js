@@ -1,17 +1,36 @@
 import firebase from '../../config/firebase';
+import { toast } from 'react-toastify';
+import { startSubmit, stopSubmit } from './asyncActions';
 
 const editPassword = (newPassword) => {
-  try {
-    firebase.auth().currentUser.updatePassword(newPassword);
-  } catch (err) {
-    console.log(err);
-  }
+  return async (dispatch) => {
+    try {
+      dispatch({type: 'CLEAR_PROFILE_UPDATE_ERROR'})
+      dispatch(startSubmit());
+      await firebase.auth().currentUser.updatePassword(newPassword);
+      dispatch(stopSubmit());
+      toast.info('🔒 Password updated!', {
+        position: 'bottom-right',
+        autoClose: 5000,
+        hideProgressBar: true,
+        closeOnClick: false,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+    } catch (err) {
+      dispatch(stopSubmit());
+      dispatch({type: 'PROFILE_UPDATE_ERROR', payload: err})
+      console.log(err);
+    }
+  };
 };
 
 const updateProfile = (updatedInfo) => {
   const currentUser = firebase.auth().currentUser.uid;
   return async (dispatch) => {
     try {
+      dispatch(startSubmit());
       await firebase
         .firestore()
         .collection('users')
@@ -19,7 +38,16 @@ const updateProfile = (updatedInfo) => {
         .update({
           ...updatedInfo,
         });
-      console.log('Updated!');
+      dispatch(stopSubmit());
+      toast.info('✅ Profile updated!', {
+        position: 'bottom-right',
+        autoClose: 5000,
+        hideProgressBar: true,
+        closeOnClick: false,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
 
       const getUser = firebase.firestore().collection('users').doc(currentUser);
 
@@ -29,6 +57,7 @@ const updateProfile = (updatedInfo) => {
 
       dispatch({ type: 'UPDATE_USER_PROFILE', payload: profileData });
     } catch (err) {
+      dispatch(stopSubmit());
       console.log(err);
     }
   };
@@ -66,6 +95,11 @@ const handlePhotoUpload = (file) => {
       });
 
       if (userProfileData) {
+        toast.info('📷 Profile photo updated!', {
+          position: 'bottom-right',
+          autoClose: 5000,
+          hideProgressBar: true
+        });
         return;
       } else {
         console.log('Sorry, there has been an error.');

@@ -6,16 +6,20 @@ const AccountNav = () => {
   return (
     <Nav className='flex-column'>
       <Nav.Link activeClassName='selected' as={NavLink} to='/detailed-user'>
-        View profile
+        View profile 
+        <span role='img' aria-label='right arrow icon'> →</span>
       </Nav.Link>
       <Nav.Link activeClassName='selected' as={NavLink} to='/user/profile'>
         Edit profile
+        <span role='img' aria-label='right arrow icon'> →</span>
       </Nav.Link>
       <Nav.Link activeClassName='selected' as={NavLink} to='/user/account'>
         Change password
+        <span role='img' aria-label='right arrow icon'> →</span>
       </Nav.Link>
       <Nav.Link activeClassName='selected' as={NavLink} to='/user/photo'>
         Photo upload
+        <span role='img' aria-label='right arrow icon'> →</span>
       </Nav.Link>
     </Nav>
   );

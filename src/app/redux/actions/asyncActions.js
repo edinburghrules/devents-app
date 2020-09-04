@@ -10,9 +10,10 @@ const stopLoading = () => {
   };
 };
 
-const startAuthorising = () => {
+const startAuthorising = (loginType) => {
   return {
-    type: 'START_AUTHORISING'
+    type: 'START_AUTHORISING',
+    payload: loginType
   }
 }
 

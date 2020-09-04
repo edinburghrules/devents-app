@@ -1,11 +1,19 @@
 import React from 'react';
-import { Alert, Form, Button } from 'react-bootstrap';
+import { connect } from 'react-redux';
+import { Alert, Form, Button, Spinner } from 'react-bootstrap';
 import { withFormik, Field } from 'formik';
 import * as Yup from 'yup';
 import TextInput from '../../../app/form-inputs/TextInput';
 import { editPassword } from '../../../app/redux/actions/profileActions';
 
-const AccountPage = ({ handleSubmit, errors, touched, providerId }) => {
+const AccountPage = ({
+  handleSubmit,
+  errors,
+  touched,
+  providerId,
+  submitting, 
+  error
+}) => {
   if (providerId === 'password') {
     return (
       <div>
@@ -23,7 +31,14 @@ const AccountPage = ({ handleSubmit, errors, touched, providerId }) => {
           {errors.hasOwnProperty('error') && (
             <Alert variant='danger'>{errors.error}</Alert>
           )}
-          <Button type='submit'>Update password</Button>
+          {error && (<Alert variant='danger'>{error.message}</Alert>)}
+          <Button type='submit'>
+            {submitting ? (
+              <Spinner animation='border' size='sm' variant='light' />
+            ) : (
+              'Change password'
+            )}
+          </Button>
         </Form>
       </div>
     );
@@ -60,7 +75,8 @@ const formikAccountPage = withFormik({
     newpassword: Yup.string().required('Please provide a new password'),
     confirmpassword: Yup.string().required('Please confirm your new password'),
   }),
-  handleSubmit: (values, { setErrors }) => {
+  handleSubmit: (values, { setErrors, props: {editPassword} }) => {
+    console.log(editPassword)
     if (values.newpassword === values.confirmpassword) {
       editPassword(values.newpassword);
     } else {
@@ -69,4 +85,15 @@ const formikAccountPage = withFormik({
   },
 })(AccountPage);
 
-export default formikAccountPage;
+const mapStateToProps = (state) => {
+  return {
+    submitting: state.async.submitting,
+    error: state.profile.error
+  };
+};
+
+const mapDispatchToProps = {
+  editPassword
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(formikAccountPage);

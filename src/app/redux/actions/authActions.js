@@ -1,5 +1,5 @@
 import firebase from '../../config/firebase';
-import { startAuthorising, stopAuthorising } from '../actions/asyncActions';
+import { startLoading, stopLoading, startAuthorising, stopAuthorising } from '../actions/asyncActions';
 
 const signUp = (creds) => {
   return async (dispatch) => {
@@ -36,12 +36,12 @@ const signUp = (creds) => {
       return signup.user.uid;
     } catch (err) {
       dispatch(stopAuthorising());
-      dispatch({ type: 'SIGNUP_FAILED', payload: err.message });
+      dispatch({ type: 'AUTH_FAILED', payload: err.message });
     }
   };
 };
 
-const login = (creds, history) => {
+const login = (creds) => {
   return async (dispatch) => {
     dispatch(startAuthorising());
     try {
@@ -51,9 +51,12 @@ const login = (creds, history) => {
 
       const currentUser = signin.user;
 
-      dispatch({ type: 'LOGIN', payload: currentUser });
-      history.push('/');
+      await dispatch({ type: 'LOGIN', payload: currentUser });
+   
       dispatch(stopAuthorising());
+
+      return currentUser.uid;
+
     } catch (err) {
       dispatch(stopAuthorising());
       let errType;
@@ -65,7 +68,7 @@ const login = (creds, history) => {
         err.message = 'The provided password is incorrect!';
       }
       dispatch({
-        type: 'LOGIN_FAILED',
+        type: 'AUTH_FAILED',
         payload: { errorType: errType, msg: err.message },
       });
     }
@@ -75,9 +78,12 @@ const login = (creds, history) => {
 const logout = () => {
   return async (dispatch) => {
     try {
+      dispatch(startLoading());
       await firebase.auth().signOut();
       dispatch({ type: 'LOGOUT' });
-      dispatch(stopAuthorising());
+      setTimeout(() => {
+        dispatch(stopLoading());
+      }, 500);
       return;
     } catch (err) {
       console.log(err);
@@ -85,10 +91,10 @@ const logout = () => {
   };
 };
 
-const logInWithGoogle = (history) => {
+const logInWithGoogle = (googleLogin) => {
   const provider = new firebase.auth.GoogleAuthProvider();
   return async (dispatch) => {
-    dispatch(startAuthorising());
+      dispatch(startAuthorising(googleLogin));
     try {
       const signin = await firebase.auth().signInWithPopup(provider);
       const isNewUser = signin.additionalUserInfo.isNewUser;
@@ -118,18 +124,20 @@ const logInWithGoogle = (history) => {
 
       dispatch({ type: 'GOOGLE_LOGIN', payload: currentUser });
 
-      history.push('/');
       dispatch(stopAuthorising());
+
+      return;
+      
     } catch (err) {
       dispatch(stopAuthorising());
-      dispatch({ type: 'LOGIN_FAILED', payload: err.message });
+      dispatch({ type: 'AUTH_FAILED', payload: err.message });
     }
   };
 };
 
 const clearLoginErrMsg = () => {
   return (dispatch) => {
-    dispatch({ type: 'CLEAR_LOGIN_ERROR' });
+    dispatch({ type: 'CLEAR_AUTH_FAILED_ERROR' });
   };
 };
 

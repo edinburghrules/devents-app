@@ -118,7 +118,7 @@ const formikLogin = withFormik({
 const mapStateToProps = (state) => {
   return {
     error: state.user.error,
-    isSigningUp: state.async.authorised,
+    isSigningUp: state.async.authorizing,
   };
 };
 

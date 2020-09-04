@@ -30,20 +30,15 @@ const authReducer = (state = initState, action) => {
         ...state,
         currentUser: { ...action.payload },
       };
-    case 'LOGIN_FAILED':
+    case 'AUTH_FAILED':
       return {
         ...state,
         error: action.payload,
       };
-    case 'CLEAR_LOGIN_ERROR':
+    case 'CLEAR_AUTH_FAILED_ERROR':
       return {
         ...state,
         error: null,
-      };
-    case 'SIGNUP_FAILED':
-      return {
-        ...state,
-        error: action.payload,
       };
     default:
       return {

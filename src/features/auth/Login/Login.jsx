@@ -23,8 +23,9 @@ const Login = ({
   touched,
   setFieldValue,
 }) => {
-  const handleClick = () => {
-    logInWithGoogle(history);
+  const handleClick = async () => {
+    await logInWithGoogle('googleLogin');
+    history.push('/');
   };
   const handleChange = (e) => {
     setFieldValue(e.target.name, e.target.value, true);
@@ -60,7 +61,7 @@ const Login = ({
         />
         {error && <Alert variant='danger'>{error.msg || error}</Alert>}
         <div className='m-right mt-5'>
-          <Button block variant='success' type='submit'>
+          <Button className='user-login-btn' block variant='success' type='submit'>
             {isLoggingIn ? <Spinner animation='border' size='sm' /> : 'Log in'}
           </Button>
         </div>
@@ -70,21 +71,21 @@ const Login = ({
         <hr className='mt-4 mb-5' />
         <Button
           onClick={handleClick}
-          className='pl-3 pr-3'
+          className='pl-3 pr-3 google-btn'
           variant='light'
           block
         >
           {isGoogleLoggingIn ? (
             <Spinner animation='border' size='sm' variant='primary' />
           ) : (
-            <React.Fragment>
+            <span>
               <img
                 className='mr-1'
                 src='/assets/google.png'
                 alt='google logo'
               />
-              <span className='ml-2'>Log in with Google</span>
-            </React.Fragment>
+              <span id='google-login' className='ml-2'>Log in with Google</span>
+            </span>
           )}
         </Button>
         <div className='accnt-msg'>
@@ -107,17 +108,19 @@ const formikLogin = withFormik({
     email: Yup.string().email().required(),
     password: Yup.string().required(),
   }),
-  handleSubmit: (values, { props }) => {
-    const { login, history } = props;
-    login(values, history);
+  handleSubmit: async (values, { props: {history, login} }) => {
+    const loginSuccess = await login(values);
+    if(loginSuccess) {
+      history.push('/')
+    }
   },
 })(Login);
 
 const mapStateToProps = (state) => {
   return {
     error: state.user.error,
-    isLoggingIn: state.async.authorised,
-    isGoogleLoggingIn: state.async.authorised,
+    isLoggingIn: state.async.authorizing,
+    isGoogleLoggingIn: state.async.googleAuthorizing,
   };
 };
 

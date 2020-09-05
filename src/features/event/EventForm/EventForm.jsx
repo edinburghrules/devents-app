@@ -1,6 +1,6 @@
 /* global google */
 import React, { Component } from 'react';
-import { Form, Button, Container, Alert, Spinner } from 'react-bootstrap';
+import { Form, Button, Alert, Spinner } from 'react-bootstrap';
 import { addDays, fromUnixTime } from 'date-fns';
 import { withFormik, Field } from 'formik';
 import { connect } from 'react-redux';
@@ -16,6 +16,7 @@ import {
   createEvent,
   editEvent,
 } from '../../../app/redux/actions/eventActions';
+import { EventFormContainer } from '../../../app/styled/event/EventForm/EventForm';
 
 const coords = {
   city: {},
@@ -48,7 +49,7 @@ class EventForm extends Component {
     } = this.props;
 
     return (
-      <Container className='event-form-container'>
+      <EventFormContainer>
         <h2 className='event-form-heading'>
           {event && event.id ? 'Edit Your Event' : 'Host Your Event'}
         </h2>
@@ -164,7 +165,7 @@ class EventForm extends Component {
             Cancel
           </Button>
         </div>
-      </Container>
+      </EventFormContainer>
     );
   }
 }

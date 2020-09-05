@@ -4,11 +4,11 @@ import {
   Navbar,
   Nav,
   NavDropdown,
-  Image,
   Button,
   Spinner,
 } from 'react-bootstrap';
 import { Link, withRouter } from 'react-router-dom';
+import {NavAvatar, NavDropdownLink} from '../../../app/styled/nav/Menus/SignedInMenu';
 import { logout } from '../../../app/redux/actions/authActions';
 
 class SignedInMenu extends React.Component {
@@ -26,8 +26,7 @@ class SignedInMenu extends React.Component {
           {this.props.loading ? (
             <Spinner animation='border' variant='primary' size='sm' />
           ) : (
-            <Image
-              className='nav-avatar'
+            <NavAvatar
               src={
                 this.props.userProfile && this.props.userProfile.photoURL
                   ? this.props.userProfile.photoURL
@@ -43,14 +42,14 @@ class SignedInMenu extends React.Component {
             }
             id='basic-nav-dropdown'
           >
-            <Link className='dropdown-item' to='/createEvent'>
+            <NavDropdownLink className='dropdown-item' to='/createEvent'>
               Create Event
-            </Link>
-            <Link to={'/user'} className='dropdown-item'>
+            </NavDropdownLink>
+            <NavDropdownLink to={'/user'} className='dropdown-item'>
               Account
-            </Link>
+            </NavDropdownLink>
             <Button
-              as={Link}
+              as={NavDropdownLink}
               to={'/'}
               className='dropdown-item'
               onClick={this.handleClick}

@@ -9,52 +9,6 @@ body {
   background: #f0f0f0 !important;
 }
 
-.navbar {
-  font-weight: 400;
-  font-size: .9rem;
-  padding: 1rem !important;
-  background-color: #fff !important;
-  box-shadow: 1px 2px 3px #eee;
-}
-
-.dropdown-menu {
-  border: none !important;
-}
-
-.dropdown-item {
-  font-size: .9rem !important;
-  font-weight: 400 !important;
-  color: #464646 !important;
-}
-
-.nav-avatar {
-  height: 30px;
-  width: 30px;
-}
-
-.login-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-}
-
-.google-btn {
-  font-size: .9rem !important;
-  font-weight: 600 !important;
-}
-
-.accnt-msg {
-  font-size: 0.8rem;
-  text-align: center;
-  margin-top: 4rem;
-  font-weight: 500;
-}
-
-.accnt-msg-link:hover {
-  text-decoration: none;
-}
-
 .event-form-container {
   margin-top: 10rem;
 }

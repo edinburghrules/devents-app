@@ -5,7 +5,7 @@ import { Switch, Route, withRouter } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import EventDashboard from '../../features/event/EventDashboard/EventDashboard';
-import NavBar from '../../features/nav/NavBar/NavBar';
+import Navigation from '../../features/nav/NavBar/NavBar';
 import Login from '../../features/auth/Login/Login';
 import Signup from '../../features/auth/Signup/Signup';
 import EventForm from '../../features/event/EventForm/EventForm';
@@ -18,13 +18,13 @@ function App(props) {
   if (!props.isAppLoaded || props.loggingOut)
     return (
       <Fragment>
-        <NavBar />
+        <Navigation />
         <LoadingPage />
       </Fragment>
     );
   return (
     <Fragment>
-      <NavBar />
+      <Navigation />
       <ToastContainer />
       <Switch>
         <Route exact path='/' component={EventDashboard} />

@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Container, Form, Button, Alert, Spinner } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Form, Button, Alert, Spinner } from 'react-bootstrap';
 import { withFormik, Field } from 'formik';
 import * as Yup from 'yup';
 import TextInput from '../../../app/form-inputs/TextInput';
@@ -9,6 +8,7 @@ import {
   signUp,
   clearLoginErrMsg,
 } from '../../../app/redux/actions/authActions';
+import { SignupContainer, AccountMessage, AccountMessageLink } from '../../../app/styled/auth/Signup/Signup';
 
 const Login = ({
   handleSubmit,
@@ -24,7 +24,7 @@ const Login = ({
     clearLoginErrMsg();
   };
   return (
-    <Container className='login-container'>
+    <SignupContainer>
       <Form className='auth-form' onSubmit={handleSubmit}>
         <h3 className='auth-header'>Sign up</h3>
         <Field
@@ -72,14 +72,14 @@ const Login = ({
             {isSigningUp ? <Spinner animation='border' size='sm' /> : 'Sign up'}
           </Button>
         </div>
-        <div className='accnt-msg'>
+        <AccountMessage>
           <span className='mr-2'>Already got an account?</span>
-          <Link className='accnt-msg-link' to={'/login'}>
+          <AccountMessageLink className='accnt-msg-link' to={'/login'}>
             Log in
-          </Link>
-        </div>
+          </AccountMessageLink>
+        </AccountMessage>
       </Form>
-    </Container>
+    </SignupContainer>
   );
 };
 

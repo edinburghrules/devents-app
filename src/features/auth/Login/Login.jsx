@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
-import { Container, Form, Button, Alert, Spinner } from 'react-bootstrap';
+import { Form, Button, Alert, Spinner } from 'react-bootstrap';
 import { withFormik, Field } from 'formik';
 import * as Yup from 'yup';
 import TextInput from '../../../app/form-inputs/TextInput';
@@ -10,6 +9,7 @@ import {
   logInWithGoogle,
   clearLoginErrMsg,
 } from '../../../app/redux/actions/authActions';
+import { LoginContainer, GoogleButton, AccountMessage, AccountMessageLink } from '../../../app/styled/auth/Login/Login';
 
 const Login = ({
   handleSubmit,
@@ -32,7 +32,7 @@ const Login = ({
     clearLoginErrMsg();
   };
   return (
-    <Container className='login-container'>
+    <LoginContainer className='login-container'>
       <Form className='auth-form' onSubmit={handleSubmit}>
         <h3 className='auth-header'>Log in</h3>
         <Field
@@ -69,7 +69,7 @@ const Login = ({
           or
         </div>
         <hr className='mt-4 mb-5' />
-        <Button
+        <GoogleButton
           onClick={handleClick}
           className='pl-3 pr-3 google-btn'
           variant='light'
@@ -87,15 +87,15 @@ const Login = ({
               <span id='google-login' className='ml-2'>Log in with Google</span>
             </span>
           )}
-        </Button>
-        <div className='accnt-msg'>
+        </GoogleButton>
+        <AccountMessage>
           <span className='mr-2'>New to Devents?</span>
-          <Link onClick={() => clearLoginErrMsg()}className='accnt-msg-link' to={'/signup'}>
+          <AccountMessageLink onClick={() => clearLoginErrMsg()}className='accnt-msg-link' to={'/signup'}>
             Create an account
-          </Link>
-        </div>
+          </AccountMessageLink>
+        </AccountMessage>
       </Form>
-    </Container>
+    </LoginContainer>
   );
 };
 

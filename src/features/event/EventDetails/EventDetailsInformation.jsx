@@ -13,9 +13,10 @@ const EventDetailsInformation = (props) => {
     cancelled,
     venue,
     cost,
-    latlng
+    latlng,
   } = props.event;
   let parsedDate = fromUnixTime(date.seconds);
+  let numberOfAttendees = Object.keys(attendees).length;
   return (
     <Container className='event-details-information'>
       <Row>
@@ -28,7 +29,8 @@ const EventDetailsInformation = (props) => {
             </div>
             <div className='event-details-info __people-going'>
               <h3 className='event-details-heading'>
-                {attendees && attendees.length} People going
+                {attendees && attendees.length} People going{' '}
+                <span className='no-attendees'>({numberOfAttendees})</span>
               </h3>
               <div className='event-details-attendees'>
                 {attendees &&

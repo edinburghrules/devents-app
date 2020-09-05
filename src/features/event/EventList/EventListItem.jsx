@@ -23,7 +23,6 @@ class EventListItem extends Component {
         date,
         venue,
         snip,
-        img,
         attendees,
         cancelled,
         hostedBy: { hostId },
@@ -46,19 +45,6 @@ class EventListItem extends Component {
       <a onClick={this.handleClick} href='/#' className='card-link'>
         <Card className='p-2' border='light'>
           <Card.Body>
-            <div className='card-top'>
-              <img
-                alt='logo'
-                className='rounded'
-                style={{ width: '15%' }}
-                src={img}
-              />
-              {!isHost && (
-                <Button disabled={cancelled} onClick={this.attend}>
-                  {isGoing ? 'Cancel your place' : 'Book your place'}
-                </Button>
-              )}
-            </div>
             <Card.Title className='card-title mt-5'>{title}</Card.Title>
             <Card.Subtitle>
               {cancelled && (
@@ -116,6 +102,14 @@ class EventListItem extends Component {
                   />
                 );
               })}
+          </Card.Body>
+
+          <Card.Body className='card-top'>
+            {!isHost && (
+              <Button disabled={cancelled} onClick={this.attend}>
+                {isGoing ? 'Cancel your place' : 'Book your place'}
+              </Button>
+            )}
           </Card.Body>
         </Card>
       </a>

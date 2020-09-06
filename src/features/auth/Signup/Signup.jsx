@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Form, Button, Alert, Spinner } from 'react-bootstrap';
+import { Button, Alert, Spinner } from 'react-bootstrap';
 import { withFormik, Field } from 'formik';
 import * as Yup from 'yup';
 import TextInput from '../../../app/form-inputs/TextInput';
@@ -8,7 +8,13 @@ import {
   signUp,
   clearLoginErrMsg,
 } from '../../../app/redux/actions/authActions';
-import { SignupContainer, AccountMessage, AccountMessageLink } from '../../../app/styled/auth/Signup/Signup';
+import {
+  SignupContainer,
+  SignupForm,
+  SignupFormHeader,
+  AccountMessage,
+  AccountMessageLink,
+} from '../../../app/styled/auth/Signup/Signup';
 
 const Login = ({
   handleSubmit,
@@ -25,8 +31,8 @@ const Login = ({
   };
   return (
     <SignupContainer>
-      <Form className='auth-form' onSubmit={handleSubmit}>
-        <h3 className='auth-header'>Sign up</h3>
+      <SignupForm className='auth-form' onSubmit={handleSubmit}>
+        <SignupFormHeader>Sign up</SignupFormHeader>
         <Field
           name='firstName'
           as={TextInput}
@@ -78,7 +84,7 @@ const Login = ({
             Log in
           </AccountMessageLink>
         </AccountMessage>
-      </Form>
+      </SignupForm>
     </SignupContainer>
   );
 };
@@ -98,20 +104,18 @@ const formikLogin = withFormik({
       .min(6, 'Password must be at least 6 characters.')
       .required('You must enter a password'),
   }),
-  handleSubmit: async (values, { props: {signUp, history} }) => {
-    const getUserIdAfterSignUp = await signUp(
-      {
-        firstName:
-          values.firstName.toLowerCase().charAt(0).toUpperCase() +
-          values.firstName.slice(1),
-        lastName:
-          values.lastName.toLowerCase().charAt(0).toUpperCase() +
-          values.lastName.slice(1),
-        email: values.email,
-        password: values.password,
-      }
-    );
-    history.push(`/user/${getUserIdAfterSignUp}`)
+  handleSubmit: async (values, { props: { signUp, history } }) => {
+    const getUserIdAfterSignUp = await signUp({
+      firstName:
+        values.firstName.toLowerCase().charAt(0).toUpperCase() +
+        values.firstName.slice(1),
+      lastName:
+        values.lastName.toLowerCase().charAt(0).toUpperCase() +
+        values.lastName.slice(1),
+      email: values.email,
+      password: values.password,
+    });
+    history.push(`/user/${getUserIdAfterSignUp}`);
   },
 })(Login);
 

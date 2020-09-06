@@ -1,6 +1,11 @@
 import styled from 'styled-components';
-import { Container } from 'react-bootstrap';
+import { Container, Button } from 'react-bootstrap';
 
 export const EventFormContainer = styled(Container)`
-  margin-top: 10rem;
+  margin: 10rem auto;
+`;
+
+export const EventFormSubmitBtn = styled(Button)`
+  height: 2.8rem;
+  width: 10rem;
 `;

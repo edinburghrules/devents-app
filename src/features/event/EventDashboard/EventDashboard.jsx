@@ -1,20 +1,22 @@
 import React, { Component } from 'react';
-import { Container, Row, Col } from 'react-bootstrap';
-import EventList from '../EventList/EventList';
+import { Row, Col } from 'react-bootstrap';
 import { connect } from 'react-redux';
+import EventList from '../EventList/EventList';
+import { EventDashboardContainer } from '../../../app/styled/event/EventDashboard/EventDashboard';
+
 
 class EventDashboard extends Component {
   render() {
     const { events } = this.props;
     return (
-      <Container className='page-content'>
+      <EventDashboardContainer>
         <Row>
           <Col lg={6}>
             <EventList events={events} />
           </Col>
           <Col lg={6}>Left</Col>
         </Row>
-      </Container>
+      </EventDashboardContainer>
     );
   }
 }

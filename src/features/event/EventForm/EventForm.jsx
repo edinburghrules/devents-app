@@ -16,7 +16,7 @@ import {
   createEvent,
   editEvent,
 } from '../../../app/redux/actions/eventActions';
-import { EventFormContainer } from '../../../app/styled/event/EventForm/EventForm';
+import { EventFormContainer, EventFormSubmitBtn } from '../../../app/styled/event/EventForm/EventForm';
 
 const coords = {
   city: {},
@@ -137,8 +137,7 @@ class EventForm extends Component {
           />
         )}
         <div className='form-btns'>
-          <Button
-            className='event-form-submit'
+          <EventFormSubmitBtn
             disabled={!dirty}
             form='eventForm'
             type='submit'
@@ -151,7 +150,7 @@ class EventForm extends Component {
             ) : (
               'Create event'
             )}
-          </Button>
+          </EventFormSubmitBtn>
           <Button
             onClick={() => {
               if (event.id) {

@@ -1,4 +1,5 @@
 import React from 'react';
+import { FormLabel } from '../styled/global/forms/forms';
 import { Form } from 'react-bootstrap';
 
 const TextInput = (props) => {
@@ -21,11 +22,11 @@ const TextInput = (props) => {
 
   return (
     <Form.Group>
-      <Form.Label>
+      <FormLabel>
         {props.name === 'title' || props.name === 'summary'
           ? ` Event ${props.name}`
           : capitalise(props.name)}
-      </Form.Label>
+      </FormLabel>
       <Form.Control {...props} />
     </Form.Group>
   );

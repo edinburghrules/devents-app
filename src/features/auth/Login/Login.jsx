@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Form, Button, Alert, Spinner } from 'react-bootstrap';
+import { Button, Alert, Spinner } from 'react-bootstrap';
 import { withFormik, Field } from 'formik';
 import * as Yup from 'yup';
 import TextInput from '../../../app/form-inputs/TextInput';
@@ -9,7 +9,14 @@ import {
   logInWithGoogle,
   clearLoginErrMsg,
 } from '../../../app/redux/actions/authActions';
-import { LoginContainer, GoogleButton, AccountMessage, AccountMessageLink } from '../../../app/styled/auth/Login/Login';
+import {
+  LoginContainer,
+  GoogleButton,
+  AccountMessage,
+  AccountMessageLink,
+  LoginForm,
+  LoginFormHeader,
+} from '../../../app/styled/auth/Login/Login';
 
 const Login = ({
   handleSubmit,
@@ -33,8 +40,8 @@ const Login = ({
   };
   return (
     <LoginContainer className='login-container'>
-      <Form className='auth-form' onSubmit={handleSubmit}>
-        <h3 className='auth-header'>Log in</h3>
+      <LoginForm className='auth-form' onSubmit={handleSubmit}>
+        <LoginFormHeader>Log in</LoginFormHeader>
         <Field
           name='email'
           as={TextInput}
@@ -61,7 +68,12 @@ const Login = ({
         />
         {error && <Alert variant='danger'>{error.msg || error}</Alert>}
         <div className='m-right mt-5'>
-          <Button className='user-login-btn' block variant='success' type='submit'>
+          <Button
+            className='user-login-btn'
+            block
+            variant='success'
+            type='submit'
+          >
             {isLoggingIn ? <Spinner animation='border' size='sm' /> : 'Log in'}
           </Button>
         </div>
@@ -84,17 +96,23 @@ const Login = ({
                 src='/assets/google.png'
                 alt='google logo'
               />
-              <span id='google-login' className='ml-2'>Log in with Google</span>
+              <span id='google-login' className='ml-2'>
+                Log in with Google
+              </span>
             </span>
           )}
         </GoogleButton>
         <AccountMessage>
           <span className='mr-2'>New to Devents?</span>
-          <AccountMessageLink onClick={() => clearLoginErrMsg()}className='accnt-msg-link' to={'/signup'}>
+          <AccountMessageLink
+            onClick={() => clearLoginErrMsg()}
+            className='accnt-msg-link'
+            to={'/signup'}
+          >
             Create an account
           </AccountMessageLink>
         </AccountMessage>
-      </Form>
+      </LoginForm>
     </LoginContainer>
   );
 };
@@ -108,10 +126,10 @@ const formikLogin = withFormik({
     email: Yup.string().email().required(),
     password: Yup.string().required(),
   }),
-  handleSubmit: async (values, { props: {history, login} }) => {
+  handleSubmit: async (values, { props: { history, login } }) => {
     const loginSuccess = await login(values);
-    if(loginSuccess) {
-      history.push('/')
+    if (loginSuccess) {
+      history.push('/');
     }
   },
 })(Login);

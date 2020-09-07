@@ -83,7 +83,6 @@ const Login = ({
         <hr className='mt-4 mb-5' />
         <GoogleButton
           onClick={handleClick}
-          className='pl-3 pr-3 google-btn'
           variant='light'
           block
         >

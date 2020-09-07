@@ -4,6 +4,17 @@ import { Card, Button } from 'react-bootstrap';
 import EventListAttendee from './EventListAttendee';
 import { fromUnixTime, format } from 'date-fns';
 import { withRouter } from 'react-router-dom';
+import {
+  EventListItemCardLink,
+  EventListItemCard,
+  EventListItemCardTitle,
+  EventListItemCardBookButton,
+  EventListItemCardEventInfo,
+  EventListItemCardPeopleGoing,
+  EventListItemCardCancelledTextContainer,
+  EventListItemCardCancelledIcon,
+  EventListItemCardDate
+} from '../../../app/styled/event/EventList/EventListItem';
 
 class EventListItem extends Component {
   handleClick = (e) => {
@@ -42,24 +53,25 @@ class EventListItem extends Component {
     }
 
     return (
-      <a onClick={this.handleClick} href='/#' className='card-link'>
-        <Card className='p-2' border='light'>
+      <EventListItemCardLink onClick={this.handleClick} href='/#'>
+        <EventListItemCard className='p-2' border='light'>
           <Card.Body>
-            <Card.Title className='card-title mt-5'>{title}</Card.Title>
+            <EventListItemCardTitle className='card-title mt-5'>{title}</EventListItemCardTitle>
             <Card.Subtitle>
               {cancelled && (
-                <div className='event-cancelled'>
-                  <span class='cross-icon' role='img' aria-label='cross icon'>
+                <EventListItemCardCancelledTextContainer>
+                  <EventListItemCardCancelledIcon>
+                  {/* eslint-disable-next-line */}
                     ❌
-                  </span>
+                  </EventListItemCardCancelledIcon>
                   <span> Event Cancelled</span>
-                </div>
+                </EventListItemCardCancelledTextContainer>
               )}
             </Card.Subtitle>
             <Card.Text className='mt-4'>{snip}</Card.Text>
           </Card.Body>
           <Card.Body>
-            <div className='event-info'>
+            <EventListItemCardEventInfo>
               <div className='mr-2'>
                 {
                   <React.Fragment>
@@ -78,20 +90,20 @@ class EventListItem extends Component {
                       <span role='img' aria-label='date icon'>
                         🗓
                       </span>
-                      <span>
+                      <EventListItemCardDate isCancelled={cancelled}>
                         {format(
                           fromUnixTime(date.seconds),
                           ' EEEE, do MMMM yyyy'
                         )}
-                      </span>
+                      </EventListItemCardDate>
                     </React.Fragment>
                   )}
                 </span>
                 <br />
               </div>
-            </div>
+            </EventListItemCardEventInfo>
           </Card.Body>
-          <Card.Body className='people-going'>
+          <EventListItemCardPeopleGoing>
             <p>People going :</p>
             {attendees &&
               Object.keys(attendees).map((attendee, index) => {
@@ -102,17 +114,17 @@ class EventListItem extends Component {
                   />
                 );
               })}
-          </Card.Body>
+          </EventListItemCardPeopleGoing>
 
-          <Card.Body className='card-top'>
+          <EventListItemCardBookButton className='card-top'>
             {!isHost && (
               <Button disabled={cancelled} onClick={this.attend}>
                 {isGoing ? 'Cancel your place' : 'Book your place'}
               </Button>
             )}
-          </Card.Body>
-        </Card>
-      </a>
+          </EventListItemCardBookButton>
+        </EventListItemCard>
+      </EventListItemCardLink>
     );
   }
 }

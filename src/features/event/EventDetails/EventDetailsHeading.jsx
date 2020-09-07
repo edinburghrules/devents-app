@@ -1,15 +1,33 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { Container, Button } from 'react-bootstrap';
+import {
+  EventDetailsHeadingSection,
+  EventDetailsHeadingTitle,
+  EventDetailsCancelled,
+  EventDetailsHostSection,
+  EventDetailsHostImage,
+  EventDetailsHostedBy,
+  EventDetailsHostName
+} from '../../../app/styled/event/EventDetails/EventDetailsHeading';
 
 class EventDetailsHeading extends Component {
   render() {
-    const {event: {title, id, cancelled, hostedBy: {hostPhoto, name}}, isHost, isGoing} = this.props;
+    const {
+      event: {
+        title,
+        id,
+        cancelled,
+        hostedBy: { hostPhoto, name },
+      },
+      isHost,
+      isGoing,
+    } = this.props;
     return (
-      <div className='event-details-top'>
+      <EventDetailsHeadingSection>
         <Container>
-          <h1 className='event-details-top-h1'>{title}</h1>
-          <h3 className='event-details-top-h1'>
+          <EventDetailsHeadingTitle>{title}</EventDetailsHeadingTitle>
+          <EventDetailsCancelled>
             {cancelled && (
               <React.Fragment>
                 <span role='img' aria-label='cross icon'>
@@ -18,17 +36,17 @@ class EventDetailsHeading extends Component {
                 <span> Event Cancelled</span>
               </React.Fragment>
             )}
-          </h3>
-          <div className='event-details-top-host'>
-            <img src={hostPhoto && hostPhoto} alt='host' />
+          </EventDetailsCancelled>
+          <EventDetailsHostSection>
+            <EventDetailsHostImage src={hostPhoto && hostPhoto} alt='host' />
             <div>
-              <h5 className='event-details-top-h5'>Hosted by</h5>
-              <h6 className='event-details-top-h6'>{name && name}</h6>
+              <EventDetailsHostedBy>Hosted by</EventDetailsHostedBy>
+              <EventDetailsHostName>{name && name}</EventDetailsHostName>
             </div>
-          </div>
+          </EventDetailsHostSection>
           <div className='mt-4'>
             {!isHost && (
-              <Button disabled={cancelled} size='lg'>
+              <Button disabled={cancelled}>
                 {isGoing ? 'Cancel my place' : 'Book your place'}
               </Button>
             )}
@@ -36,7 +54,6 @@ class EventDetailsHeading extends Component {
               <Button
                 as={Link}
                 to={`/manageEvent/${id}`}
-                size='lg'
                 variant='info'
                 className='ml-2'
               >
@@ -45,7 +62,7 @@ class EventDetailsHeading extends Component {
             )}
           </div>
         </Container>
-      </div>
+      </EventDetailsHeadingSection>
     );
   }
 }

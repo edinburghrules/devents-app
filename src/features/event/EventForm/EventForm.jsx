@@ -16,7 +16,7 @@ import {
   createEvent,
   editEvent,
 } from '../../../app/redux/actions/eventActions';
-import { EventFormContainer, EventFormSubmitBtn } from '../../../app/styled/event/EventForm/EventForm';
+import { EventFormContainer, EventFormHeading, EventFormButtons, EventFormSubmitBtn } from '../../../app/styled/event/EventForm/EventForm';
 
 const coords = {
   city: {},
@@ -50,9 +50,9 @@ class EventForm extends Component {
 
     return (
       <EventFormContainer>
-        <h2 className='event-form-heading'>
+        <EventFormHeading>
           {event && event.id ? 'Edit Your Event' : 'Host Your Event'}
-        </h2>
+        </EventFormHeading>
         <fieldset disabled={values.cancelled}>
           <Form id='eventForm' onSubmit={handleSubmit} noValidate={true}>
             <Field
@@ -136,7 +136,7 @@ class EventForm extends Component {
             label={''}
           />
         )}
-        <div className='form-btns'>
+        <EventFormButtons>
           <EventFormSubmitBtn
             disabled={!dirty}
             form='eventForm'
@@ -163,7 +163,7 @@ class EventForm extends Component {
           >
             Cancel
           </Button>
-        </div>
+        </EventFormButtons>
       </EventFormContainer>
     );
   }

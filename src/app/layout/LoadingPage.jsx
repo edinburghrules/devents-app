@@ -1,13 +1,14 @@
 import React from 'react';
 import { Spinner } from 'react-bootstrap';
+import { Loading } from '../styled/global/loading/loading';
 
 const LoadingPage = () => {
   return (
-    <div className='loading-page'>
+    <Loading>
       <div className='loader-container'>
         <Spinner variant='primary' animation='border' />
       </div>
-    </div>
+    </Loading>
   );
 };
 

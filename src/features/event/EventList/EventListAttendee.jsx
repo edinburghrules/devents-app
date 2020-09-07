@@ -1,11 +1,26 @@
 import React from 'react';
-import {Image} from 'react-bootstrap';
-
+import {
+  EventListAttendeeAvatarImage,
+  EventListAttendeeContainer,
+  EventListAttendeeName,
+} from '../../../app/styled/event/EventList/EventListAttendee';
 
 const EventListAttendee = (props) => {
+  const {
+    attendee: { hostPhoto, name },
+  } = props;
   return (
-      <Image className='avatar-img mr-2' src={props.attendee.hostPhoto} roundedCircle alt='attendee' />
-  )
-}
+    <React.Fragment>
+      <EventListAttendeeContainer>
+        <EventListAttendeeAvatarImage
+          src={hostPhoto}
+          roundedCircle
+          alt='attendee'
+        />
+        <EventListAttendeeName>{name}</EventListAttendeeName>
+      </EventListAttendeeContainer>
+    </React.Fragment>
+  );
+};
 
-export default EventListAttendee
+export default EventListAttendee;

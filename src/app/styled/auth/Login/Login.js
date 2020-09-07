@@ -25,6 +25,8 @@ export const LoginFormHeader = styled.h3`
 export const GoogleButton = styled(Button)`
   font-size: 0.9rem !important;
   font-weight: 600 !important;
+  text-decoration: none;
+  border: 2px solid #f0f0f0;
 `;
 
 export const AccountMessage = styled.div`

@@ -1,15 +1,19 @@
 import React from 'react';
+import {
+  EventDetailsAttendeeCard,
+  EventDetailsAttendeeCardImage,
+  EventDetailsAttendeeCardName
+} from '../../../app/styled/event/EventDetails/EventDetailsAttendee';
 
 const EventDetailsAttendee = (props) => {
   return (
-    <div className='attendee-card'>
-      <img
-        className='attendee-card-img'
+    <EventDetailsAttendeeCard>
+      <EventDetailsAttendeeCardImage
         src={props.attendee.hostPhoto}
         alt='event attendee'
       />
-      <span className='attendee-card-name'>{props.attendee.name}</span>
-    </div>
+      <EventDetailsAttendeeCardName>{props.attendee.name}</EventDetailsAttendeeCardName>
+    </EventDetailsAttendeeCard>
   );
 };
 

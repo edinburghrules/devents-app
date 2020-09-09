@@ -1,12 +1,10 @@
 import styled from 'styled-components';
 
 export const EventDetailsAttendeeCard = styled.div`
-  margin-right: 1.5rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 1.5rem 1rem 1.5rem 1rem;
 `;
 
 export const EventDetailsAttendeeCardImage = styled.img`
@@ -16,7 +14,12 @@ export const EventDetailsAttendeeCardImage = styled.img`
 
 export const EventDetailsAttendeeCardName = styled.span`
   margin-top: 0.5rem;
+  font-size: 0.7rem;
   text-align: center;
-  font-size: 0.8rem;
-  font-weight: 600;
+  font-weight: 400;
+  display: flex;
+  flex-direction: column;
+  width: 80%;
+  justify-content: center;
+  align-items: center;
 `;

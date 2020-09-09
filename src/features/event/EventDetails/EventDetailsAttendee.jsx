@@ -9,7 +9,7 @@ const EventDetailsAttendee = (props) => {
   return (
     <EventDetailsAttendeeCard>
       <EventDetailsAttendeeCardImage
-        src={props.attendee.hostPhoto}
+        src={props.attendee.attendeePhoto || '/assets/profile.png'}
         alt='event attendee'
       />
       <EventDetailsAttendeeCardName>{props.attendee.name}</EventDetailsAttendeeCardName>

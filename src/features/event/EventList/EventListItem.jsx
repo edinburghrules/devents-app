@@ -1,15 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Card, Button } from 'react-bootstrap';
+import { Card } from 'react-bootstrap';
 import EventListAttendee from './EventListAttendee';
 import { fromUnixTime, format } from 'date-fns';
 import { withRouter } from 'react-router-dom';
-import { attendEvent } from '../../../app/redux/actions/userActions';
 import {
   EventListItemCardLink,
   EventListItemCard,
   EventListItemCardTitle,
-  EventListItemCardBookButton,
   EventListItemCardEventInfo,
   EventListItemCardPeopleGoing,
   EventListItemCardCancelledTextContainer,
@@ -23,13 +21,6 @@ class EventListItem extends Component {
     this.props.history.push(`/event/${this.props.event.id}`);
   };
 
-  attend = (e) => {
-    e.stopPropagation();
-    e.preventDefault();
-    this.props.attendEvent(this.props.event);
-
-  };
-
   render() {
     const {
       event: {
@@ -38,22 +29,9 @@ class EventListItem extends Component {
         venue,
         snip,
         attendees,
-        cancelled,
-        hostedBy: { hostId },
-      },
-      user,
-    } = this.props;
-
-    let isHost = hostId === user;
-    let isGoing;
-
-    for (const attendee in attendees) {
-      if (attendee === user) {
-        isGoing = true;
-      } else {
-        isGoing = false;
+        cancelled
       }
-    }
+    } = this.props;
 
     return (
       <EventListItemCardLink onClick={this.handleClick} href='/#'>
@@ -116,14 +94,6 @@ class EventListItem extends Component {
                 );
               })}
           </EventListItemCardPeopleGoing>
-
-          <EventListItemCardBookButton className='card-top'>
-            {!isHost && (
-              <Button disabled={cancelled} onClick={this.attend}>
-                {isGoing ? 'Cancel your place' : 'Book your place'}
-              </Button>
-            )}
-          </EventListItemCardBookButton>
         </EventListItemCard>
       </EventListItemCardLink>
     );
@@ -136,8 +106,5 @@ const mapStateToProps = (state) => {
   };
 };
 
-const mapDispatchToProps = {
-  attendEvent
-}
 
-export default connect(mapStateToProps, mapDispatchToProps)(withRouter(EventListItem));
+export default connect(mapStateToProps)(withRouter(EventListItem));

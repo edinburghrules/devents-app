@@ -13,7 +13,7 @@ const EventListAttendee = (props) => {
     <React.Fragment>
       <EventListAttendeeContainer>
         <EventListAttendeeAvatarImage
-          src={hostPhoto}
+          src={hostPhoto || '/assets/profile.png'}
           roundedCircle
           alt='attendee'
         />

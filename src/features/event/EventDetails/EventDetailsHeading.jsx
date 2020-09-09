@@ -1,6 +1,11 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Container, Button } from 'react-bootstrap';
+import {
+  attendEvent,
+  unattendEvent,
+} from '../../../app/redux/actions/userActions';
 import {
   EventDetailsHeadingSection,
   EventDetailsHeadingTitle,
@@ -8,21 +13,51 @@ import {
   EventDetailsHostSection,
   EventDetailsHostImage,
   EventDetailsHostedBy,
-  EventDetailsHostName
+  EventDetailsHostName,
 } from '../../../app/styled/event/EventDetails/EventDetailsHeading';
 
 class EventDetailsHeading extends Component {
+  state = {
+    user: this.props.user,
+    isHost: this.props.user === this.props.event.hostedBy.hostId,
+    isGoing: null,
+  };
+
+  static getDerivedStateFromProps(props, state) {
+    for (const attendee in props.event.attendees) {
+      if (attendee === props.user) {
+        return {
+          ...state,
+          user: props.user,
+          isGoing: true
+        }
+      } else {
+        return {
+          ...state,
+          isGoing: false
+        }
+      }
+    }
+  }
+
+  unattendEvent = () => {
+    this.props.unattendEvent(this.props.event);
+  };
+
+  attendEvent = () => {
+    this.props.attendEvent(this.props.event);
+  };
+
   render() {
     const {
       event: {
-        title,
         id,
+        title,
         cancelled,
         hostedBy: { hostPhoto, name },
-      },
-      isHost,
-      isGoing,
+      }
     } = this.props;
+
     return (
       <EventDetailsHeadingSection>
         <Container>
@@ -45,12 +80,17 @@ class EventDetailsHeading extends Component {
             </div>
           </EventDetailsHostSection>
           <div className='mt-4'>
-            {!isHost && (
-              <Button disabled={cancelled}>
-                {isGoing ? 'Cancel my place' : 'Book your place'}
+            {!this.state.isHost && this.state.isGoing && (
+              <Button onClick={this.unattendEvent} disabled={cancelled}>
+                Cancel my place
               </Button>
             )}
-            {isHost && (
+            {!this.state.isHost && !this.state.isGoing && (
+              <Button onClick={this.attendEvent} disabled={cancelled}>
+                Book my place
+              </Button>
+            )}
+            {this.state.isHost && (
               <Button
                 as={Link}
                 to={`/manageEvent/${id}`}
@@ -67,4 +107,9 @@ class EventDetailsHeading extends Component {
   }
 }
 
-export default EventDetailsHeading;
+const mapDispatchToProps = {
+  attendEvent,
+  unattendEvent,
+};
+
+export default connect(null, mapDispatchToProps)(EventDetailsHeading);

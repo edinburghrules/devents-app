@@ -41,8 +41,6 @@ export const EventDetailsInformationMap = styled.div`
 
 export const EventDetailsInformationDate = styled.span`
   margin-left: .7rem;
-  font-size: 0.9rem;
-  color: #1769ff;
   ${({ isCancelled }) => isCancelled && `
     text-decoration: line-through;
   `}

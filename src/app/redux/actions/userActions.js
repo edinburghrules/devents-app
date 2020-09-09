@@ -19,7 +19,7 @@ const attendEvent = (event) => {
         .collection('events')
         .doc(event.id)
         .update({
-          [`attendees.${currentUser}`] : newAttendee
+          [`attendees.${currentUser}`]: newAttendee
         })
       
       dispatch(getEvents());
@@ -28,6 +28,24 @@ const attendEvent = (event) => {
       console.log(err);
     }
   } 
+}
+
+const unattendEvent = event => {
+  return async (dispatch, getState) => {
+    let currentUser = getState().auth.currentUser.uid
+    try{
+      await firebase
+        .firestore()
+        .collection('events')
+        .doc(event.id)
+        .update({
+          [`attendees.${currentUser}`]: firebase.firestore.FieldValue.delete()
+        })
+      dispatch(getEvents());
+    } catch(err) {
+
+    }
+  }
 }
 
 const editPassword = (newPassword) => {
@@ -137,4 +155,4 @@ const handlePhotoUpload = (file) => {
   };
 };
 
-export { attendEvent, editPassword, handlePhotoUpload, updateProfile };
+export { attendEvent, unattendEvent, editPassword, handlePhotoUpload, updateProfile };

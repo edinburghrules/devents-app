@@ -44,7 +44,7 @@ const AccountDashboard = ({ providerId, profile }) => {
 };
 
 const mapStateToProps = (state) => ({
-  providerId: state.user.currentUser.providerData[0].providerId,
+  providerId: state.auth.currentUser.providerData[0].providerId,
   profile: state.profile.userProfile,
 });
 

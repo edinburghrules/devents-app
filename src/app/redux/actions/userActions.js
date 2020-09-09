@@ -1,6 +1,34 @@
 import firebase from '../../config/firebase';
 import { toast } from 'react-toastify';
 import { startSubmit, stopSubmit } from './asyncActions';
+import { getEvents } from './eventActions';
+
+
+const attendEvent = (event) => {
+  return async (dispatch, getState) => {
+
+    let currentUser = getState().auth.currentUser.uid
+    let newAttendee = {
+      attending: true,
+      attendeePhoto: getState().profile.userProfile.photoURL,
+      name: getState().profile.userProfile.displayName,
+    }
+    try {
+      await firebase
+        .firestore()
+        .collection('events')
+        .doc(event.id)
+        .update({
+          [`attendees.${currentUser}`] : newAttendee
+        })
+      
+      dispatch(getEvents());
+
+    }  catch(err) {
+      console.log(err);
+    }
+  } 
+}
 
 const editPassword = (newPassword) => {
   return async (dispatch) => {
@@ -64,7 +92,6 @@ const updateProfile = (updatedInfo) => {
 };
 
 const handlePhotoUpload = (file) => {
-  console.log('is it working?');
   let currentUser = firebase.auth().currentUser;
   return async (dispatch) => {
     try {
@@ -110,4 +137,4 @@ const handlePhotoUpload = (file) => {
   };
 };
 
-export { editPassword, handlePhotoUpload, updateProfile };
+export { attendEvent, editPassword, handlePhotoUpload, updateProfile };

@@ -4,6 +4,7 @@ import { Card, Button } from 'react-bootstrap';
 import EventListAttendee from './EventListAttendee';
 import { fromUnixTime, format } from 'date-fns';
 import { withRouter } from 'react-router-dom';
+import { attendEvent } from '../../../app/redux/actions/userActions';
 import {
   EventListItemCardLink,
   EventListItemCard,
@@ -24,7 +25,9 @@ class EventListItem extends Component {
 
   attend = (e) => {
     e.stopPropagation();
-    alert('You are attending');
+    e.preventDefault();
+    this.props.attendEvent(this.props.event);
+
   };
 
   render() {
@@ -129,8 +132,12 @@ class EventListItem extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    user: state.user.currentUser.uid,
+    user: state.auth.currentUser.uid,
   };
 };
 
-export default connect(mapStateToProps)(withRouter(EventListItem));
+const mapDispatchToProps = {
+  attendEvent
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(EventListItem));

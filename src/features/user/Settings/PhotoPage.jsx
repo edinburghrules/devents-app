@@ -11,7 +11,7 @@ import {
 } from 'react-bootstrap';
 import ReactCrop from 'react-image-crop';
 import 'react-image-crop/dist/ReactCrop.css';
-import { handlePhotoUpload } from '../../../app/redux/actions/profileActions';
+import { handlePhotoUpload } from '../../../app/redux/actions/userActions';
 import {
   startLoading,
   stopLoading,

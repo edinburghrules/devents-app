@@ -4,7 +4,7 @@ import { Alert, Form, Button, Spinner } from 'react-bootstrap';
 import { withFormik, Field } from 'formik';
 import * as Yup from 'yup';
 import TextInput from '../../../app/form-inputs/TextInput';
-import { editPassword } from '../../../app/redux/actions/profileActions';
+import { editPassword } from '../../../app/redux/actions/userActions';
 
 const AccountPage = ({
   handleSubmit,

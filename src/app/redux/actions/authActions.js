@@ -111,7 +111,7 @@ const logInWithGoogle = (googleLogin) => {
           about: '',
         };
 
-        firebase
+        await firebase
           .firestore()
           .collection('users')
           .doc(currentUser.uid)

@@ -13,7 +13,7 @@ import {
   EventListItemCardPeopleGoing,
   EventListItemCardCancelledTextContainer,
   EventListItemCardCancelledIcon,
-  EventListItemCardDate
+  EventListItemCardDate,
 } from '../../../app/styled/event/EventList/EventListItem';
 
 class EventListItem extends Component {
@@ -56,13 +56,14 @@ class EventListItem extends Component {
       <EventListItemCardLink onClick={this.handleClick} href='/#'>
         <EventListItemCard className='p-2' border='light'>
           <Card.Body>
-            <EventListItemCardTitle className='card-title mt-5'>{title}</EventListItemCardTitle>
+            <EventListItemCardTitle className='card-title mt-5'>
+              {title}
+            </EventListItemCardTitle>
             <Card.Subtitle>
               {cancelled && (
                 <EventListItemCardCancelledTextContainer>
                   <EventListItemCardCancelledIcon>
-                  {/* eslint-disable-next-line */}
-                    ❌
+                    {/* eslint-disable-next-line */}❌
                   </EventListItemCardCancelledIcon>
                   <span> Event Cancelled</span>
                 </EventListItemCardCancelledTextContainer>
@@ -84,22 +85,19 @@ class EventListItem extends Component {
                 <br />
               </div>
               <div>
-                <span className={cancelled ? 'cancelled-date' : 'event-date'}>
-                  {date.seconds && (
-                    <React.Fragment>
-                      <span role='img' aria-label='date icon'>
-                        🗓
-                      </span>
-                      <EventListItemCardDate isCancelled={cancelled}>
-                        {format(
-                          fromUnixTime(date.seconds),
-                          ' EEEE, do MMMM yyyy'
-                        )}
-                      </EventListItemCardDate>
-                    </React.Fragment>
-                  )}
-                </span>
-                <br />
+                {date.seconds && (
+                  <React.Fragment>
+                    <span role='img' aria-label='date icon'>
+                      🗓
+                    </span>
+                    <EventListItemCardDate isCancelled={cancelled}>
+                      {format(
+                        fromUnixTime(date.seconds),
+                        ' EEEE, do MMMM yyyy'
+                      )}
+                    </EventListItemCardDate>
+                  </React.Fragment>
+                )}
               </div>
             </EventListItemCardEventInfo>
           </Card.Body>

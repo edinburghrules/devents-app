@@ -20,15 +20,15 @@ export const EventListItemCardTitle = styled(Card.Title)`
 export const EventListItemCardBookButton = styled(Card.Body)`
   margin-top: 0.5rem;
   display: flex;
-  justify-content: flex-end;
+  justify-content: flex-start;
 `;
 
 export const EventListItemCardEventInfo = styled.div`
-  margin-top: -2rem;
-  font-size: 0.75rem;
+  margin-top: -2.5rem;
+  font-size: 0.8rem;
   letter-spacing: 0.3px;
   font-weight: 400;
-  color: #606060;
+  color: #555;
   display: flex;
   flex-direction: column;
 `;
@@ -39,6 +39,7 @@ export const EventListItemCardPeopleGoing = styled(Card.Body)`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  margin-top: 1rem;
 `;
 
 export const EventListItemCardCancelledTextContainer = styled.div`

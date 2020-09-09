@@ -13,6 +13,7 @@ import EventDetails from '../../features/event/EventDetails/EventDetails';
 import AccountDashboard from '../../features/user/Settings/AccountDashboard';
 import DetailedUserPage from '../../features/user/DetailedUser/DetailedUserPage';
 import LoadingPage from './LoadingPage';
+import { GlobalStyles } from '../../app/styled/global/globalStyles/GlobalStyle';
 
 function App(props) {
   if (!props.isAppLoaded || props.loggingOut)
@@ -24,6 +25,7 @@ function App(props) {
     );
   return (
     <Fragment>
+      <GlobalStyles/>
       <Navigation />
       <ToastContainer />
       <Switch>

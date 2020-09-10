@@ -22,7 +22,7 @@ class EventDetailsHeading extends Component {
     this.state = {
       event: this.props.event,
       isHost: this.props.isHost,
-      isGoing: this.props.isGoing
+      isGoing: this.props.isGoing,
     };
   }
 
@@ -51,48 +51,51 @@ class EventDetailsHeading extends Component {
         cancelled,
         hostedBy: { hostPhoto, name },
       },
-      isBooking
+      isBooking,
+      currentUser,
     } = this.props;
 
     const renderBtns = () => {
-      if (isBooking) {
-        return (
-          <Button>
-            <Spinner animation='border' size='sm' variant='light' />
-          </Button>
-        );
-      } else {
-        if (!this.state.isHost) {
-          if (this.state.isGoing) {
-            return (
-              <Button
-                onClick={this.unattendEvent}
-                disabled={cancelled || isBooking}
-              >
-                {isBooking ? 'BOOKING' : 'Cancel your place'}
-              </Button>
-            );
+      if (currentUser !== null) {
+        if (isBooking) {
+          return (
+            <Button>
+              <Spinner animation='border' size='sm' variant='light' />
+            </Button>
+          );
+        } else {
+          if (!this.state.isHost) {
+            if (this.state.isGoing) {
+              return (
+                <Button
+                  onClick={this.unattendEvent}
+                  disabled={cancelled || isBooking}
+                >
+                  {isBooking ? 'BOOKING' : 'Cancel your place'}
+                </Button>
+              );
+            } else {
+              return (
+                <Button
+                  onClick={this.attendEvent}
+                  disabled={cancelled || isBooking}
+                >
+                  {isBooking ? 'BOOKING' : 'Book your place'}
+                </Button>
+              );
+            }
           } else {
             return (
               <Button
-                onClick={this.attendEvent}
-                disabled={cancelled || isBooking}
+                as={Link}
+                to={`/manageEvent/${id}`}
+                variant='info'
+                className='ml-2'
               >
-                {isBooking ? 'BOOKING' : 'Book your place'}
+                Edit
               </Button>
             );
           }
-        } else {
-          return (
-            <Button
-              as={Link}
-              to={`/manageEvent/${id}`}
-              variant='info'
-              className='ml-2'
-            >
-              Edit
-            </Button>
-          );
         }
       }
     };
@@ -128,6 +131,7 @@ class EventDetailsHeading extends Component {
 const mapStateToProps = (state) => {
   return {
     isBooking: state.async.submitting,
+    currentUser: state.auth.currentUser,
   };
 };
 

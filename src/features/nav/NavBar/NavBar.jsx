@@ -21,7 +21,7 @@ class Navigation extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  authenticated: Boolean(state.auth.currentUser.email),
+  authenticated: state.auth.currentUser!== null && Boolean(state.auth.currentUser.email),
   profile: state.profile.userProfile,
   loading: state.async.loading,
 });

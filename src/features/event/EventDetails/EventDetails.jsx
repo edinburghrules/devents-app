@@ -35,6 +35,8 @@ const mapStateToProps = (state, ownProps) => {
 
   let isGoing;
 
+  if (event === undefined) return <EventDashboard />;
+
   if(event.attendees.hasOwnProperty(state.profile.userProfile.uid)) {
     isGoing = true;
   } else {

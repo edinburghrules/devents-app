@@ -102,7 +102,7 @@ class EventListItem extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    user: state.auth.currentUser.uid,
+    user: state.auth.currentUser !== null && state.auth.currentUser.uid,
   };
 };
 

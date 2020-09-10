@@ -16,7 +16,13 @@ import {
   createEvent,
   editEvent,
 } from '../../../app/redux/actions/eventActions';
-import { EventFormContainer, EventFormHeading, EventFormButtons, EventFormSubmitBtn } from '../../../app/styled/event/EventForm/EventForm';
+import {
+  EventFormContainer,
+  EventFormHeading,
+  EventFormButtons,
+  EventFormSubmitBtn,
+  EventFormCancelBtn,
+} from '../../../app/styled/event/EventForm/EventForm';
 
 const coords = {
   city: {},
@@ -45,7 +51,7 @@ class EventForm extends Component {
       values,
       setFieldValue,
       dirty,
-      isSubmitting
+      isSubmitting,
     } = this.props;
 
     return (
@@ -78,7 +84,11 @@ class EventForm extends Component {
               <Alert variant='danger'>{errors.summary}</Alert>
             )}
 
-            <Field defaultValue={event.cost} component={CostInput} name='cost' />
+            <Field
+              defaultValue={event.cost}
+              component={CostInput}
+              name='cost'
+            />
 
             <Field
               as={TextAreaInput}
@@ -151,7 +161,7 @@ class EventForm extends Component {
               'Create event'
             )}
           </EventFormSubmitBtn>
-          <Button
+          <EventFormCancelBtn
             onClick={() => {
               if (event.id) {
                 history.push(`/event/${event.id}`);
@@ -162,7 +172,7 @@ class EventForm extends Component {
             variant='danger'
           >
             Cancel
-          </Button>
+          </EventFormCancelBtn>
         </EventFormButtons>
       </EventFormContainer>
     );

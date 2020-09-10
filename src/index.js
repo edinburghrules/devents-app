@@ -25,7 +25,7 @@ let render = () => {
 firebase.auth().onAuthStateChanged((user) => {
   if (user) {
     store.dispatch({ type: 'GET_AUTH_STATUS', payload: user });
-    firebase
+      firebase
       .firestore()
       .collection('users')
       .get()
@@ -44,6 +44,8 @@ firebase.auth().onAuthStateChanged((user) => {
 });
 
 render();
+
+
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { Container, Button, Spinner } from 'react-bootstrap';
+import { Container, Spinner } from 'react-bootstrap';
 import {
   attendEvent,
   unattendEvent,

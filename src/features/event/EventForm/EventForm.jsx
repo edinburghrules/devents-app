@@ -1,6 +1,6 @@
 /* global google */
 import React, { Component } from 'react';
-import { Form, Button, Alert, Spinner } from 'react-bootstrap';
+import { Form, Alert, Spinner } from 'react-bootstrap';
 import { addDays, fromUnixTime } from 'date-fns';
 import { withFormik, Field } from 'formik';
 import { connect } from 'react-redux';

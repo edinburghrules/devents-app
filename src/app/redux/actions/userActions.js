@@ -6,7 +6,7 @@ import { getEvents } from './eventActions';
 
 const attendEvent = (event) => {
   return async (dispatch, getState) => {
-
+    dispatch(startSubmit())
     let currentUser = getState().auth.currentUser.uid
     let newAttendee = {
       attending: true,
@@ -22,7 +22,8 @@ const attendEvent = (event) => {
           [`attendees.${currentUser}`]: newAttendee
         })
       
-      dispatch(getEvents());
+      await dispatch(getEvents());
+      dispatch(stopSubmit());
 
     }  catch(err) {
       console.log(err);
@@ -32,6 +33,7 @@ const attendEvent = (event) => {
 
 const unattendEvent = event => {
   return async (dispatch, getState) => {
+    dispatch(startSubmit());
     let currentUser = getState().auth.currentUser.uid
     try{
       await firebase
@@ -41,7 +43,8 @@ const unattendEvent = event => {
         .update({
           [`attendees.${currentUser}`]: firebase.firestore.FieldValue.delete()
         })
-      dispatch(getEvents());
+      await dispatch(getEvents());
+      dispatch(stopSubmit());
     } catch(err) {
 
     }

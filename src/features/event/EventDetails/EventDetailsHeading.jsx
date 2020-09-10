@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { Container, Button } from 'react-bootstrap';
+import { Container, Button, Spinner } from 'react-bootstrap';
 import {
   attendEvent,
   unattendEvent,
@@ -17,26 +17,21 @@ import {
 } from '../../../app/styled/event/EventDetails/EventDetailsHeading';
 
 class EventDetailsHeading extends Component {
-  state = {
-    user: this.props.user,
-    isHost: this.props.user === this.props.event.hostedBy.hostId,
-    isGoing: null,
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      event: this.props.event,
+      isHost: this.props.isHost,
+      isGoing: this.props.isGoing
+    };
+  }
 
-  static getDerivedStateFromProps(props, state) {
-    for (const attendee in props.event.attendees) {
-      if (attendee === props.user) {
-        return {
-          ...state,
-          user: props.user,
-          isGoing: true
-        }
-      } else {
-        return {
-          ...state,
-          isGoing: false
-        }
-      }
+  componentDidUpdate(prevProps) {
+    if (prevProps.isGoing !== this.props.isGoing) {
+      this.setState((state) => ({
+        ...state,
+        isGoing: !state.isGoing,
+      }));
     }
   }
 
@@ -55,8 +50,52 @@ class EventDetailsHeading extends Component {
         title,
         cancelled,
         hostedBy: { hostPhoto, name },
-      }
+      },
+      isBooking
     } = this.props;
+
+    const renderBtns = () => {
+      if (isBooking) {
+        return (
+          <Button>
+            <Spinner animation='border' size='sm' variant='light' />
+          </Button>
+        );
+      } else {
+        if (!this.state.isHost) {
+          if (this.state.isGoing) {
+            return (
+              <Button
+                onClick={this.unattendEvent}
+                disabled={cancelled || isBooking}
+              >
+                {isBooking ? 'BOOKING' : 'Cancel your place'}
+              </Button>
+            );
+          } else {
+            return (
+              <Button
+                onClick={this.attendEvent}
+                disabled={cancelled || isBooking}
+              >
+                {isBooking ? 'BOOKING' : 'Book your place'}
+              </Button>
+            );
+          }
+        } else {
+          return (
+            <Button
+              as={Link}
+              to={`/manageEvent/${id}`}
+              variant='info'
+              className='ml-2'
+            >
+              Edit
+            </Button>
+          );
+        }
+      }
+    };
 
     return (
       <EventDetailsHeadingSection>
@@ -79,37 +118,25 @@ class EventDetailsHeading extends Component {
               <EventDetailsHostName>{name && name}</EventDetailsHostName>
             </div>
           </EventDetailsHostSection>
-          <div className='mt-4'>
-            {!this.state.isHost && this.state.isGoing && (
-              <Button onClick={this.unattendEvent} disabled={cancelled}>
-                Cancel my place
-              </Button>
-            )}
-            {!this.state.isHost && !this.state.isGoing && (
-              <Button onClick={this.attendEvent} disabled={cancelled}>
-                Book my place
-              </Button>
-            )}
-            {this.state.isHost && (
-              <Button
-                as={Link}
-                to={`/manageEvent/${id}`}
-                variant='info'
-                className='ml-2'
-              >
-                Edit
-              </Button>
-            )}
-          </div>
+          <div className='mt-4'>{renderBtns()}</div>
         </Container>
       </EventDetailsHeadingSection>
     );
   }
 }
 
+const mapStateToProps = (state) => {
+  return {
+    isBooking: state.async.submitting,
+  };
+};
+
 const mapDispatchToProps = {
   attendEvent,
   unattendEvent,
 };
 
-export default connect(null, mapDispatchToProps)(EventDetailsHeading);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(EventDetailsHeading);

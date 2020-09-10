@@ -11,13 +11,15 @@ class EventDetails extends Component {
 
     const {
       event,
-      user
+      isHost,
+      isGoing
     } = this.props;
 
     return (
       <Fragment>
         <EventDetailsHeading
-          user={user}
+          isHost={isHost}
+          isGoing={isGoing}
           event={event}
         />
         <EventDetailsInformation event={event} />
@@ -27,11 +29,23 @@ class EventDetails extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
+  let event = state.events.find((event) => {
+    return event.id.toString() === ownProps.match.params.id.toString();
+  })
+
+  let isGoing;
+
+  if(event.attendees.hasOwnProperty(state.profile.userProfile.uid)) {
+    isGoing = true;
+  } else {
+    isGoing = false;
+  }
+
   return {
-    event: state.events.find((event) => {
-      return event.id.toString() === ownProps.match.params.id.toString();
-    }),
+    event,
+    isHost: state.profile.userProfile.uid === event.hostedBy.hostId,
     user: state.profile.userProfile.uid,
+    isGoing
   };
 };
 

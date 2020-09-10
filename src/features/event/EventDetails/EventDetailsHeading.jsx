@@ -15,7 +15,8 @@ import {
   EventDetailsHostedBy,
   EventDetailsHostName,
   EventDetailsAttendButton,
-  EventDetailsUnattendButton
+  EventDetailsUnattendButton,
+  EventDetailsEditButton
 } from '../../../app/styled/event/EventDetails/EventDetailsHeading';
 
 class EventDetailsHeading extends Component {
@@ -88,14 +89,12 @@ class EventDetailsHeading extends Component {
             }
           } else {
             return (
-              <Button
+              <EventDetailsEditButton
                 as={Link}
                 to={`/manageEvent/${id}`}
-                variant='info'
-                className='ml-2'
               >
                 Edit
-              </Button>
+              </EventDetailsEditButton>
             );
           }
         }

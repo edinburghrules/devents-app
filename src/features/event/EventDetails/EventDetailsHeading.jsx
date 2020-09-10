@@ -14,6 +14,8 @@ import {
   EventDetailsHostImage,
   EventDetailsHostedBy,
   EventDetailsHostName,
+  EventDetailsAttendButton,
+  EventDetailsUnattendButton
 } from '../../../app/styled/event/EventDetails/EventDetailsHeading';
 
 class EventDetailsHeading extends Component {
@@ -59,29 +61,29 @@ class EventDetailsHeading extends Component {
       if (currentUser !== null) {
         if (isBooking) {
           return (
-            <Button>
+            <EventDetailsAttendButton>
               <Spinner animation='border' size='sm' variant='light' />
-            </Button>
+            </EventDetailsAttendButton>
           );
         } else {
           if (!this.state.isHost) {
             if (this.state.isGoing) {
               return (
-                <Button
+                <EventDetailsUnattendButton
                   onClick={this.unattendEvent}
                   disabled={cancelled || isBooking}
                 >
-                  {isBooking ? 'BOOKING' : 'Cancel your place'}
-                </Button>
+                  Cancel your place
+                </EventDetailsUnattendButton>
               );
             } else {
               return (
-                <Button
+                <EventDetailsAttendButton
                   onClick={this.attendEvent}
                   disabled={cancelled || isBooking}
                 >
-                  {isBooking ? 'BOOKING' : 'Book your place'}
-                </Button>
+                  Book your place
+                </EventDetailsAttendButton>
               );
             }
           } else {

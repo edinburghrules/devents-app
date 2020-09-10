@@ -11,7 +11,7 @@ export const EventDetailsHeadingSection = styled.div`
 
 export const EventDetailsHeadingTitle = styled.h1`
   font-weight: 600;
-  padding-bottom: 1.4rem;
+  padding-bottom: 1rem;
   color: #222;
 `;
 
@@ -42,6 +42,15 @@ export const EventDetailsHostName = styled.h5`
 `;
 
 export const EventDetailsAttendButton = styled(Button)`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 12rem;
+  height: 3rem;
+`; 
 
+export const EventDetailsUnattendButton = styled(Button)`
+  width: 12rem;
+  height: 3rem;
 `; 
 

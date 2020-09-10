@@ -47,8 +47,6 @@ const mapStateToProps = (state, ownProps) => {
     }
   }
 
-
-
   return {
     event,
     isHost: state.profile.userProfile.uid === event.hostedBy.hostId,

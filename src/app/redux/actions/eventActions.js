@@ -66,7 +66,7 @@ const createEvent = (event) => {
         });
       await dispatch(getEvents());
       dispatch(stopSubmit())
-      toast.success('🎉 Your event is live!', {
+      toast.success('Your event is live! 🎉', {
         position: 'bottom-right',
         autoClose: 5000,
         hideProgressBar: true
@@ -85,6 +85,11 @@ const editEvent = (event) => {
     try {
       await firebase.firestore().collection('events').doc(event.id).set(event);
       await dispatch(getEvents());
+      toast.success('Event updated! 🎉', {
+        position: 'bottom-right',
+        autoClose: 5000,
+        hideProgressBar: true
+      });
       dispatch(stopSubmit())
       return event.id;
     } catch (err) {

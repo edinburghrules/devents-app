@@ -58,11 +58,10 @@ const editPassword = (newPassword) => {
       dispatch(startSubmit());
       await firebase.auth().currentUser.updatePassword(newPassword);
       dispatch(stopSubmit());
-      toast.info('🔒 Password updated!', {
+      toast.info('Password updated! 🔒', {
         position: 'bottom-right',
         autoClose: 5000,
         hideProgressBar: true,
-        closeOnClick: false,
         pauseOnHover: true,
         draggable: true,
         progress: undefined,
@@ -88,7 +87,7 @@ const updateProfile = (updatedInfo) => {
           ...updatedInfo,
         });
       dispatch(stopSubmit());
-      toast.info('✅ Profile updated!', {
+      toast.info('Profile updated! ✅', {
         position: 'bottom-right',
         autoClose: 5000,
         hideProgressBar: true,
@@ -143,7 +142,7 @@ const handlePhotoUpload = (file) => {
       });
 
       if (userProfileData) {
-        toast.info('📷 Profile photo updated!', {
+        toast.info('Profile photo updated! 📷', {
           position: 'bottom-right',
           autoClose: 5000,
           hideProgressBar: true

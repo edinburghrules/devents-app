@@ -1,9 +1,9 @@
 import React from 'react';
 import { Form } from 'react-bootstrap';
 import CurrencyInput from 'react-currency-input-field';
+import { FormLabel } from '../styled/global/forms/forms';
 
 const CostInput = (props) => {
-  console.log(props)
   const { form, field } = props;
 
   const handleChange = (value) => {
@@ -12,9 +12,8 @@ const CostInput = (props) => {
 
   return (
     <Form.Group>
-      <Form.Label>Event cost</Form.Label>
+      <FormLabel>Event cost</FormLabel>
         <CurrencyInput
-          
           className='form-control'
           {...props}
           id='input-example'

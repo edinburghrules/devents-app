@@ -1,5 +1,6 @@
 import React from 'react';
 import { Form } from 'react-bootstrap';
+import {FormLabel} from '../styled/global/forms/forms';
 
 const interestOptions = [
   { name: 'interests', text: 'Frontend Web Development' },
@@ -23,6 +24,7 @@ const CheckboxInput = (props) => {
   };
   return (
     <Form.Group>
+    <FormLabel>Interests</FormLabel>
       {interestOptions.map((option, i) => {
         return (
           <Form.Check

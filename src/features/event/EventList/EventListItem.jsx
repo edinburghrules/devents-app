@@ -9,6 +9,7 @@ import {
   EventListItemCard,
   EventListItemCardTitle,
   EventListItemCardEventInfo,
+  EventListCardPeopleGoingHeading,
   EventListItemCardPeopleGoing,
   EventListItemCardCancelledTextContainer,
   EventListItemCardCancelledIcon,
@@ -23,15 +24,10 @@ class EventListItem extends Component {
 
   render() {
     const {
-      event: {
-        title,
-        date,
-        venue,
-        snip,
-        attendees,
-        cancelled
-      }
+      event: { title, date, venue, snip, attendees, cancelled },
     } = this.props;
+
+    const totalAttendees = Object.entries(attendees).length;
 
     return (
       <EventListItemCardLink onClick={this.handleClick} href='/#'>
@@ -82,8 +78,10 @@ class EventListItem extends Component {
               </div>
             </EventListItemCardEventInfo>
           </Card.Body>
+          <Card.Body>
+            <EventListCardPeopleGoingHeading>People going: {totalAttendees}</EventListCardPeopleGoingHeading>
+          </Card.Body>
           <EventListItemCardPeopleGoing>
-            <p>People going :</p>
             {attendees &&
               Object.keys(attendees).map((attendee, index) => {
                 return (
@@ -105,6 +103,5 @@ const mapStateToProps = (state) => {
     user: state.auth.currentUser !== null && state.auth.currentUser.uid,
   };
 };
-
 
 export default connect(mapStateToProps)(withRouter(EventListItem));

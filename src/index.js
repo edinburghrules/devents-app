@@ -33,13 +33,14 @@ firebase.auth().onAuthStateChanged((user) => {
         querySnapshot.forEach((doc) => {
           if (doc.id === user.uid) {
             store.dispatch({ type: 'LOAD_USER_PROFILE', payload: doc.data() });
-            store.dispatch({ type: 'APP_LOADED' });
+            setTimeout(() => {
+              store.dispatch({ type: 'APP_LOADED' });
+            }, 500);
           }
         });
       });
   } else {
     store.dispatch({ type: 'APP_LOADED' });
-    console.log('No user');
   }
 });
 

@@ -1,6 +1,7 @@
 import React from 'react';
 import PlacesAutocomplete from 'react-places-autocomplete';
 import { Form } from 'react-bootstrap';
+import { FormLabel } from '../styled/global/forms/forms';
 
 class PlaceInput extends React.Component {
   handleChange = (value) => {
@@ -33,9 +34,9 @@ class PlaceInput extends React.Component {
       >
         {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
           <Form.Group>
-            <Form.Label>
+            <FormLabel>
               {name === 'homeCity' ? 'Hometown' : `Event ${name}`}
-            </Form.Label>
+            </FormLabel>
             <Form.Control
               {...getInputProps({
                 placeholder: 'Enter event city or town',

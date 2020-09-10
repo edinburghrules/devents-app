@@ -15,6 +15,7 @@ export const EventListItemCard = styled(Card)`
 export const EventListItemCardTitle = styled(Card.Title)`
   font-size: 1.6rem !important;
   font-weight: 600 !important;
+  margin-top: 1.5rem !important;
 `;
 
 export const EventListItemCardBookButton = styled(Card.Body)`
@@ -33,13 +34,18 @@ export const EventListItemCardEventInfo = styled.div`
   flex-direction: column;
 `;
 
+export const EventListCardPeopleGoingHeading = styled(Card.Body)`
+  font-size: .8rem;
+  font-weight: 600;
+  padding: 0;
+  margin-top: -1rem;
+`;
+
 export const EventListItemCardPeopleGoing = styled(Card.Body)`
   font-size: 0.8rem;
-  font-weight:600;
+  font-weight: 600;
   display: flex;
-  flex-direction: column;
   align-items: flex-start;
-  margin-top: 1rem;
 `;
 
 export const EventListItemCardCancelledTextContainer = styled.div`
@@ -49,14 +55,16 @@ export const EventListItemCardCancelledTextContainer = styled.div`
 
 export const EventListItemCardCancelledIcon = styled.span.attrs({
   role: 'img',
-  ariaLabel: 'event cancelled icon'
+  ariaLabel: 'event cancelled icon',
 })`
-  font-size: .65rem;
-  margin-right: .3rem;
+  font-size: 0.65rem;
+  margin-right: 0.3rem;
 `;
 
 export const EventListItemCardDate = styled.span`
-  ${({ isCancelled }) => isCancelled && `
+  ${({ isCancelled }) =>
+    isCancelled &&
+    `
     text-decoration: line-through;
   `}
 `;

@@ -1,5 +1,6 @@
 import React from 'react';
 import { Form } from 'react-bootstrap';
+import {FormLabel} from '../styled/global/forms/forms';
 
 const categoryOptions = [
   { key: null, text: 'Select event category', value: null },
@@ -40,7 +41,7 @@ const CategoryInput = (props) => {
 
   return (
     <Form.Group>
-      <Form.Label>Event Category</Form.Label>
+      <FormLabel>Event Category</FormLabel>
       <Form.Control value={field.value} onChange={handleChange} as='select'>
         {categoryOptions.map((option) => {
           return <option {...option}>{option.text}</option>;

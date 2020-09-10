@@ -15,14 +15,17 @@ import {
 
 const EventDetailsInformation = (props) => {
   const {
-    description,
-    attendees,
-    date,
-    cancelled,
-    venue,
-    cost,
-    latlng,
-  } = props.event;
+    event: {
+      description,
+      attendees,
+      date,
+      cancelled,
+      venue,
+      cost,
+      latlng
+    },
+    isHost
+  } = props;
   let parsedDate = fromUnixTime(date.seconds);
   let numberOfAttendees = Object.keys(attendees).length;
   return (
@@ -47,6 +50,7 @@ const EventDetailsInformation = (props) => {
                     return (
                       <EventListAttendee
                         key={index}
+                        isHost={isHost}
                         attendee={attendees[attendee]}
                       />
                     );

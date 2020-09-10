@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { Button } from 'react-bootstrap';
 
 export const EventDetailsHeadingSection = styled.div`
   background: #fff;
@@ -39,4 +40,8 @@ export const EventDetailsHostName = styled.h5`
   font-weight: 600;
   color: #333;
 `;
+
+export const EventDetailsAttendButton = styled(Button)`
+
+`; 
 

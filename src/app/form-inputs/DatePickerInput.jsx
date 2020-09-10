@@ -2,6 +2,7 @@ import React from 'react';
 import { Form } from 'react-bootstrap';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import { FormLabel } from '../styled/global/forms/forms';
 
 const DatePickerInput = (props) => {
   const {field, form} = props;
@@ -9,9 +10,9 @@ const DatePickerInput = (props) => {
   const date = new Date();
   return (
     <Form.Group>
-      <Form.Label>
+      <FormLabel>
         {field.name === 'date' ? 'Event date' : 'Date of birth'}
-      </Form.Label>
+      </FormLabel>
       <div>
         <Form.Control
           {...props}

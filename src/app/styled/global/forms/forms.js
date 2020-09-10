@@ -5,5 +5,4 @@ export const FormLabel = styled(Form.Label)`
   font-size: 0.7rem;
   font-weight: 600;
   color: #222;
-  letter-spacing: 0.06rem;
 `;

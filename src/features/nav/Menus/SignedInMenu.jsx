@@ -28,7 +28,7 @@ class SignedInMenu extends React.Component {
           ) : (
             <NavAvatar
               src={
-                this.props.userProfile && this.props.userProfile.photoURL
+                this.props.userProfile.photoURL
                   ? this.props.userProfile.photoURL
                   : '/assets/profile.png'
               }

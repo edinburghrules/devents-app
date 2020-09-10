@@ -7,14 +7,12 @@ export const EventListAttendeeContainer = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  margin-right: .8rem;
+  margin-top: -1.5rem;
+  margin-right: .4rem;
+  margin-bottom: 2.5rem;
 `;
 
 export const EventListAttendeeAvatarImage = styled(Image)`
   height: 1.5rem;
 `;
 
-export const EventListAttendeeName = styled.p`
- font-size: .5rem;
- margin-top: .6rem;
-`;

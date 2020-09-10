@@ -30,20 +30,20 @@ const createEvent = (event) => {
     dispatch(startSubmit())
     let hostId = getState().profile.userProfile.uid;
     let name = getState().profile.userProfile.name || getState().profile.userProfile.displayName;
-    let hostPhoto = getState().profile.userProfile.photoURL;
+    let userPhoto = getState().profile.userProfile.photoURL;
     let joined = getState().profile.userProfile.joined;
     let createdEvent = {
       ...event,
       hostedBy: {
         hostId,
         name,
-        hostPhoto,
+        hostPhoto: userPhoto,
       },
       attendees: {
         [hostId]: {
           attending: true,
           joined,
-          hostPhoto,
+          attendeePhoto: userPhoto,
           name,
         },
       },

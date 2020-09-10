@@ -22,7 +22,7 @@ class EventDetails extends Component {
           isGoing={isGoing}
           event={event}
         />
-        <EventDetailsInformation event={event} />
+        <EventDetailsInformation isHost={isHost} event={event} />
       </Fragment>
     );
   }
@@ -36,7 +36,9 @@ const mapStateToProps = (state, ownProps) => {
   let isGoing;
 
   if (event === undefined) {
-    return; 
+    return {
+      
+    }; 
   } else {
     if(event.attendees.hasOwnProperty(state.profile.userProfile.uid)) {
       isGoing = true;

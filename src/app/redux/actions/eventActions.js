@@ -19,6 +19,7 @@ const getEvents = () => {
           });
         });
       dispatch({ type: 'GET_EVENTS', payload: events });
+      return 'hello'
     } catch (err) {
       console.log(err);
     }

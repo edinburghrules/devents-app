@@ -1,6 +1,7 @@
 import React from 'react';
 import { Form } from 'react-bootstrap';
-import {FormLabel} from '../styled/global/forms/forms';
+import { FormLabel } from '../styled/global/forms/forms';
+import { CheckBoxContainer, CheckBox } from '../styled/global/forms/forms';
 
 const interestOptions = [
   { name: 'interests', text: 'Frontend Web Development' },
@@ -23,21 +24,23 @@ const CheckboxInput = (props) => {
     }
   };
   return (
-    <Form.Group>
-    <FormLabel>Interests</FormLabel>
-      {interestOptions.map((option, i) => {
-        return (
-          <Form.Check
-            onChange={handleChange}
-            checked={props.form.values.interests.includes(option.text)}
-            name={option.text}
-            key={i}
-            type='checkbox'
-            label={option.text}
-          />
-        );
-      })}
-    </Form.Group>
+    <CheckBoxContainer>
+      <Form.Group>
+        <FormLabel>Interests</FormLabel>
+        {interestOptions.map((option, i) => {
+          return (
+            <CheckBox
+              onChange={handleChange}
+              checked={props.form.values.interests.includes(option.text)}
+              name={option.text}
+              key={i}
+              type='checkbox'
+              label={option.text}
+            />
+          );
+        })}
+      </Form.Group>
+    </CheckBoxContainer>
   );
 };
 

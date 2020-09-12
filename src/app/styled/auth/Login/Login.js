@@ -27,6 +27,7 @@ export const GoogleButton = styled(Button)`
   font-weight: 600 !important;
   text-decoration: none;
   border: 2px solid #f0f0f0;
+  background: #ffffff;
 `;
 
 export const AccountMessage = styled.div`

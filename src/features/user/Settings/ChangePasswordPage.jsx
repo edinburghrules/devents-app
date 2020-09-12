@@ -5,8 +5,9 @@ import { withFormik, Field } from 'formik';
 import * as Yup from 'yup';
 import TextInput from '../../../app/form-inputs/TextInput';
 import { editPassword } from '../../../app/redux/actions/userActions';
+import { GoogleButton } from  '../../../app/styled/settings/ChangePassword';
 
-const AccountPage = ({
+const ChangePasswordPage = ({
   handleSubmit,
   errors,
   touched,
@@ -17,7 +18,7 @@ const AccountPage = ({
   if (providerId === 'password') {
     return (
       <div>
-        <h2>Account Page</h2>
+        <h4>Account Page</h4>
         <Form onSubmit={handleSubmit}>
           <Field name='newpassword' as={TextInput} type='password' />
           {touched.newpassword && errors.hasOwnProperty('newpassword') && (
@@ -45,13 +46,13 @@ const AccountPage = ({
   } else if (providerId === 'google.com') {
     return (
       <div>
-        <h3 className='mb-4'>Change Password</h3>
+        <h4 className='mb-4'>Change Password</h4>
         <h6>Google Account</h6>
         <p>
           Please click the button below to visit your Google profile and change
           your password.
         </p>
-        <Button
+        <GoogleButton
           href='https://myaccount.google.com/personal-info'
           target='_blank'
           rel='noopener noreferrer'
@@ -60,13 +61,13 @@ const AccountPage = ({
         >
           <img className='mr-1' src='/assets/google.png' alt='google logo' />
           Google
-        </Button>
+        </GoogleButton>
       </div>
     );
   }
 };
 
-const formikAccountPage = withFormik({
+const formikChangePasswordPage = withFormik({
   mapPropsToValues: () => ({
     newpassword: '',
     confirmpassword: '',
@@ -83,7 +84,7 @@ const formikAccountPage = withFormik({
       setErrors({ error: 'Passwords do not match!' });
     }
   },
-})(AccountPage);
+})(ChangePasswordPage);
 
 const mapStateToProps = (state) => {
   return {
@@ -96,4 +97,4 @@ const mapDispatchToProps = {
   editPassword
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(formikAccountPage);
+export default connect(mapStateToProps, mapDispatchToProps)(formikChangePasswordPage);

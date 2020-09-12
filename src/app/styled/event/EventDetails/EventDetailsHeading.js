@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { Button } from 'react-bootstrap';
+// import {Link} from 'react-router-dom';
 
 export const EventDetailsHeadingSection = styled.div`
   background: #fff;
@@ -47,10 +48,26 @@ export const EventDetailsAttendButton = styled(Button)`
   align-items: center;
   width: 12rem;
   height: 3rem;
-`; 
+`;
 
 export const EventDetailsUnattendButton = styled(Button)`
   width: 12rem;
   height: 3rem;
-`; 
+`;
 
+export const EventDetailsEditButton = styled(Button)`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 12rem;
+  height: 3rem;
+  background: #17a2b8;
+  color: #fff;
+  border-radius: 4px;
+
+  &:hover {
+    text-decoration: none;
+    color: #fff;
+    background: rgba(23,162,184, 0.8);
+  }
+`;

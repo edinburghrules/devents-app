@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, Button, Spinner } from 'react-bootstrap';
+import { Form, Spinner } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { Field, FieldArray, withFormik } from 'formik';
 import { fromUnixTime } from 'date-fns';
@@ -9,11 +9,12 @@ import PlaceInput from '../../../app/form-inputs/PlaceInput';
 import TextAreaInput from '../../../app/form-inputs/TextAreaInput';
 import CheckboxInput from '../../../app/form-inputs/CheckboxInput';
 import { updateProfile } from '../../../app/redux/actions/userActions';
+import { UpdateProfileBtn } from '../../../app/styled/settings/EditProfile';
 
-const Profile = ({ handleSubmit, submitting }) => {
+const EditProfile = ({ handleSubmit, submitting }) => {
   return (
     <div>
-      <h2>Profile</h2>
+      <h4>Profile</h4>
       <p>Add information about yourself</p>
       <Form onSubmit={handleSubmit}>
         <Field name='name' as={TextInput} placeholder='Enter your name' />
@@ -30,15 +31,15 @@ const Profile = ({ handleSubmit, submitting }) => {
         />
         <Field as={TextAreaInput} name='about' />
         <FieldArray component={CheckboxInput} name='interests' />
-        <Button type='submit'>
+        <UpdateProfileBtn className='mt-5' type='submit'>
           {submitting ? (<Spinner animation='border' size='sm' variant='light' />) : 'Update profile'}
-        </Button>
+        </UpdateProfileBtn>
       </Form>
     </div>
   );
 };
 
-const formikProfile = withFormik({
+const formikEditProfile = withFormik({
   mapPropsToValues: ({ profile }) => {
     if (profile) {
       return {
@@ -63,7 +64,7 @@ const formikProfile = withFormik({
   handleSubmit: (values, { props: { updateProfile } }) => {
     updateProfile(values);
   },
-})(Profile);
+})(EditProfile);
 
 const mapStateToProps = state => {
   return {
@@ -75,4 +76,4 @@ const mapDispatchToProps = {
   updateProfile
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(formikProfile);
+export default connect(mapStateToProps, mapDispatchToProps)(formikEditProfile);

@@ -1,24 +1,25 @@
 import React from 'react';
-import { Col, Row, Container } from 'react-bootstrap';
+import { Col, Row } from 'react-bootstrap';
 import { Route, Switch, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import AccountNav from './AccountNav';
 import PhotoPage from './PhotoPage';
-import AccountPage from './AccountPage';
-import Profile from './Profile';
+import ChangePasswordPage from './ChangePasswordPage';
+import EditProfile from './EditProfile';
 import DetailedUserPage from '../DetailedUser/DetailedUserPage';
+import { AccountDashboardContainer } from '../../../app/styled/settings/AccountDashboard';
 
 const AccountDashboard = ({ providerId, profile }) => {
   return (
     <div className='page-content'>
-      <Container>
+      <AccountDashboardContainer>
         <Row>
           <Col>
             <AccountNav />
           </Col>
           <Col lg={8}>
             <Switch>
-              <Redirect exact from='/user' to='user/profile' />
+              <Redirect exact from='/user' to='user/edit-profile' />
               <Route
                 path='/detailed-user'
                 render={() => <DetailedUserPage />}
@@ -28,17 +29,17 @@ const AccountDashboard = ({ providerId, profile }) => {
                 render={() => <PhotoPage profilePhoto={profile.photoURL} />}
               />
               <Route
-                path='/user/account'
-                render={() => <AccountPage providerId={providerId} />}
+                path='/user/change-password'
+                render={() => <ChangePasswordPage providerId={providerId} />}
               />
               <Route
-                path='/user/profile'
-                render={() => <Profile profile={profile && profile} />}
+                path='/user/edit-profile'
+                render={() => <EditProfile profile={profile && profile} />}
               />
             </Switch>
           </Col>
         </Row>
-      </Container>
+      </AccountDashboardContainer>
     </div>
   );
 };

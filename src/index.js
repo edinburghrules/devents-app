@@ -10,7 +10,12 @@ import firebase from './app/config/firebase';
 
 const store = configureStore();
 
-store.dispatch(getEvents());
+const fetchEvents = async() => {
+  await store.dispatch(getEvents());
+  return;
+}
+
+fetchEvents();
 
 let render = () => {
   ReactDOM.render(

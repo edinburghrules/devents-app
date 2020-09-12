@@ -1,6 +1,6 @@
 /* global google */
 import React, { Component } from 'react';
-import { Form, Alert, Spinner } from 'react-bootstrap';
+import { Form, Button, Alert, Spinner } from 'react-bootstrap';
 import { addDays, fromUnixTime } from 'date-fns';
 import { withFormik, Field } from 'formik';
 import { connect } from 'react-redux';
@@ -16,13 +16,7 @@ import {
   createEvent,
   editEvent,
 } from '../../../app/redux/actions/eventActions';
-import {
-  EventFormContainer,
-  EventFormHeading,
-  EventFormButtons,
-  EventFormSubmitBtn,
-  EventFormCancelBtn,
-} from '../../../app/styled/event/EventForm/EventForm';
+import { EventFormContainer, EventFormHeading, EventFormButtons, EventFormSubmitBtn } from '../../../app/styled/event/EventForm/EventForm';
 
 const coords = {
   city: {},
@@ -51,7 +45,7 @@ class EventForm extends Component {
       values,
       setFieldValue,
       dirty,
-      isSubmitting,
+      isSubmitting
     } = this.props;
 
     return (
@@ -84,11 +78,7 @@ class EventForm extends Component {
               <Alert variant='danger'>{errors.summary}</Alert>
             )}
 
-            <Field
-              defaultValue={event.cost}
-              component={CostInput}
-              name='cost'
-            />
+            <Field defaultValue={event.cost} component={CostInput} name='cost' />
 
             <Field
               as={TextAreaInput}
@@ -161,7 +151,7 @@ class EventForm extends Component {
               'Create event'
             )}
           </EventFormSubmitBtn>
-          <EventFormCancelBtn
+          <Button
             onClick={() => {
               if (event.id) {
                 history.push(`/event/${event.id}`);
@@ -172,7 +162,7 @@ class EventForm extends Component {
             variant='danger'
           >
             Cancel
-          </EventFormCancelBtn>
+          </Button>
         </EventFormButtons>
       </EventFormContainer>
     );

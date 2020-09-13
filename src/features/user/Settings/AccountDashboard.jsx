@@ -7,7 +7,7 @@ import PhotoPage from './PhotoPage';
 import ChangePasswordPage from './ChangePasswordPage';
 import EditProfile from './EditProfile';
 import DetailedUserPage from '../DetailedUser/DetailedUserPage';
-import { AccountDashboardContainer } from '../../../app/styled/settings/AccountDashboard';
+import { AccountDashboardContainer } from '../../../app/styled/user/Settings/AccountDashboard';
 
 const AccountDashboard = ({ providerId, profile }) => {
   return (

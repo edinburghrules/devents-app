@@ -9,7 +9,7 @@ import PlaceInput from '../../../app/form-inputs/PlaceInput';
 import TextAreaInput from '../../../app/form-inputs/TextAreaInput';
 import CheckboxInput from '../../../app/form-inputs/CheckboxInput';
 import { updateProfile } from '../../../app/redux/actions/userActions';
-import { UpdateProfileBtn } from '../../../app/styled/settings/EditProfile';
+import { UpdateProfileBtn } from '../../../app/styled/user/Settings/EditProfile';
 
 const EditProfile = ({ handleSubmit, submitting }) => {
   return (

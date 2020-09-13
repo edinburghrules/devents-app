@@ -5,7 +5,7 @@ import { withFormik, Field } from 'formik';
 import * as Yup from 'yup';
 import TextInput from '../../../app/form-inputs/TextInput';
 import { editPassword } from '../../../app/redux/actions/userActions';
-import { GoogleButton } from  '../../../app/styled/settings/ChangePassword';
+import { GoogleButton } from  '../../../app/styled/user/Settings/ChangePassword';
 
 const ChangePasswordPage = ({
   handleSubmit,

@@ -1,14 +1,17 @@
 import React from 'react';
-import { Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import {
+  DetailedUserEditContainer,
+  DetailedUserEditButton,
+} from '../../../app/styled/user/DetailedUser/DetailedUserEditBtn';
 
 const DetailedUserEdit = () => {
   return (
-    <div className='detailed-user-edit'>
-      <Button as={Link} to='/user/edit-profile'>
+    <DetailedUserEditContainer>
+      <DetailedUserEditButton as={Link} to='/user/edit-profile'>
         Edit
-      </Button>
-    </div>
+      </DetailedUserEditButton>
+    </DetailedUserEditContainer>
   );
 };
 

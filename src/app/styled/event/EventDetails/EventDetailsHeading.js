@@ -70,4 +70,8 @@ export const EventDetailsEditButton = styled(Button)`
     color: #fff;
     background: rgba(23,162,184, 0.8);
   }
+
+  &:active {
+    background: #128293;
+  }
 `;

@@ -18,7 +18,7 @@ import {
   ProfileImage,
   UpdatePhotoBtn,
   UpdatePhotoBtnContainer
-} from '../../../app/styled/settings/PhotoPage';
+} from '../../../app/styled/user/Settings/PhotoPage';
 
 class PhotoPage extends React.Component {
   state = {

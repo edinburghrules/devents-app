@@ -11,6 +11,7 @@ export const ImageContainer = styled(Container)`
   padding: 2rem;
   border-radius: 8px;
   margin: 5rem auto;
+  border: 2px solid #eee;
 `;
 
 export const CroppingImage = styled(ReactCrop)`

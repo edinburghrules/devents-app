@@ -1,14 +1,14 @@
 import styled from 'styled-components';
 
-export const DetailedUserAboutContainer = styled.div`
+export const UserProfileAboutContainer = styled.div`
   margin: 2rem 0;
 `;
 
-export const DetailedUserInterests = styled.div`
+export const UserProfileInterests = styled.div`
   margin: 2rem 0;
 `;
 
-export const DetailedUserAboutList = styled.ul`
+export const UserProfileAboutList = styled.ul`
   list-style: none;
   padding: 0;
   font-weight: 400;
@@ -16,7 +16,7 @@ export const DetailedUserAboutList = styled.ul`
   display: flex;
 `;
 
-export const DetailedUserAboutListItem = styled.li`
+export const UserProfileAboutListItem = styled.li`
   color: #555;
   font-size: 0.9rem;
   margin-right: 1.5rem;

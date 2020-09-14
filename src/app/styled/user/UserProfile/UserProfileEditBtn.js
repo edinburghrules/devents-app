@@ -1,11 +1,11 @@
 import styled from 'styled-components';
 import { Button } from 'react-bootstrap';
 
-export const DetailedUserEditContainer = styled.div`
+export const UserProfileEditContainer = styled.div`
   margin-left: auto;
 `;
 
-export const DetailedUserEditButton = styled(Button)`
+export const UserProfileEditButton = styled(Button)`
   display: flex;
   justify-content: center;
   align-items: center;

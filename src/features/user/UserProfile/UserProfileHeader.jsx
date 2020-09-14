@@ -1,19 +1,19 @@
 import React from 'react';
 import { fromUnixTime, format } from 'date-fns';
 import {
-  DetailedUserHeaderContainer,
-  DetailedUserHeaderImg,
-  DetailedUserHeaderJoinDate,
-} from '../../../app/styled/user/DetailedUser/DetailedUserHeader';
-import DetailedUserEdit from './DetailedUserEdit';
+  UserProfileHeaderContainer,
+  UserProfileHeaderImg,
+  UserProfileHeaderJoinDate,
+} from '../../../app/styled/user/UserProfile/UserProfileHeader';
+import UserProfileEdit from './UserProfileEdit';
 
-const DetailedUserHeader = ({ userDetails }) => {
+const UserProfileHeader = ({ userDetails }) => {
   let date = fromUnixTime(userDetails.joined.seconds);
   let parsedJoinDate = format(date, 'EEEE, do MMMM yyyy');
   return (
-    <DetailedUserHeaderContainer>
+    <UserProfileHeaderContainer>
       <div>
-        <DetailedUserHeaderImg
+        <UserProfileHeaderImg
           src={userDetails.photoURL || '/assets/profile.png'}
           alt='user'
         />
@@ -23,14 +23,14 @@ const DetailedUserHeader = ({ userDetails }) => {
         {userDetails.occupation && <h6>{userDetails.occupation}</h6>}
         {userDetails.homeCity && <h6>{userDetails.homeCity}</h6>}
         {userDetails.joined && (
-          <DetailedUserHeaderJoinDate>
+          <UserProfileHeaderJoinDate>
             Member since: {parsedJoinDate}
-          </DetailedUserHeaderJoinDate>
+          </UserProfileHeaderJoinDate>
         )}
       </div>
-        <DetailedUserEdit />
-    </DetailedUserHeaderContainer>
+        <UserProfileEdit />
+    </UserProfileHeaderContainer>
   );
 };
 
-export default DetailedUserHeader;
+export default UserProfileHeader;

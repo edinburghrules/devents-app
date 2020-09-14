@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import {
   EventDetailsAttendeeCard,
   EventDetailsAttendeeCardImage,
@@ -6,13 +7,14 @@ import {
 } from '../../../app/styled/event/EventDetails/EventDetailsAttendee';
 
 const EventDetailsAttendee = (props) => {
+  const {attendee: {attendeePhoto, name}} = props;
   return (
-    <EventDetailsAttendeeCard>
+    <EventDetailsAttendeeCard as={Link} to={`/`}>
       <EventDetailsAttendeeCardImage
-        src={props.attendee.attendeePhoto || '/assets/profile.png'}
+        src={attendeePhoto || '/assets/profile.png'}
         alt='event attendee'
       />
-      <EventDetailsAttendeeCardName>{props.attendee.name}</EventDetailsAttendeeCardName>
+      <EventDetailsAttendeeCardName>{name}</EventDetailsAttendeeCardName>
     </EventDetailsAttendeeCard>
   );
 };

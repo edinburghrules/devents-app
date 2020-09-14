@@ -5,12 +5,15 @@ import { CheckBoxContainer, CheckBox } from '../styled/global/forms/forms';
 
 const interestOptions = [
   { name: 'interests', text: 'Frontend Web Development' },
+  { name: 'interests', text: 'UX Design' },
+  { name: 'interests', text: 'UI Design' },
   { name: 'interests', text: 'Backend Web Development' },
   { name: 'interests', text: 'Fullstack Web Development' },
+  { name: 'interests', text: 'Mobile Application Development' },
+  { name: 'interests', text: 'Software Engineering' },
+  { name: 'interests', text: 'Game Development' },
   { name: 'interests', text: 'Data Science' },
   { name: 'interests', text: 'AI and Machine Learning' },
-  { name: 'interests', text: 'Mobile Application Development' },
-  { name: 'interests', text: 'Programming Languages' },
   { name: 'interests', text: 'General Technology' },
 ];
 

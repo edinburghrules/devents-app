@@ -10,12 +10,15 @@ import {
 
 class UserProfilePage extends React.Component {
   render() {
-    const { userDetails } = this.props;
+    const {
+      userProfileDetails, 
+      currentUser
+    } = this.props;
     return (
       <UserProfileContainer>
         <UserProfileCard>
-          <UserProfileHeader userDetails={userDetails} />
-          <UserProfileAbout userDetails={userDetails} />
+          <UserProfileHeader currentUser={currentUser} userDetails={userProfileDetails} />
+          <UserProfileAbout userDetails={userProfileDetails} />
           <UserProfileEvents />
         </UserProfileCard>
       </UserProfileContainer>
@@ -23,8 +26,11 @@ class UserProfilePage extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => ({
-  userDetails: state.profile.userProfile,
-});
+const mapStateToProps = (state, {match: {params: {id}}}) => {
+ return {
+   userProfileDetails: state.profile.usersCollection.find(user => user.id === id),
+   currentUser: state.auth.currentUser.uid
+ }
+};
 
 export default connect(mapStateToProps)(UserProfilePage);

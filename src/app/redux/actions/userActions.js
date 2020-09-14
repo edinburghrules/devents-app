@@ -1,7 +1,7 @@
 import firebase from '../../config/firebase';
 import { toast } from 'react-toastify';
 import { startSubmit, stopSubmit } from './asyncActions';
-import { getEvents } from './eventActions';
+import { getEventsAndUsers } from './eventActions';
 
 
 const attendEvent = (event) => {
@@ -22,7 +22,7 @@ const attendEvent = (event) => {
           [`attendees.${currentUser}`]: newAttendee
         })
       
-      await dispatch(getEvents());
+      await dispatch(getEventsAndUsers());
       dispatch(stopSubmit());
 
     }  catch(err) {
@@ -43,7 +43,7 @@ const unattendEvent = event => {
         .update({
           [`attendees.${currentUser}`]: firebase.firestore.FieldValue.delete()
         })
-      await dispatch(getEvents());
+      await dispatch(getEventsAndUsers());
       dispatch(stopSubmit());
     } catch(err) {
 

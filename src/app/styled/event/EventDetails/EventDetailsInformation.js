@@ -8,8 +8,8 @@ export const EventDetailsInformationContainer = styled(Container)`
 export const EventDetailsInformationCard = styled.div`
   text-align: left;
   background: #fff;
-  box-shadow: 0px 2px 2px 2px #e0e0e0 !important;
-  border-radius: 4px !important;
+  box-shadow: 0px 2px 2px 2px #e0e0e0;
+  border-radius: 4px;
   padding: 1.5rem;
   margin-bottom: 2rem;
 `;

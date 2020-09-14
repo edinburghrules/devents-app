@@ -5,13 +5,13 @@ import App from './app/layout/App';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import configureStore from './app/redux/store/configureStore';
-import { getEvents } from './app/redux/actions/eventActions';
+import { getEventsAndUsers } from './app/redux/actions/eventActions';
 import firebase from './app/config/firebase';
 
 const store = configureStore();
 
 const fetchEvents = async() => {
-  await store.dispatch(getEvents());
+  await store.dispatch(getEventsAndUsers());
   return;
 }
 

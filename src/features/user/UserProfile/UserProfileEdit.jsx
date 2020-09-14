@@ -5,10 +5,10 @@ import {
   UserProfileEditButton,
 } from '../../../app/styled/user/UserProfile/UserProfileEditBtn';
 
-const DetailedUserEdit = () => {
+const DetailedUserEdit = ({userId}) => {
   return (
     <UserProfileEditContainer>
-      <UserProfileEditButton as={Link} to='/user/edit-profile'>
+      <UserProfileEditButton as={Link} to={`/user/edit-profile/${userId}`}>
         Edit
       </UserProfileEditButton>
     </UserProfileEditContainer>

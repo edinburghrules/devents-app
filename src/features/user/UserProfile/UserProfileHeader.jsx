@@ -7,7 +7,7 @@ import {
 } from '../../../app/styled/user/UserProfile/UserProfileHeader';
 import UserProfileEdit from './UserProfileEdit';
 
-const UserProfileHeader = ({ userDetails }) => {
+const UserProfileHeader = ({ userDetails, currentUser }) => {
   let date = fromUnixTime(userDetails.joined.seconds);
   let parsedJoinDate = format(date, 'EEEE, do MMMM yyyy');
   return (
@@ -28,7 +28,8 @@ const UserProfileHeader = ({ userDetails }) => {
           </UserProfileHeaderJoinDate>
         )}
       </div>
-        <UserProfileEdit />
+      {console.log(userDetails)}
+      {currentUser === userDetails.id && (<UserProfileEdit userId={userDetails.id}/>)}
     </UserProfileHeaderContainer>
   );
 };

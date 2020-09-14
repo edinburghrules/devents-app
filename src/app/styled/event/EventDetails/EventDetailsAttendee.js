@@ -5,6 +5,7 @@ export const EventDetailsAttendeeCard = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  color: #222;
 `;
 
 export const EventDetailsAttendeeCardImage = styled.img`

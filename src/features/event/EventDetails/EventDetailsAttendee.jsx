@@ -3,13 +3,17 @@ import { Link } from 'react-router-dom';
 import {
   EventDetailsAttendeeCard,
   EventDetailsAttendeeCardImage,
-  EventDetailsAttendeeCardName
+  EventDetailsAttendeeCardName,
 } from '../../../app/styled/event/EventDetails/EventDetailsAttendee';
 
 const EventDetailsAttendee = (props) => {
-  const {attendee: {attendeePhoto, name}} = props;
+  const {
+    attendee: { attendeePhoto, name },
+    attendeeId
+  } = props;
+
   return (
-    <EventDetailsAttendeeCard as={Link} to={`/`}>
+    <EventDetailsAttendeeCard as={Link} to={`/user-profile/${attendeeId}`}>
       <EventDetailsAttendeeCardImage
         src={attendeePhoto || '/assets/profile.png'}
         alt='event attendee'

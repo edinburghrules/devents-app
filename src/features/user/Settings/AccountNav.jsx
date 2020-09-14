@@ -9,7 +9,7 @@ const AccountNav = ({userId}) => {
         View profile 
         <span role='img' aria-label='right arrow icon'> →</span>
       </Nav.Link>
-      <Nav.Link activeClassName='selected' as={NavLink} to='/user/edit-profile'>
+      <Nav.Link activeClassName='selected' as={NavLink} to={`/user/edit-profile/${userId}`}>
         Edit profile
         <span role='img' aria-label='right arrow icon'> →</span>
       </Nav.Link>

@@ -10,21 +10,13 @@ import {
   EventDetailsInformationTotalAttendees,
   EventDetailsInformationAttendeesSection,
   EventDetailsInformationDate,
-  EventDetailsInformationMap
+  EventDetailsInformationMap,
 } from '../../../app/styled/event/EventDetails/EventDetailsInformation';
 
 const EventDetailsInformation = (props) => {
   const {
-    event: {
-      description,
-      attendees,
-      date,
-      cancelled,
-      venue,
-      cost,
-      latlng
-    },
-    isHost
+    event: { description, attendees, date, cancelled, venue, cost, latlng },
+    isHost,
   } = props;
   let parsedDate = fromUnixTime(date.seconds);
   let numberOfAttendees = Object.keys(attendees).length;
@@ -34,7 +26,9 @@ const EventDetailsInformation = (props) => {
         <Col>
           <EventDetailsInformationCard>
             <div>
-              <EventDetailsInformationCardHeading>Details</EventDetailsInformationCardHeading>
+              <EventDetailsInformationCardHeading>
+                Details
+              </EventDetailsInformationCardHeading>
               <p>{description}</p>
             </div>
           </EventDetailsInformationCard>
@@ -42,7 +36,9 @@ const EventDetailsInformation = (props) => {
             <div>
               <EventDetailsInformationCardHeading>
                 {attendees && attendees.length} People going{' '}
-                <EventDetailsInformationTotalAttendees>({numberOfAttendees})</EventDetailsInformationTotalAttendees>
+                <EventDetailsInformationTotalAttendees>
+                  ({numberOfAttendees})
+                </EventDetailsInformationTotalAttendees>
               </EventDetailsInformationCardHeading>
               <EventDetailsInformationAttendeesSection>
                 {attendees &&
@@ -52,6 +48,7 @@ const EventDetailsInformation = (props) => {
                         key={index}
                         isHost={isHost}
                         attendee={attendees[attendee]}
+                        attendeeId={attendee}
                       />
                     );
                   })}
@@ -61,14 +58,14 @@ const EventDetailsInformation = (props) => {
         </Col>
         <Col>
           <EventDetailsInformationCard>
-            <EventDetailsInformationCardHeading>Information</EventDetailsInformationCardHeading>
+            <EventDetailsInformationCardHeading>
+              Information
+            </EventDetailsInformationCardHeading>
             <div>
               <span role='img' aria-label='date icon'>
                 🗓
               </span>
-              <EventDetailsInformationDate
-                isCancelled={cancelled}
-              >
+              <EventDetailsInformationDate isCancelled={cancelled}>
                 {date && format(parsedDate, ' EEEE, do MMMM yyyy')} at{' '}
                 {format(parsedDate, 'h:mm a')}
               </EventDetailsInformationDate>

@@ -6,7 +6,7 @@ import AccountNav from './AccountNav';
 import PhotoPage from './PhotoPage';
 import ChangePasswordPage from './ChangePasswordPage';
 import EditProfile from './EditProfile';
-import DetailedUserPage from '../UserProfile/UserProfilePage';
+import UserProfilePage from '../UserProfile/UserProfilePage';
 import { AccountDashboardContainer } from '../../../app/styled/user/Settings/AccountDashboard';
 
 const AccountDashboard = ({ providerId, profile }) => {
@@ -19,10 +19,10 @@ const AccountDashboard = ({ providerId, profile }) => {
           </Col>
           <Col lg={8}>
             <Switch>
-              <Redirect exact from='/user' to='user/edit-profile' />
+              <Redirect exact from='/user' to='/' />
               <Route
-                path='/detailed-user'
-                render={() => <DetailedUserPage />}
+                path='/user-profile/:id'
+                render={() => <UserProfilePage />}
               />
               <Route
                 path='/user/photo'
@@ -33,7 +33,7 @@ const AccountDashboard = ({ providerId, profile }) => {
                 render={() => <ChangePasswordPage providerId={providerId} />}
               />
               <Route
-                path='/user/edit-profile'
+                path='/user/edit-profile/:id'
                 render={() => <EditProfile profile={profile && profile} />}
               />
             </Switch>

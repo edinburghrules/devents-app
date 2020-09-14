@@ -45,7 +45,7 @@ class SignedInMenu extends React.Component {
             <NavDropdownLink className='dropdown-item' to='/createEvent'>
               Create Event
             </NavDropdownLink>
-            <NavDropdownLink to={'/user'} className='dropdown-item'>
+            <NavDropdownLink to={`/user/edit-profile/${this.props.userProfile.uid}`} className='dropdown-item'>
               Account
             </NavDropdownLink>
             <Button

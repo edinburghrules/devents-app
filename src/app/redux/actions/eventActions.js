@@ -2,10 +2,11 @@ import firebase from '../../config/firebase';
 import { toast } from 'react-toastify';
 import { startSubmit, stopSubmit } from './asyncActions';
 
-const getEvents = () => {
+const getEventsAndUsers = () => {
   return async (dispatch) => {
     try {
       let events = [];
+      let users = []; 
       await firebase
         .firestore()
         .collection('events')
@@ -18,8 +19,21 @@ const getEvents = () => {
             });
           });
         });
+        await firebase
+        .firestore()
+        .collection('users')
+        .get()
+        .then((querySnapshot) => {
+          querySnapshot.forEach((doc) => {
+            users.push({
+              id: doc.id,
+              ...doc.data(),
+            });
+          });
+        });
       dispatch({ type: 'GET_EVENTS', payload: events });
-      return 'hello'
+      dispatch({ type: 'GET_USERS', payload: users });
+      return;
     } catch (err) {
       console.log(err);
     }
@@ -65,7 +79,7 @@ const createEvent = (event) => {
           eventDate: event.date,
           host: true,
         });
-      await dispatch(getEvents());
+      await dispatch(getEventsAndUsers());
       dispatch(stopSubmit())
       toast.success('Your event is live! 🎉', {
         position: 'bottom-right',
@@ -85,7 +99,7 @@ const editEvent = (event) => {
     dispatch(startSubmit())
     try {
       await firebase.firestore().collection('events').doc(event.id).set(event);
-      await dispatch(getEvents());
+      await dispatch(getEventsAndUsers());
       toast.success('Event updated! 🎉', {
         position: 'bottom-right',
         autoClose: 5000,
@@ -101,4 +115,4 @@ const editEvent = (event) => {
 };
 
 
-export { getEvents, createEvent, editEvent };
+export { getEventsAndUsers, createEvent, editEvent };

@@ -2,10 +2,10 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { Nav } from 'react-bootstrap';
 
-const AccountNav = () => {
+const AccountNav = ({userId}) => {
   return (
     <Nav className='flex-column'>
-      <Nav.Link activeClassName='selected' as={NavLink} to='/detailed-user'>
+      <Nav.Link activeClassName='selected' as={NavLink} to={`/user-profile/${userId}`}>
         View profile 
         <span role='img' aria-label='right arrow icon'> →</span>
       </Nav.Link>

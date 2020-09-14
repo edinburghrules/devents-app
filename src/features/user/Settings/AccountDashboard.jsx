@@ -15,7 +15,7 @@ const AccountDashboard = ({ providerId, profile }) => {
       <AccountDashboardContainer>
         <Row>
           <Col>
-            <AccountNav />
+            <AccountNav userId={profile.uid} />
           </Col>
           <Col lg={8}>
             <Switch>

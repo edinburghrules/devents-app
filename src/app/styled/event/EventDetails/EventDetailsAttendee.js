@@ -6,6 +6,12 @@ export const EventDetailsAttendeeCard = styled.div`
   justify-content: center;
   align-items: center;
   color: #222;
+  padding: .4rem 0;
+  
+  &:hover {
+    text-decoration: none;
+    color: #222;
+  }
 `;
 
 export const EventDetailsAttendeeCardImage = styled.img`
@@ -20,7 +26,7 @@ export const EventDetailsAttendeeCardName = styled.span`
   font-weight: 400;
   display: flex;
   flex-direction: column;
-  width: 80%;
+  width: 60%;
   justify-content: center;
   align-items: center;
 `;

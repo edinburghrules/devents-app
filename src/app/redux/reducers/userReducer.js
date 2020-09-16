@@ -1,7 +1,7 @@
 const initState = {
   userProfile: {},
   error: null,
-  usersCollection: null
+  usersCollection: []
 };
 
 const profileReducer = (state = initState, action) => {
@@ -9,14 +9,16 @@ const profileReducer = (state = initState, action) => {
     case 'GET_USERS':
       return {
         ...state, 
-        usersCollection: action.payload
+        usersCollection: [...action.payload]
       }
     case 'LOAD_USER_PROFILE':
       return {
+        ...state,
         userProfile: { ...action.payload },
       };
     case 'UPDATE_USER_PROFILE':
       return {
+        ...state,
         userProfile: { ...action.payload },
       };
     case 'PROFILE_UPDATE_ERROR':
@@ -31,7 +33,9 @@ const profileReducer = (state = initState, action) => {
       }
     case 'LOGOUT':
       return {
+        ...state,
         userProfile: {},
+        error: null, 
       };
     default:
       return state;

@@ -1,7 +1,30 @@
 import firebase from '../../config/firebase';
 import { toast } from 'react-toastify';
 import { startSubmit, stopSubmit } from './asyncActions';
-import { getEventsAndUsers } from './eventActions';
+import { getEvents } from './eventActions';
+
+const getUsers = () => {
+  return async dispatch => {
+    try {
+      let users = []; 
+      await firebase
+      .firestore()
+      .collection('users')
+      .get()
+      .then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+          users.push({
+            id: doc.id,
+            ...doc.data(),
+          });
+        });
+      });
+      dispatch({ type: 'GET_USERS', payload: users });
+    } catch (err) {
+      console.log(err);
+    }
+  }
+}
 
 
 const attendEvent = (event) => {
@@ -22,7 +45,7 @@ const attendEvent = (event) => {
           [`attendees.${currentUser}`]: newAttendee
         })
       
-      await dispatch(getEventsAndUsers());
+      await dispatch(getEvents());
       dispatch(stopSubmit());
 
     }  catch(err) {
@@ -43,7 +66,7 @@ const unattendEvent = event => {
         .update({
           [`attendees.${currentUser}`]: firebase.firestore.FieldValue.delete()
         })
-      await dispatch(getEventsAndUsers());
+      await dispatch(getEvents());
       dispatch(stopSubmit());
     } catch(err) {
 
@@ -157,4 +180,4 @@ const handlePhotoUpload = (file) => {
   };
 };
 
-export { attendEvent, unattendEvent, editPassword, handlePhotoUpload, updateProfile };
+export { getUsers, attendEvent, unattendEvent, editPassword, handlePhotoUpload, updateProfile };

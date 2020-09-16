@@ -29,7 +29,7 @@ class UserProfilePage extends React.Component {
 const mapStateToProps = (state, {match: {params: {id}}}) => {
  return {
    userProfileDetails: state.profile.usersCollection.find(user => user.id === id),
-   currentUser: state.auth.currentUser.uid
+   currentUser: state.auth.currentUser && state.auth.currentUser.uid
  }
 };
 

@@ -28,7 +28,6 @@ const UserProfileHeader = ({ userDetails, currentUser }) => {
           </UserProfileHeaderJoinDate>
         )}
       </div>
-      {console.log(userDetails)}
       {currentUser === userDetails.id && (<UserProfileEdit userId={userDetails.id}/>)}
     </UserProfileHeaderContainer>
   );

@@ -19,6 +19,7 @@ const profileReducer = (state = initState, action) => {
     case 'UPDATE_USER_PROFILE':
       return {
         ...state,
+        usersCollection: [...state.usersCollection.filter(user => user.id !== action.payload.uid), {...action.payload, id: action.payload.uid}],
         userProfile: { ...action.payload },
       };
     case 'PROFILE_UPDATE_ERROR':

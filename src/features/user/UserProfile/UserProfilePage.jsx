@@ -26,9 +26,9 @@ class UserProfilePage extends React.Component {
   }
 }
 
-const mapStateToProps = (state, {match: {params: {id}}}) => {
+const mapStateToProps = (state, ownProps) => {
  return {
-   userProfileDetails: state.profile.usersCollection.find(user => user.id === id),
+   userProfileDetails: state.profile.usersCollection.find(user => user.id === ownProps.match.params.id),
    currentUser: state.auth.currentUser && state.auth.currentUser.uid
  }
 };

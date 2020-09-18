@@ -6,12 +6,12 @@ import SignedInMenu from '../Menus/SignedInMenu';
 
 class Navigation extends Component {
   render() {
-    const { authenticated, profile, loading } = this.props;
+    const { authenticated, profile, upLoading } = this.props;
     return (
       <NavBar fixed='top' className='navbar' expand='lg'>
         <NavBar.Toggle aria-controls='basic-navbar-nav' />
         {authenticated ? (
-          <SignedInMenu loading={loading} userProfile={profile} />
+          <SignedInMenu upLoading={upLoading} userProfile={profile} />
         ) : (
           <SignedOutMenu />
         )}
@@ -23,7 +23,7 @@ class Navigation extends Component {
 const mapStateToProps = (state) => ({
   authenticated: state.auth.currentUser!== null && Boolean(state.auth.currentUser.email),
   profile: state.profile.userProfile,
-  loading: state.async.loading,
+  upLoading: state.async.upLoading,
 });
 
 export default connect(mapStateToProps)(Navigation);

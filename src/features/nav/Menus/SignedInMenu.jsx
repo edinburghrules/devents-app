@@ -23,7 +23,7 @@ class SignedInMenu extends React.Component {
           <Link className='nav-link mr-5' to='/'>
             Events
           </Link>
-          {this.props.loading ? (
+          {this.props.upLoading ? (
             <Spinner animation='border' variant='primary' size='sm' />
           ) : (
             <NavAvatar

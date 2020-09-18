@@ -10,6 +10,18 @@ const stopLoading = () => {
   };
 };
 
+const startUpLoading = () => {
+  return {
+    type: 'START_UPLOADING',
+  };
+};
+
+const stopUpLoading = () => {
+  return {
+    type: 'STOP_UPLOADING',
+  };
+};
+
 const startAuthorising = (loginType) => {
   return {
     type: 'START_AUTHORISING',
@@ -38,6 +50,8 @@ const stopSubmit = () => {
 export {
   startLoading,
   stopLoading,
+  startUpLoading, 
+  stopUpLoading,
   startAuthorising,
   stopAuthorising,
   startSubmit,

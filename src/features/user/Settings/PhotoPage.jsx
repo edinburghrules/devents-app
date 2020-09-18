@@ -1,24 +1,20 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import {
-  InputGroup,
-  FormControl,
-  Form,
-  Spinner,
-} from 'react-bootstrap';
+import { InputGroup, FormControl, Form, Spinner } from 'react-bootstrap';
 import 'react-image-crop/dist/ReactCrop.css';
 import { handlePhotoUpload } from '../../../app/redux/actions/userActions';
 import {
-  startLoading,
-  stopLoading,
+  startUpLoading,
+  stopUpLoading,
 } from '../../../app/redux/actions/asyncActions';
 import {
   ImageContainer,
   CroppingImage,
   ProfileImage,
   UpdatePhotoBtn,
-  UpdatePhotoBtnContainer
+  UpdatePhotoBtnContainer,
 } from '../../../app/styled/user/Settings/PhotoPage';
+import { UpLoading } from '../../../app/styled/global/loading/loading';
 
 class PhotoPage extends React.Component {
   state = {
@@ -107,7 +103,7 @@ class PhotoPage extends React.Component {
   }
 
   handleClick = async () => {
-    this.props.startLoading();
+    this.props.startUpLoading();
     try {
       await this.props.handlePhotoUpload(this.state.blob);
       this.setState((prevState) => ({
@@ -115,7 +111,7 @@ class PhotoPage extends React.Component {
         src: null,
         filename: null,
       }));
-      this.props.stopLoading();
+      this.props.stopUpLoading();
     } catch (err) {
       console.log(err);
     }
@@ -123,23 +119,36 @@ class PhotoPage extends React.Component {
 
   render() {
     const { crop, src } = this.state;
-    const { profilePhoto } = this.props;
+    const { profilePhoto, upLoading } = this.props;
     return (
       <div>
         {src && (
           <React.Fragment>
-          <h4>Profile Photo</h4>
+            <h4>Profile Photo</h4>
             <ImageContainer>
-              <CroppingImage
-                src={src}
-                crop={crop}
-                ruleOfThirds
-                maxWidth='250'
-                maxHeight='250'
-                onImageLoaded={this.onImageLoaded}
-                onComplete={this.onCropComplete}
-                onChange={this.onCropChange}
-              />
+              {upLoading ? (
+                <UpLoading>
+                <Spinner
+                  as='span'
+                  animation='border'
+                  role='status'
+                  aria-hidden='true'
+                  variant='primary'
+                />
+                </UpLoading>
+
+              ) : (
+                <CroppingImage
+                  src={src}
+                  crop={crop}
+                  ruleOfThirds
+                  maxWidth='250'
+                  maxHeight='250'
+                  onImageLoaded={this.onImageLoaded}
+                  onComplete={this.onCropComplete}
+                  onChange={this.onCropChange}
+                />
+              )}
             </ImageContainer>
           </React.Fragment>
         )}
@@ -165,19 +174,19 @@ class PhotoPage extends React.Component {
         </InputGroup>
         {src && (
           <UpdatePhotoBtnContainer>
-          <UpdatePhotoBtn onClick={this.handleClick}>
-            {this.props.loading ? (
-              <Spinner
-                as='span'
-                animation='border'
-                size='sm'
-                role='status'
-                aria-hidden='true'
-              />
-            ) : (
-              'Upload'
-            )}
-          </UpdatePhotoBtn>
+            <UpdatePhotoBtn onClick={this.handleClick}>
+              {upLoading ? (
+                <Spinner
+                  as='span'
+                  animation='border'
+                  size='sm'
+                  role='status'
+                  aria-hidden='true'
+                />
+              ) : (
+                'Upload'
+              )}
+            </UpdatePhotoBtn>
           </UpdatePhotoBtnContainer>
         )}
       </div>
@@ -186,7 +195,7 @@ class PhotoPage extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-  loading: state.async.loading,
+  upLoading: state.async.upLoading,
 });
 
 const mapDispatchToProps = (dispatch) => {
@@ -194,11 +203,11 @@ const mapDispatchToProps = (dispatch) => {
     handlePhotoUpload: (file) => {
       return dispatch(handlePhotoUpload(file));
     },
-    startLoading: () => {
-      dispatch(startLoading());
+    startUpLoading: () => {
+      dispatch(startUpLoading());
     },
-    stopLoading: () => {
-      dispatch(stopLoading());
+    stopUpLoading: () => {
+      dispatch(stopUpLoading());
     },
   };
 };

@@ -1,6 +1,7 @@
 const initState = {
   appLoaded: false,
   loading: false,
+  upLoading: false,
   authorizing: false,
   googleAuthorizing: false,
   submitting: false,
@@ -23,6 +24,16 @@ const asyncReducer = (state = initState, action) => {
         ...state,
         loading: false,
       };
+    case 'START_UPLOADING':
+      return {
+        ...state,
+        upLoading: true,
+      };
+    case 'STOP_UPLOADING':
+      return {
+        ...state,
+        upLoading: false,
+      };
     case 'START_AUTHORISING':
       if (action.payload === 'googleLogin') {
         return {
@@ -39,7 +50,7 @@ const asyncReducer = (state = initState, action) => {
       return {
         ...state,
         authorizing: false,
-        googleAuthorizing: false
+        googleAuthorizing: false,
       };
     case 'START_SUBMIT':
       return {

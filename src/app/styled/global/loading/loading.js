@@ -7,3 +7,10 @@ export const Loading = styled.div`
   justify-content: center;
   align-items: center;
 `;
+
+export const UpLoading = styled.div`
+  height: 250px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;

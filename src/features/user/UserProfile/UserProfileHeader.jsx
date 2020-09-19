@@ -6,15 +6,17 @@ import {
   UserProfileHeaderJoinDate,
 } from '../../../app/styled/user/UserProfile/UserProfileHeader';
 import UserProfileEdit from './UserProfileEdit';
+import UserProfileFollow from './UserProfileFollow';
 
 const UserProfileHeader = ({ userDetails, currentUser }) => {
-  let date = fromUnixTime(userDetails.joined.seconds);
-  let parsedJoinDate = format(date, 'EEEE, do MMMM yyyy');
+  let date = fromUnixTime(userDetails && userDetails.joined.seconds);
+  let parsedJoinDate = format(date && date, 'EEEE, do MMMM yyyy');
+  console.log(userDetails.uid, currentUser);
   return (
     <UserProfileHeaderContainer>
       <div>
         <UserProfileHeaderImg
-          src={userDetails.photoURL || '/assets/profile.png'}
+          src={(userDetails && userDetails.photoURL) || '/assets/profile.png'}
           alt='user'
         />
       </div>
@@ -28,7 +30,7 @@ const UserProfileHeader = ({ userDetails, currentUser }) => {
           </UserProfileHeaderJoinDate>
         )}
       </div>
-      {currentUser === userDetails.id && (<UserProfileEdit userId={userDetails.id}/>)}
+      {currentUser === null ? '' : currentUser === userDetails.uid ? (<UserProfileEdit/>) : (<UserProfileFollow/>)}
     </UserProfileHeaderContainer>
   );
 };

@@ -11,14 +11,11 @@ import firebase from './app/config/firebase';
 
 const store = configureStore();
 
-const fetchEvents = async() => {
+const fetchEvents = async () => {
   await store.dispatch(getUsers());
   await store.dispatch(getEvents());
   return;
-}
-
-
-fetchEvents();
+};
 
 let render = () => {
   ReactDOM.render(
@@ -31,31 +28,34 @@ let render = () => {
   );
 };
 
-firebase.auth().onAuthStateChanged((user) => {
-  if (user) {
-    store.dispatch({ type: 'GET_AUTH_STATUS', payload: user });
+fetchEvents().then(() => {
+  firebase.auth().onAuthStateChanged((user) => {
+    if (user) {
+      store.dispatch({ type: 'GET_AUTH_STATUS', payload: user });
       firebase
-      .firestore()
-      .collection('users')
-      .get()
-      .then((querySnapshot) => {
-        querySnapshot.forEach((doc) => {
-          if (doc.id === user.uid) {
-            store.dispatch({ type: 'LOAD_USER_PROFILE', payload: doc.data() });
-            setTimeout(() => {
-              store.dispatch({ type: 'APP_LOADED' });
-            }, 500);
-          }
+        .firestore()
+        .collection('users')
+        .get()
+        .then((querySnapshot) => {
+          querySnapshot.forEach((doc) => {
+            if (doc.id === user.uid) {
+              store.dispatch({
+                type: 'LOAD_USER_PROFILE',
+                payload: doc.data(),
+              });
+            }
+          });
+        })
+        .then(() => {
+          store.dispatch({ type: 'APP_LOADED' });
         });
-      });
-  } else {
-    store.dispatch({ type: 'APP_LOADED' });
-  }
+    } else {
+      store.dispatch({ type: 'APP_LOADED' });
+    }
+  });
 });
 
 render();
-
-
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.

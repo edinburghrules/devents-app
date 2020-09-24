@@ -19,7 +19,7 @@ const DatePickerInput = (props) => {
           onBlur={(e) => {
             form.setFieldTouched(field.name, 'true');
           }} 
-          minDate={date.setDate(date.getDate() + 1)}
+          minDate={field.name === 'date' ? date.setDate(date.getDate() + 1) : null}
           as={DatePicker}
           selected={field.value}
           onChange={handleChange}

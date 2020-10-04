@@ -4,21 +4,16 @@ import { connect } from 'react-redux';
 import EventList from '../EventList/EventList';
 import Filters from '../../filters/Filters';
 import { EventDashboardContainer } from '../../../app/styled/event/EventDashboard/EventDashboard';
-
-
+import EventCategories from '../EventCategories/EventCategories';
 
 class EventDashboard extends Component {
   render() {
     const { events } = this.props;
     return (
       <EventDashboardContainer>
-      <Filters/>
-        <Row>
-          <Col lg={6}>
-            <EventList events={events} />
-          </Col>
-          <Col lg={6}>Left</Col>
-        </Row>
+        <Filters />
+        <EventCategories />
+        <EventList events={events} />
       </EventDashboardContainer>
     );
   }

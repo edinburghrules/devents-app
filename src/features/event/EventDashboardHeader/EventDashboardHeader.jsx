@@ -1,20 +1,30 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
 import {
   EventDashboardHeaderContainer,
   EventDashboardHeaderText,
   EventDashboardHeaderBtn,
 } from '../../../app/styled/event/EventDashboardHeader/EventDashboardHeader';
 
-const EventDashboardHeader = () => {
+const EventDashboardHeader = (props) => {
+  console.log(props);
   return (
     <EventDashboardHeaderContainer>
       <EventDashboardHeaderText>Find your people.</EventDashboardHeaderText>
-      <EventDashboardHeaderBtn as={Link} to={'/signup'}>
-       Join Us - It's Free
-      </EventDashboardHeaderBtn>
+      {!props.authenticated && (
+        <EventDashboardHeaderBtn as={Link} to={'/signup'}>
+          Join Us - It's Free
+        </EventDashboardHeaderBtn>
+      )}
     </EventDashboardHeaderContainer>
   );
 };
 
-export default EventDashboardHeader;
+const mapStateToProps = (state) => {
+  return {
+    authenticated: Boolean(state.auth.currentUser)
+  };
+};
+
+export default connect(mapStateToProps)(EventDashboardHeader);

@@ -23,7 +23,7 @@ const authReducer = (state = initState, action) => {
     case 'LOGOUT':
       return {
         ...state,
-        currentUser: {},
+        currentUser: null,
       };
     case 'GOOGLE_LOGIN':
       return {

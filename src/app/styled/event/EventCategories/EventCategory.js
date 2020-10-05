@@ -3,15 +3,21 @@ import styled from 'styled-components';
 
 export const CategoryCard = styled.div`
   background: #fff;
-  padding: 1rem;
+  padding: 0rem;
   text-decoration: none;
   color: #333;
-  margin-bottom: 1rem;
   display: flex;
   align-items: center;
+  border-radius: 8px;
+  box-shadow: 0 2px 2px 2px #e1e1e1;
+  overflow: hidden;
 `;
 
 export const CategoryCardImage = styled.img`
-  width: 6rem;
-  margin-right: 2rem;
+  margin-right: 1rem;
+  height: 3.2rem;
+`;
+
+export const CategoryCardText = styled.h6`
+  margin: 0;
 `;

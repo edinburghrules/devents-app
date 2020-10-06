@@ -17,7 +17,7 @@ export const CheckBox = styled(Form.Check)`
 `;
 
 export const SearchTextCard = styled.div`
-  box-shadow: 0px 2px 2px 2px #e0e0e0;
+  box-shadow: 0 4px 2px -2px #e0e0e0;
   background: #fff;
   margin: -4.5rem 0 5rem 0;
   padding: 30px;

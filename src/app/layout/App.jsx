@@ -12,6 +12,7 @@ import EventForm from '../../features/event/EventForm/EventForm';
 import EventDetails from '../../features/event/EventDetails/EventDetails';
 import AccountDashboard from '../../features/user/Settings/AccountDashboard';
 import DetailedUserPage from '../../features/user/UserProfile/UserProfilePage';
+import EventCategoryPage from '../../features/event/EventCategories/EventCategoryPage';
 import LoadingPage from './LoadingPage';
 import { GlobalStyles } from '../../app/styled/global/globalStyles/GlobalStyle';
 
@@ -41,6 +42,7 @@ function App(props) {
         <Route exact path='/event/:id' component={EventDetails} />
         <Route path='/user' component={AccountDashboard} />
         <Route path='/user-profile/:id' component={DetailedUserPage} />
+        <Route path='/event-category/:id' component={EventCategoryPage} />
       </Switch>
     </Fragment>
   );

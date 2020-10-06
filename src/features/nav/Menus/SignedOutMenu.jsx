@@ -1,20 +1,20 @@
 import React from 'react';
 import { Navbar, Nav } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { NaviLink } from '../../../app/styled/nav/Menus/SignedInMenu';
 
 const SignedOutMenu = () => {
   return (
     <Navbar.Collapse id='basic-navbar-nav'>
       <Nav className='ml-auto'>
-        <Link className='nav-link' to='/'>
+        <NaviLink exact to='/'>
           Events
-        </Link>
-        <Link className='nav-link' to='/login'>
+        </NaviLink>
+        <NaviLink to='/login'>
           Log in
-        </Link>
-        <Link className='nav-link' to='/signup'>
+        </NaviLink>
+        <NaviLink to='/signup'>
           Sign up
-        </Link>
+        </NaviLink>
       </Nav>
     </Navbar.Collapse>
   );

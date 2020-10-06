@@ -1,16 +1,18 @@
 import React, { Component } from 'react';
+import { EventListHeading } from '../../../app/styled/event/EventList/EventList';
 import EventListItem from './EventListItem';
 
 class EventList extends Component {
   render() {
     const { events } = this.props;
     return (
-      <div>
+      <React.Fragment>
+      <EventListHeading>Latest events near you</EventListHeading>
         {events &&
           events.map((event) => {
             return <EventListItem key={event.id} event={event} />;
           })}
-      </div>
+      </React.Fragment>
     );
   }
 }

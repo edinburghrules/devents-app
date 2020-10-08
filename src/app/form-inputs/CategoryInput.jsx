@@ -7,29 +7,29 @@ export const categoryOptions = [
   { key: 'web', text: 'Web Development', value: 'web', name: 'web', img: 'assets/web.png' },
   {
     key: 'mobile',
-    text: 'Mobile development',
+    text: 'Mobile Development',
     value: 'mobile',
     name: 'mobile',
     img: 'assets/mobile.jpg'
   },
-  { key: 'game', text: 'Game development', value: 'game', name: 'game', img: 'assets/game.png' },
+  { key: 'game', text: 'Game Development', value: 'game', name: 'game', img: 'assets/game.png' },
   {
     key: 'machine',
-    text: 'Machine Learning and AI',
+    text: 'Machine Learning',
     value: 'machine',
     name: 'machine',
     img: 'assets/machine.jpeg'
   },
   {
     key: 'database',
-    text: 'Database engineer',
+    text: 'Data Science',
     value: 'database',
     name: 'database',
     img: 'assets/db.jpg'
   },
   {
     key: 'desktop',
-    text: 'Desktop programming',
+    text: 'Desktop Applications',
     value: 'desktop',
     name: 'desktop',
     img: 'assets/software.jpg'

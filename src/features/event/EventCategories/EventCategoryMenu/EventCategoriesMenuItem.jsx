@@ -1,8 +1,8 @@
 import React from 'react'
 import { Link } from 'react-router-dom';
-import { CategoryCard, CategoryCardImage, CategoryCardText } from '../../../app/styled/event/EventCategories/EventCategory';
+import { CategoryCard, CategoryCardImage, CategoryCardText } from '../../../../app/styled/event/EventCategories/EventCategory';
 
-const EventCategory = (props) => {
+const EventCategoryMenuItem = (props) => {
   return (
       <Link style={{textDecoration: 'none'}} to={`/event-category/${props.category.value}`}>
         <CategoryCard>
@@ -13,4 +13,4 @@ const EventCategory = (props) => {
   )
 }
 
-export default EventCategory;
+export default EventCategoryMenuItem;

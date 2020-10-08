@@ -3,7 +3,6 @@ import styled from 'styled-components';
 
 export const CategoryCard = styled.div`
   background: #fff;
-  padding: 0rem;
   text-decoration: none;
   color: #333;
   display: flex;
@@ -11,6 +10,11 @@ export const CategoryCard = styled.div`
   border-radius: 8px;
   box-shadow: 0 2px 2px 2px #e1e1e1;
   overflow: hidden;
+  transition: all .2s;
+
+  &:hover {
+    transform: translateY(-.1rem);
+  }
 `;
 
 export const CategoryCardImage = styled.img`
@@ -20,4 +24,6 @@ export const CategoryCardImage = styled.img`
 
 export const CategoryCardText = styled.h6`
   margin: 0;
+  font-size: 1rem;
+  padding-right: .5rem;
 `;

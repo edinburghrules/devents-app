@@ -69,9 +69,8 @@ const Login = ({
         {error && <Alert variant='danger'>{error.msg || error}</Alert>}
         <div className='m-right mt-5'>
           <Button
-            className='user-login-btn'
+            style={{background: '#ff6e5c', border: 'none'}}
             block
-            variant='success'
             type='submit'
           >
             {isLoggingIn ? <Spinner animation='border' size='sm' /> : 'Log in'}

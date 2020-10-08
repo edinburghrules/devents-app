@@ -9,6 +9,7 @@ const getEvents = () => {
       await firebase
         .firestore()
         .collection('events')
+        .orderBy('date', 'desc')
         .get()
         .then((querySnapshot) => {
           querySnapshot.forEach((doc) => {

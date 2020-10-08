@@ -1,17 +1,31 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { categoryOptions } from '../../../app/form-inputs/CategoryInput';
+import EventCategoryList from '../EventCategories/EventCategoryList/EventCategoryList';
+import { EventCategoryPageContainer, EventCategoryPageTitle } from '../../../app/styled/event/EventCategories/EventCategoryPage';
+
+
 
 class EventCategoryPage extends React.Component {
   render() {
+    const { events, match } = this.props;
+
     return (
-      <React.Fragment>
-        <h1>HELLO</h1>
-        <h1>HELLO</h1>
-        <h1>HELLO</h1>
-        <h1>HELLO</h1>
-        <h1>HELLO</h1>
-      </React.Fragment>
-    )
+      <EventCategoryPageContainer>
+        {categoryOptions.map((cat, index) => {
+          return cat.value === match.params.id ? (<EventCategoryPageTitle key={index}>{cat.text}</EventCategoryPageTitle>) : null;
+        })}
+        <EventCategoryList events={events} />
+      </EventCategoryPageContainer>
+    );
   }
 }
 
-export default EventCategoryPage;
+const mapStateToProps = (state, ownProps) => {
+  let events = state.events.filter(
+    (event) => event.category === ownProps.match.params.id
+  );
+  return { events };
+};
+
+export default connect(mapStateToProps)(EventCategoryPage);

@@ -26,11 +26,9 @@ export const EventDashboardHeaderContent = styled.div`
 `;
 
 export const EventDashboardHeaderText = styled.h1`
-  font-size: 4rem;
+  font-size: 3rem;
   color: #3b4252;
   font-weight: 700;
-  letter-spacing: -2px;
-  letter-spacing: 1px;
 `;
 
 export const EventDashboardHeaderSubText = styled.p`

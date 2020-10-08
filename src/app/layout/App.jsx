@@ -17,6 +17,7 @@ import LoadingPage from './LoadingPage';
 import { GlobalStyles } from '../../app/styled/global/globalStyles/GlobalStyle';
 
 function App(props) {
+  window.scrollTo(0, 0);
   if (!props.isAppLoaded || props.loggingOut)
     return (
       <Fragment>

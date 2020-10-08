@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
-import { Row, Col } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import EventList from '../EventList/EventList';
 import Filters from '../../filters/Filters';
 import { EventDashboardContainer } from '../../../app/styled/event/EventDashboard/EventDashboard';
 import EventDashboardHeader from '../EventDashboardHeader/EventDashboardHeader';
-import EventCategories from '../EventCategories/EventCategories';
+import EventCategoriesMenu from '../EventCategories/EventCategoryMenu/EventCategoriesMenu';
 
 class EventDashboard extends Component {
   render() {
@@ -15,7 +14,7 @@ class EventDashboard extends Component {
         <EventDashboardHeader/>
         <EventDashboardContainer>
           <Filters />
-          <EventCategories />
+          <EventCategoriesMenu />
           <EventList events={events} />
         </EventDashboardContainer>
       </React.Fragment>

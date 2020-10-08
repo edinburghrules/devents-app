@@ -8,16 +8,20 @@ import {
 } from '../styled/global/forms/forms';
 
 const SearchTextInput = (props) => {
+  const handleChange = (e) => {
+    props.getSearchTerm(e.target.value);
+  }
+  
   return (
-    <SearchTextCard>
-      <SearchTextContainer>
+    <SearchTextCard >
+      <SearchTextContainer onChange={handleChange}>
         <SearchTextField>
           <InputGroup.Prepend>
             <InputGroup.Text>
               <SearchIcon src='/assets/magnifying-glass.png'/>
             </InputGroup.Text>
           </InputGroup.Prepend>
-          <Form.Control {...props}></Form.Control>
+          <Form.Control/>
         </SearchTextField>
       </SearchTextContainer>
     </SearchTextCard>

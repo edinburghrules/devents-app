@@ -10,7 +10,6 @@ import {
 } from '../../../app/styled/event/EventDashboardHeader/EventDashboardHeader';
 
 const EventDashboardHeader = (props) => {
-  console.log(props);
   return (
     <EventDashboardHeaderContainer>
       <EventDashboardHeaderContent>

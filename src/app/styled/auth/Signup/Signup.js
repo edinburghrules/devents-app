@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import { Container, Button, Form } from 'react-bootstrap';
+import { Container, Form } from 'react-bootstrap';
 
 export const SignupContainer = styled(Container)`
   display: flex;
@@ -20,11 +20,6 @@ export const SignupFormHeader = styled.h3`
   font-size: 1.2rem;
   font-weight: 600;
   text-align: center;
-`;
-
-export const GoogleButton = styled(Button)`
-  font-size: 0.9rem !important;
-  font-weight: 600 !important;
 `;
 
 export const AccountMessage = styled.div`

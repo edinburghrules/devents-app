@@ -4,17 +4,76 @@ import { Card } from 'react-bootstrap';
 import EventListAttendee from './EventListAttendee';
 import { fromUnixTime, format } from 'date-fns';
 import { withRouter } from 'react-router-dom';
-import {
-  EventListItemCardLink,
-  EventListItemCard,
-  EventListItemCardTitle,
-  EventListItemCardEventInfo,
-  EventListCardPeopleGoingHeading,
-  EventListItemCardPeopleGoing,
-  EventListItemCardCancelledTextContainer,
-  EventListItemCardCancelledIcon,
-  EventListItemCardDate,
-} from '../../../app/styled/event/EventList/EventListItem';
+import styled from 'styled-components';
+
+const EventListItemCardLink = styled.a`
+  text-decoration: none !important;
+`;
+
+const EventListItemCard = styled(Card)`
+  box-shadow: 0px 2px 2px 2px #e0e0e0 !important;
+  border-radius: 10px !important;
+  color: #222;
+  margin-bottom: 3rem;
+`;
+
+const EventListItemCardTitle = styled(Card.Title)`
+  font-size: 1.6rem !important;
+  font-weight: 600 !important;
+  margin-top: 1.5rem !important;
+`;
+
+const EventListItemCardBookButton = styled(Card.Body)`
+  margin-top: 0.5rem;
+  display: flex;
+  justify-content: flex-start;
+`;
+
+const EventListItemCardEventInfo = styled.div`
+  margin-top: -2.5rem;
+  font-size: 0.8rem;
+  letter-spacing: 0.3px;
+  font-weight: 400;
+  color: #555;
+  display: flex;
+  flex-direction: column;
+`;
+
+const EventListCardPeopleGoingHeading = styled(Card.Body)`
+  font-size: .8rem;
+  font-weight: 600;
+  padding: 0;
+  margin-top: -1rem;
+`;
+
+const EventListItemCardPeopleGoing = styled(Card.Body)`
+  font-size: 0.8rem;
+  font-weight: 600;
+  display: flex;
+  align-items: flex-start;
+`;
+
+const EventListItemCardCancelledTextContainer = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+const EventListItemCardCancelledIcon = styled.span.attrs({
+  role: 'img',
+  ariaLabel: 'event cancelled icon',
+})`
+  font-size: 0.65rem;
+  margin-right: 0.3rem;
+`;
+
+const EventListItemCardDate = styled.span`
+  ${({ isCancelled }) =>
+    isCancelled &&
+    `
+    text-decoration: line-through;
+  `}
+`;
+
 
 class EventListItem extends Component {
   handleClick = (e) => {

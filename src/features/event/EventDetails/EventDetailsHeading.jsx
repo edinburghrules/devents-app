@@ -1,23 +1,88 @@
 import React, { Component } from 'react';
+import styled from 'styled-components';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { Container, Spinner } from 'react-bootstrap';
+import { Container, Spinner, Button } from 'react-bootstrap';
 import {
   attendEvent,
   unattendEvent,
 } from '../../../app/redux/actions/userActions';
-import {
-  EventDetailsHeadingSection,
-  EventDetailsHeadingTitle,
-  EventDetailsCancelled,
-  EventDetailsHostSection,
-  EventDetailsHostImage,
-  EventDetailsHostedBy,
-  EventDetailsHostName,
-  EventDetailsAttendButton,
-  EventDetailsUnattendButton,
-  EventDetailsEditButton
-} from '../../../app/styled/event/EventDetails/EventDetailsHeading';
+
+
+const EventDetailsHeadingSection = styled.div`
+  background: #fff;
+  border-bottom: 1px solid #eee;
+  padding: 8rem 0rem 4rem 0rem;
+  width: 100%;
+  margin: 0 auto;
+`;
+
+const EventDetailsHeadingTitle = styled.h1`
+  font-weight: 600;
+  padding-bottom: 1rem;
+  color: #222;
+`;
+
+const EventDetailsCancelled = styled(EventDetailsHeadingTitle)`
+  font-size: 1.4rem;
+`;
+
+const EventDetailsHostSection = styled.div`
+  display: flex;
+  align-items: center;
+  margin-bottom: 2rem;
+`;
+
+const EventDetailsHostImage = styled.img`
+  height: 50px;
+  margin-right: 1rem;
+  border-radius: 50%;
+`;
+
+const EventDetailsHostedBy = styled.h6`
+  font-weight: 500;
+  color: #1769ff;
+`;
+
+const EventDetailsHostName = styled.h5`
+  font-weight: 600;
+  color: #333;
+`;
+
+const EventDetailsAttendButton = styled(Button)`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 12rem;
+  height: 3rem;
+`;
+
+const EventDetailsUnattendButton = styled(Button)`
+  width: 12rem;
+  height: 3rem;
+`;
+
+const EventDetailsEditButton = styled(Button)`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 12rem;
+  height: 3rem;
+  background: #17a2b8;
+  color: #fff;
+  border-radius: 4px;
+
+  &:hover {
+    text-decoration: none;
+    color: #fff;
+    background: rgba(23,162,184, 0.8);
+  }
+
+  &:active {
+    background: #128293;
+  }
+`;
+
 
 class EventDetailsHeading extends Component {
   constructor(props) {

@@ -1,8 +1,18 @@
 import React, { Component } from 'react';
+import styled from 'styled-components';
+import { Navbar } from 'react-bootstrap';
 import { connect } from 'react-redux';
-import { NavBar } from '../../../app/styled/nav/NavBar/NavBar';
 import SignedOutMenu from '../Menus/SignedOutMenu';
 import SignedInMenu from '../Menus/SignedInMenu';
+
+const NavBar = styled(Navbar)`
+  font-weight: 400;
+  font-size: 0.85rem;
+  padding: 1rem !important;
+  background-color: #fff !important;
+  box-shadow: 0 4px 2px -2px #e0e0e0;
+  padding-right: 8rem !important;
+`;
 
 class Navigation extends Component {
   render() {

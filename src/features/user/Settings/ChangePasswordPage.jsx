@@ -1,11 +1,20 @@
 import React from 'react';
+import styled from 'styled-components';
 import { connect } from 'react-redux';
 import { Alert, Form, Button, Spinner } from 'react-bootstrap';
 import { withFormik, Field } from 'formik';
 import * as Yup from 'yup';
 import TextInput from '../../../app/form-inputs/TextInput';
 import { editPassword } from '../../../app/redux/actions/userActions';
-import { GoogleButton } from  '../../../app/styled/user/Settings/ChangePassword';
+
+const GoogleButton = styled(Button)`
+  font-size: 0.9rem !important;
+  font-weight: 600 !important;
+  text-decoration: none;
+  border: 2px solid #f0f0f0;
+  margin-top: 1rem;
+  background: #ffffff;
+`;
 
 const ChangePasswordPage = ({
   handleSubmit,

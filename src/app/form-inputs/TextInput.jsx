@@ -1,6 +1,12 @@
 import React from 'react';
-import { FormLabel } from '../styled/global/forms/forms';
+import styled from 'styled-components';
 import { Form } from 'react-bootstrap';
+
+const FormLabel = styled(Form.Label)`
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #222;
+`;
 
 const TextInput = (props) => {
   const capitalise = (inputName) => {

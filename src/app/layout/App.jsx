@@ -1,4 +1,5 @@
 import React, { Fragment } from 'react';
+import { createGlobalStyle } from 'styled-components';
 import { connect } from 'react-redux';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Switch, Route, withRouter } from 'react-router-dom';
@@ -14,7 +15,16 @@ import AccountDashboard from '../../features/user/Settings/AccountDashboard';
 import DetailedUserPage from '../../features/user/UserProfile/UserProfilePage';
 import EventCategoryPage from '../../features/event/EventCategories/EventCategoryPage';
 import LoadingPage from './LoadingPage';
-import { GlobalStyles } from '../../app/styled/global/globalStyles/GlobalStyle';
+
+const GlobalStyles = createGlobalStyle`
+  body {
+  font-family: 'Poppins', serif !important;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: #000;
+  background: #fafafa !important;
+}
+`;
 
 function App(props) {
   window.scrollTo(0, 0);

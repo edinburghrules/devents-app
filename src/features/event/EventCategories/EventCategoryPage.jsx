@@ -1,8 +1,19 @@
 import React from 'react';
+import styled from 'styled-components';
 import { connect } from 'react-redux';
 import { categoryOptions } from '../../../app/form-inputs/CategoryInput';
 import EventCategoryList from '../EventCategories/EventCategoryList/EventCategoryList';
-import { EventCategoryPageContainer, EventCategoryPageTitle } from '../../../app/styled/event/EventCategories/EventCategoryPage';
+
+const EventCategoryPageContainer = styled.div`
+  margin: 8rem auto;
+  max-width: 960px;
+`;
+
+const EventCategoryPageTitle = styled.h1`
+  font-weight: 600;
+  font-size: 1.8rem;
+  margin-bottom: 8rem;
+`;
 
 
 

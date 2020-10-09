@@ -1,5 +1,6 @@
 import React from 'react';
-import { Col, Row } from 'react-bootstrap';
+import styled from 'styled-components';
+import { Col, Row, Container } from 'react-bootstrap';
 import { Route, Switch, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import AccountNav from './AccountNav';
@@ -7,7 +8,10 @@ import PhotoPage from './PhotoPage';
 import ChangePasswordPage from './ChangePasswordPage';
 import EditProfile from './EditProfile';
 import UserProfilePage from '../UserProfile/UserProfilePage';
-import { AccountDashboardContainer } from '../../../app/styled/user/Settings/AccountDashboard';
+
+const AccountDashboardContainer = styled(Container)`
+  margin-top: 10rem;
+`;  
 
 const AccountDashboard = ({ providerId, profile }) => {
   return (

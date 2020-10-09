@@ -1,12 +1,22 @@
 import React from 'react';
+import styled from 'styled-components';
+import { Container } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import UserProfileHeader from './UserProfileHeader';
 import UserProfileAbout from './UserProfileAbout';
 import UserProfileEvents from './UserProfileEvents';
-import {
-  UserProfileContainer,
-  UserProfileCard,
-} from '../../../app/styled/user/UserProfile/UserProfile';
+
+const UserProfileContainer = styled(Container)`
+  margin-top: 8rem;
+`;
+
+const UserProfileCard = styled.div`
+  box-shadow: 0px 2px 2px 2px #e0e0e0;
+  border-radius: 8px;
+  background: #ffffff;
+  color: #222;
+  padding: 2.5rem 3rem; 
+`;
 
 class UserProfilePage extends React.Component {
   render() {

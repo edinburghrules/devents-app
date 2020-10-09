@@ -1,20 +1,67 @@
 import React from 'react';
+import styled from 'styled-components';
 import { connect } from 'react-redux';
-import { InputGroup, FormControl, Form, Spinner } from 'react-bootstrap';
+import {
+  InputGroup,
+  FormControl,
+  Form,
+  Spinner,
+  Button,
+  Image,
+  Container,
+} from 'react-bootstrap';
+import ReactCrop from 'react-image-crop';
 import 'react-image-crop/dist/ReactCrop.css';
 import { handlePhotoUpload } from '../../../app/redux/actions/userActions';
 import {
   startUpLoading,
   stopUpLoading,
 } from '../../../app/redux/actions/asyncActions';
-import {
-  ImageContainer,
-  CroppingImage,
-  ProfileImage,
-  UpdatePhotoBtn,
-  UpdatePhotoBtnContainer,
-} from '../../../app/styled/user/Settings/PhotoPage';
-import { UpLoading } from '../../../app/styled/global/loading/loading';
+
+const ImageContainer = styled(Container)`
+  background: #fff;
+  width: 65%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  border-radius: 8px;
+  margin: 5rem auto;
+  border: 2px solid #eee;
+`;
+
+const CroppingImage = styled(ReactCrop)`
+  height: 100%;
+  width: 100%;
+`;
+
+const ProfileImage = styled(Image)`
+  height: 100%;
+  width: 100%;
+`;
+
+const UpdatePhotoBtnContainer = styled.div`
+  height: 4rem;
+  margin: 0 auto;
+  display: flex;
+  justify-content: flex-end;
+`;
+
+const UpdatePhotoBtn = styled(Button)`
+  margin-top: 3rem;
+  height: 3rem;
+  width: 10rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+const UpLoading = styled.div`
+  height: 250px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
 
 class PhotoPage extends React.Component {
   state = {
@@ -128,15 +175,14 @@ class PhotoPage extends React.Component {
             <ImageContainer>
               {upLoading ? (
                 <UpLoading>
-                <Spinner
-                  as='span'
-                  animation='border'
-                  role='status'
-                  aria-hidden='true'
-                  variant='primary'
-                />
+                  <Spinner
+                    as='span'
+                    animation='border'
+                    role='status'
+                    aria-hidden='true'
+                    variant='primary'
+                  />
                 </UpLoading>
-
               ) : (
                 <CroppingImage
                   src={src}

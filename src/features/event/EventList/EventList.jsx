@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
-import { EventListHeading } from '../../../app/styled/event/EventList/EventList';
+import styled from 'styled-components';
 import EventListItem from './EventListItem';
+
+const EventListHeading = styled.h6`
+margin-bottom: 2rem;
+`;
 
 class EventList extends Component {
   render() {

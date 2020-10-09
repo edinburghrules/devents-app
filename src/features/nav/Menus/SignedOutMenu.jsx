@@ -1,6 +1,23 @@
 import React from 'react';
+import styled from 'styled-components';
+import { NavLink } from 'react-router-dom';
 import { Navbar, Nav } from 'react-bootstrap';
-import { NaviLink } from '../../../app/styled/nav/Menus/SignedInMenu';
+
+const activeClassName = 'nav-item-active';
+
+const NaviLink = styled(NavLink).attrs({ activeClassName })`
+  color: #333;
+  font-weight: 400;
+  font-size: 0.9rem;
+  padding: 0 0.5rem;
+  &:hover {
+    text-decoration: none;
+    color: #98b5ff;
+  }
+  &.${activeClassName} {
+    color: #98b5ff;
+  }
+`;
 
 const SignedOutMenu = () => {
   return (
@@ -9,12 +26,8 @@ const SignedOutMenu = () => {
         <NaviLink exact to='/'>
           Events
         </NaviLink>
-        <NaviLink to='/login'>
-          Log in
-        </NaviLink>
-        <NaviLink to='/signup'>
-          Sign up
-        </NaviLink>
+        <NaviLink to='/login'>Log in</NaviLink>
+        <NaviLink to='/signup'>Sign up</NaviLink>
       </Nav>
     </Navbar.Collapse>
   );

@@ -1,7 +1,22 @@
 import React from 'react';
+import styled from 'styled-components';
 import { Form } from 'react-bootstrap';
-import { FormLabel } from '../styled/global/forms/forms';
-import { CheckBoxContainer, CheckBox } from '../styled/global/forms/forms';
+
+const FormLabel = styled(Form.Label)`
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #222;
+`;
+
+const CheckBoxContainer = styled.div`
+  font-size: 1rem;
+`;
+
+const CheckBox = styled(Form.Check)`
+  margin-bottom: 0.8rem;
+  font-size: 0.95rem;
+`;
+
 
 const interestOptions = [
   { name: 'interests', text: 'Frontend Web Development' },

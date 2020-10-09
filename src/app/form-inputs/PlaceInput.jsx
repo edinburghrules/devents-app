@@ -1,7 +1,13 @@
 import React from 'react';
+import styled from 'styled-components';
 import PlacesAutocomplete from 'react-places-autocomplete';
 import { Form } from 'react-bootstrap';
-import { FormLabel } from '../styled/global/forms/forms';
+
+const FormLabel = styled(Form.Label)`
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #222;
+`;
 
 class PlaceInput extends React.Component {
   handleChange = (value) => {

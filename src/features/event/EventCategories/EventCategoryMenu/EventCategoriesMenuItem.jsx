@@ -1,6 +1,36 @@
 import React from 'react'
+import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import { CategoryCard, CategoryCardImage, CategoryCardText } from '../../../../app/styled/event/EventCategories/EventCategory';
+
+export const CategoryCard = styled.div`
+  background: #fff;
+  text-decoration: none;
+  color: #333;
+  display: flex;
+  align-items: center;
+  border-radius: 8px;
+  box-shadow: 0 2px 2px 2px #e1e1e1;
+  overflow: hidden;
+  transition: all .2s;
+
+  &:hover {
+    transform: translateY(-.1rem);
+  }
+`;
+
+export const CategoryCardImage = styled.img`
+  margin-right: 1rem;
+  object-fit: contain;
+   max-height: 4rem;
+   width: auto;
+   height: auto;
+`;
+
+export const CategoryCardText = styled.h6`
+  margin: 0;
+  font-size: 1rem;
+  padding-right: .5rem;
+`;
 
 const EventCategoryMenuItem = (props) => {
   return (

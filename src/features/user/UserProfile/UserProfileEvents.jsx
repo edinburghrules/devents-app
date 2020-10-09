@@ -1,5 +1,9 @@
 import React from 'react';
-import { UserProfileEventsContainer } from '../../../app/styled/user/UserProfile/UserProfileEvents';
+import styled from 'styled-components';
+
+const UserProfileEventsContainer = styled.div`
+  margin-top: 4rem;
+`;
 
 const DetailedUserEvents = () => {
   return (

@@ -1,6 +1,7 @@
 /* global google */
 import React, { Component } from 'react';
-import { Form, Alert, Spinner } from 'react-bootstrap';
+import styled from 'styled-components';
+import { Form, Alert, Spinner, Container, Button } from 'react-bootstrap';
 import { addDays, fromUnixTime } from 'date-fns';
 import { withFormik, Field } from 'formik';
 import { connect } from 'react-redux';
@@ -16,13 +17,38 @@ import {
   createEvent,
   editEvent,
 } from '../../../app/redux/actions/eventActions';
-import {
-  EventFormContainer,
-  EventFormHeading,
-  EventFormButtons,
-  EventFormSubmitBtn,
-  EventFormCancelBtn,
-} from '../../../app/styled/event/EventForm/EventForm';
+
+
+const EventFormContainer = styled(Container)`
+  margin: 10rem auto;
+`;
+
+const EventFormHeading = styled.h2`
+  margin-bottom: 3rem;
+  font-weight: 600;
+  color: #222;
+`;
+
+const EventFormButtons = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 4rem;
+`;
+
+const EventFormSubmitBtn = styled(Button)`
+  height: 2.8rem;
+  width: 10rem;
+  margin-right: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+const EventFormCancelBtn = styled(Button)`
+  height: 2.8rem;
+  width: 10rem;
+`;
+
 
 const coords = {
   city: {},

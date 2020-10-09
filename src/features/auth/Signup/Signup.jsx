@@ -1,6 +1,8 @@
 import React from 'react';
+import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { Button, Alert, Spinner } from 'react-bootstrap';
+import { Button, Alert, Spinner, Container, Form } from 'react-bootstrap';
 import { withFormik, Field } from 'formik';
 import * as Yup from 'yup';
 import TextInput from '../../../app/form-inputs/TextInput';
@@ -8,13 +10,39 @@ import {
   signUp,
   clearLoginErrMsg,
 } from '../../../app/redux/actions/authActions';
-import {
-  SignupContainer,
-  SignupForm,
-  SignupFormHeader,
-  AccountMessage,
-  AccountMessageLink,
-} from '../../../app/styled/auth/Signup/Signup';
+
+const SignupContainer = styled(Container)`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+`;
+
+const SignupForm = styled(Form)`
+  margin-top: 4rem;
+  width: 24rem;
+`;
+
+const SignupFormHeader = styled.h3`
+  padding-bottom: 2rem;
+  color: #222;
+  font-size: 1.2rem;
+  font-weight: 600;
+  text-align: center;
+`;
+
+const AccountMessage = styled.div`
+  font-size: 0.8rem;
+  text-align: center;
+  margin-top: 4rem;
+  font-weight: 500;
+`;
+
+const AccountMessageLink = styled(Link)`
+  &:hover {
+    text-decoration: none;
+  }
+`;
 
 const Login = ({
   handleSubmit,
@@ -73,7 +101,7 @@ const Login = ({
         />
 
         {error && <Alert variant='danger'>{error}</Alert>}
-        <div className='m-right'>
+        <div className='m-right mt-5'>
           <Button
             style={{ background: '#ff6e5c', border: 'none' }}
             block

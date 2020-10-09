@@ -1,5 +1,6 @@
 import React from 'react';
-import { Form, Spinner } from 'react-bootstrap';
+import styled from 'styled-components';
+import { Form, Spinner, Button } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { Field, FieldArray, withFormik } from 'formik';
 import { fromUnixTime } from 'date-fns';
@@ -9,7 +10,14 @@ import PlaceInput from '../../../app/form-inputs/PlaceInput';
 import TextAreaInput from '../../../app/form-inputs/TextAreaInput';
 import CheckboxInput from '../../../app/form-inputs/CheckboxInput';
 import { updateProfile } from '../../../app/redux/actions/userActions';
-import { UpdateProfileBtn } from '../../../app/styled/user/Settings/EditProfile';
+
+const UpdateProfileBtn = styled(Button)`
+  height: 3rem;
+  width: 10rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
 
 const EditProfile = ({ handleSubmit, submitting }) => {
   return (

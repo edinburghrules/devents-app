@@ -1,13 +1,34 @@
 import React from 'react';
+import styled from 'styled-components';
 import { connect } from 'react-redux';
-import { Navbar, Nav, NavDropdown, Button, Spinner } from 'react-bootstrap';
-import { withRouter } from 'react-router-dom';
-import {
-  NavAvatar,
-  NavDropdownLink,
-  NaviLink,
-} from '../../../app/styled/nav/Menus/SignedInMenu';
+import { Navbar, Nav, NavDropdown, Button, Spinner, Image } from 'react-bootstrap';
+import { withRouter, NavLink } from 'react-router-dom';
 import { logout } from '../../../app/redux/actions/authActions';
+
+const activeClassName = 'nav-item-active'
+
+const NaviLink = styled(NavLink).attrs({ activeClassName })`
+  color: #333;
+  font-weight: 400;
+  font-size: .9rem;
+  padding: 0 .5rem;
+  &:hover {
+    text-decoration: none;
+    color: #98b5ff;
+  }
+  &.${activeClassName} {
+    color: #98b5ff;
+  }
+`;
+
+const NavAvatar = styled(Image)`
+  height: 30px;
+  width: 30px;
+`;
+
+const NavDropdownLink = styled(NavLink)`
+  font-size: 0.8rem;
+`;
 
 class SignedInMenu extends React.Component {
   handleClick = async () => {

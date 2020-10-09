@@ -1,7 +1,18 @@
 import React from 'react';
+import styled from 'styled-components';
 import { categoryOptions } from '../../../../app/form-inputs/CategoryInput';
 import EventCategoryMenuItem from './EventCategoriesMenuItem';
-import { CategoriesContainer, CategoriesHeading } from '../../../../app/styled/event/EventCategories/EventCategories';
+
+export const CategoriesContainer = styled.div`
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 1.5rem;
+  margin-bottom: 4rem;
+`;
+
+export const CategoriesHeading = styled.h6`
+  margin-bottom: 2rem;
+`;
 
 const EventCategoriesMenu = () => {
   return (

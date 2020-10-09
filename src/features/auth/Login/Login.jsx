@@ -1,6 +1,8 @@
 import React from 'react';
+import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { Button, Alert, Spinner } from 'react-bootstrap';
+import { Container, Form, Button, Alert, Spinner } from 'react-bootstrap';
 import { withFormik, Field } from 'formik';
 import * as Yup from 'yup';
 import TextInput from '../../../app/form-inputs/TextInput';
@@ -9,14 +11,50 @@ import {
   logInWithGoogle,
   clearLoginErrMsg,
 } from '../../../app/redux/actions/authActions';
-import {
-  LoginContainer,
-  GoogleButton,
-  AccountMessage,
-  AccountMessageLink,
-  LoginForm,
-  LoginFormHeader,
-} from '../../../app/styled/auth/Login/Login';
+
+
+const LoginContainer = styled(Container)`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+`;
+
+const LoginForm = styled(Form)`
+  margin-top: 4rem;
+  width: 24rem;
+`;
+
+const LoginFormHeader = styled.h3`
+  padding-bottom: 2rem;
+  color: #222;
+  font-size: 1.2rem;
+  font-weight: 600;
+  text-align: center;
+`;
+
+const GoogleButton = styled(Button)`
+  font-size: 0.9rem !important;
+  font-weight: 600 !important;
+  text-decoration: none;
+  border: 2px solid #f0f0f0;
+  background: #ffffff;
+  height: 2.8rem;
+`;
+
+const AccountMessage = styled.div`
+  font-size: 0.8rem;
+  text-align: center;
+  margin-top: 4rem;
+  font-weight: 500;
+`;
+
+const AccountMessageLink = styled(Link)`
+  &:hover {
+    text-decoration: none;
+  }
+`;
+
 
 const Login = ({
   handleSubmit,

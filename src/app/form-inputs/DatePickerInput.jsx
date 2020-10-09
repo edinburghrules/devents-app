@@ -1,8 +1,14 @@
 import React from 'react';
+import styled from 'styled-components';
 import { Form } from 'react-bootstrap';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import { FormLabel } from '../styled/global/forms/forms';
+
+const FormLabel = styled(Form.Label)`
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #222;
+`;
 
 const DatePickerInput = (props) => {
   const {field, form} = props;

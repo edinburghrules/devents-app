@@ -1,10 +1,17 @@
 import React, { Component } from 'react';
+import styled from 'styled-components';
+import { Container } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import EventList from '../EventList/EventList';
 import Filters from '../../filters/Filters';
-import { EventDashboardContainer } from '../../../app/styled/event/EventDashboard/EventDashboard';
 import EventDashboardHeader from '../EventDashboardHeader/EventDashboardHeader';
 import EventCategoriesMenu from '../EventCategories/EventCategoryMenu/EventCategoriesMenu';
+
+
+const EventDashboardContainer = styled(Container)`
+  margin: 8rem auto;
+  max-width: 960px;
+`;
 
 class EventDashboard extends Component {
   render() {

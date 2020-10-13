@@ -13,7 +13,7 @@ class EventList extends Component {
       <React.Fragment>
       <EventListHeading>Latest events near you</EventListHeading>
         {events &&
-          events.map((event) => {
+          events.map(event => {
             return <EventListItem key={event.id} event={event} />;
           })}
       </React.Fragment>

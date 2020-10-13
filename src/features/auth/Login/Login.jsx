@@ -34,12 +34,12 @@ const LoginFormHeader = styled.h3`
 `;
 
 const GoogleButton = styled(Button)`
-  font-size: 0.9rem !important;
-  font-weight: 600 !important;
+  font-size: .9rem !important;
+  font-weight: 500 !important;
   text-decoration: none;
   border: 2px solid #f0f0f0;
   background: #ffffff;
-  height: 2.8rem;
+  height: 40px;
 `;
 
 const AccountMessage = styled.div`

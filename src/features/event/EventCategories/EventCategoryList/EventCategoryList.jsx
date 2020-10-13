@@ -20,6 +20,7 @@ class EventCategoryList extends React.Component {
           if(event.title.toLowerCase().includes(this.state.searchTerm.toLowerCase())) {
             return (<EventListItem key={event.id} event={event}/>)
           }
+          return null;
         })}
       </React.Fragment>
     )

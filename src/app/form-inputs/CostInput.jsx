@@ -25,7 +25,7 @@ const CostInput = (props) => {
           id='input-example'
           placeholder='£0.00'
           allowDecimals={true}
-          decimalsLimit={2}
+          decimalsLimit={3}
           onChange={handleChange}
           prefix='£'
         />

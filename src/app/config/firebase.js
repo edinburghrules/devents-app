@@ -1,5 +1,5 @@
 import * as firebase from 'firebase/app';
-
+import * as geofirestore from 'geofirestore';
 import 'firebase/auth';
 import 'firebase/firestore';
 import 'firebase/storage';
@@ -17,10 +17,12 @@ var firebaseConfig = {
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 
+const GeoFirestore = geofirestore.initializeApp(firebase.firestore());
+
 firebase.firestore();
 firebase.auth();
 
-export default firebase;
+export {firebase as default, GeoFirestore};
 
 
 

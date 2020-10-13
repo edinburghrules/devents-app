@@ -17,7 +17,8 @@ import {
   createEvent,
   editEvent,
 } from '../../../app/redux/actions/eventActions';
-
+import firebase from '../../../app/config/firebase';
+ 
 
 const EventFormContainer = styled(Container)`
   margin: 10rem auto;
@@ -48,7 +49,6 @@ const EventFormCancelBtn = styled(Button)`
   height: 2.8rem;
   width: 10rem;
 `;
-
 
 const coords = {
   city: {},
@@ -208,7 +208,7 @@ class EventForm extends Component {
 const formikEventForm = withFormik({
   mapPropsToValues: (props) => {
     const { event } = props;
-    if (event.hasOwnProperty('title')) {
+     if (event.hasOwnProperty('title')) {
       return {
         ...event,
         date: new Date(fromUnixTime(event.date.seconds)),
@@ -257,7 +257,7 @@ const formikEventForm = withFormik({
     if (location.pathname === '/createEvent') {
       const newEvent = {
         ...values,
-        latlng: coords.venue,
+        coordinates: new firebase.firestore.GeoPoint(coords.venue.lat, coords.venue.lng)
       };
       let createdEventId = await createEvent(newEvent);
       history.push(`/event/${createdEventId}`);
@@ -276,18 +276,18 @@ const formikEventForm = withFormik({
   },
 })(EventForm);
 
+const eventSelector = (state, data) => {
+  if(data === undefined) {
+    return {};
+  } else {
+      return state.events.allEvents.find(event => event.id === data)
+  }
+}
+
 const mapStateToProps = (state, ownProps) => {
   return {
-    event: (() => {
-      if (ownProps.match.params.id === undefined) {
-        return {};
-      } else {
-        let event = state.events.find((event) => {
-          return event.id.toString() === ownProps.match.params.id.toString();
-        });
-        return event;
-      }
-    })(),
+    events: state.events.allEvents,
+    event: eventSelector(state, ownProps.match.params.id),
     isSubmitting: state.async.submitting,
   };
 };

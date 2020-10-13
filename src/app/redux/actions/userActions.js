@@ -26,6 +26,12 @@ const getUsers = () => {
   }
 }
 
+const supplyCoords = (coords) => {
+  return async dispatch => {
+    dispatch({type: 'USER_COORDS', payload: coords});
+  }
+}
+
 
 const attendEvent = (event) => {
   return async (dispatch, getState) => {
@@ -69,7 +75,7 @@ const unattendEvent = event => {
       await dispatch(getEvents());
       dispatch(stopSubmit());
     } catch(err) {
-
+        console.log(err);
     }
   }
 }
@@ -180,4 +186,4 @@ const handlePhotoUpload = (file) => {
   };
 };
 
-export { getUsers, attendEvent, unattendEvent, editPassword, handlePhotoUpload, updateProfile };
+export { getUsers, supplyCoords, attendEvent, unattendEvent, editPassword, handlePhotoUpload, updateProfile };

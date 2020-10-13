@@ -12,7 +12,7 @@ const EventDetailsInformationContainer = styled(Container)`
 const EventDetailsInformationCard = styled.div`
   text-align: left;
   background: #fff;
-  box-shadow: 0px 2px 2px 2px #e0e0e0;
+  box-shadow: 0 4px 2px -2px #e0e0e0;
   border-radius: 4px;
   padding: 1.5rem;
   margin-bottom: 2rem;
@@ -53,7 +53,7 @@ const EventDetailsInformationDate = styled.span`
 
 const EventDetailsInformation = (props) => {
   const {
-    event: { description, attendees, date, cancelled, venue, cost, latlng },
+    event: { description, attendees, date, cancelled, venue, cost, coordinates },
     isHost,
   } = props;
   let parsedDate = fromUnixTime(date.seconds);
@@ -121,7 +121,7 @@ const EventDetailsInformation = (props) => {
               <span className='ml-3 '>{cost ? `£ ${cost}` : 'Free entry'}</span>
             </div>
             <EventDetailsInformationMap>
-              <EventDetailsMap latlng={latlng && latlng} />
+              <EventDetailsMap latlng={coordinates && coordinates} />
             </EventDetailsInformationMap>
           </EventDetailsInformationCard>
         </Col>

@@ -33,7 +33,7 @@ class EventCategoryPage extends React.Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  let events = state.events.filter(
+  let events = state.events.allEvents.filter(
     (event) => event.category === ownProps.match.params.id
   );
   return { events };

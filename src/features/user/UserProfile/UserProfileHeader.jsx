@@ -25,7 +25,6 @@ const UserProfileHeaderJoinDate = styled.h6`
 const UserProfileHeader = ({ userDetails, currentUser }) => {
   let date = fromUnixTime(userDetails && userDetails.joined.seconds);
   let parsedJoinDate = format(date && date, 'EEEE, do MMMM yyyy');
-  console.log(userDetails.uid, currentUser);
   return (
     <UserProfileHeaderContainer>
       <div>

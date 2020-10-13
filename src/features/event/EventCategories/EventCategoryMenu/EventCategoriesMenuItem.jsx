@@ -8,22 +8,18 @@ export const CategoryCard = styled.div`
   color: #333;
   display: flex;
   align-items: center;
-  border-radius: 8px;
-  box-shadow: 0 2px 2px 2px #e1e1e1;
+  border-radius: 12px;
+  box-shadow: 0 4px 2px -2px #e0e0e0;
   overflow: hidden;
-  transition: all .2s;
-
-  &:hover {
-    transform: translateY(-.1rem);
-  }
 `;
 
 export const CategoryCardImage = styled.img`
-  margin-right: 1rem;
-  object-fit: contain;
+   margin-right: 1rem;
+   object-fit: contain;
    max-height: 4rem;
    width: auto;
    height: auto;
+   overflow: hidden;
 `;
 
 export const CategoryCardText = styled.h6`

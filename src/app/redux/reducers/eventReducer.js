@@ -1,16 +1,25 @@
-const initState = [];
+const initState = {
+  allEvents: [],
+  localEvents: [],
+};
 
 const eventReducer = (state = initState, action) => {
   switch (action.type) {
     case 'GET_EVENTS':
-      return action.payload;
+      return {
+        ...state,
+        allEvents: [...action.payload],
+      };
+    case 'GET_LOCAL_EVENTS':
+      return {
+        ...state,
+        localEvents: [...action.payload],
+      };
     case 'CREATE_EVENT':
-      return [...state, action.payload];
-    case 'EDIT_EVENT':
-      return [
-        ...state.filter((event) => event.id !== action.payload.id),
-        action.payload,
-      ];
+      return {
+        ...state,
+        allEvents: [...action.payload],
+      };
     default:
       return state;
   }

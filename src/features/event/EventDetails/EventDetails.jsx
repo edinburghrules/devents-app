@@ -29,7 +29,7 @@ class EventDetails extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  let event = state.events.find((event) => {
+  let event = state.events.allEvents.find((event) => {
     return event.id.toString() === ownProps.match.params.id.toString();
   })
 

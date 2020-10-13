@@ -5,14 +5,10 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 const EventDashboardHeaderContainer = styled.div`
-  height: 55vh;
+  height: 60vh;
   margin-top: 1rem;
   margin-bottom: -12rem;
-  background: linear-gradient(
-      rgba(255, 255, 255, 0.3),
-      rgba(255, 255, 255, 0.3)
-    ),
-    url(./assets/3495739.jpg);
+  background: url(./assets/headerimg.jpg);
   background-size: cover;
   background-position-y: 5rem;
   display: flex;
@@ -25,19 +21,19 @@ const EventDashboardHeaderContent = styled.div`
   flex-direction: column;
   margin-left: 6rem;
   align-items: flex-start;
-  margin-top: -4.5rem;
+  margin-top: -12.5rem;
 `;
 
 const EventDashboardHeaderText = styled.h1`
   font-size: 3rem;
-  color: #3b4252;
+  color: #333;
   font-weight: 700;
 `;
 
 const EventDashboardHeaderSubText = styled.p`
   font-size: 1.2rem;
   font-weight: 600;
-  color: #3b4252;
+  color: #333;
 `;
 
 const EventDashboardHeaderBtn = styled(Button)`

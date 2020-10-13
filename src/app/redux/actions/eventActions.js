@@ -1,9 +1,25 @@
-import firebase from '../../config/firebase';
+import firebase, { GeoFirestore } from '../../config/firebase';
 import { toast } from 'react-toastify';
 import { startSubmit, stopSubmit } from './asyncActions';
 
-const getEvents = () => {
+const getEvents = (coords) => {
+  const geocollection = GeoFirestore.collection('events');
+  const query = geocollection.near({ center: new firebase.firestore.GeoPoint(coords.latitude, coords.longitude), radius: 80.4672 });
   return async (dispatch) => {
+    if(coords) {
+      try {
+        query.get().then((value) => {
+          // All GeoDocument returned by GeoQuery, like the GeoDocument added above
+          let localEvents = [];
+          value.docs.forEach(doc => {
+            localEvents.push(doc.data());
+          })
+          dispatch({type: 'GET_LOCAL_EVENTS', payload: localEvents});
+        });
+      } catch(err) {
+        console.log(err);
+      }
+    }
     try {
       let events = [];
       await firebase
@@ -29,9 +45,11 @@ const getEvents = () => {
 
 const createEvent = (event) => {
   return async (dispatch, getState) => {
-    dispatch(startSubmit())
+    dispatch(startSubmit());
     let hostId = getState().profile.userProfile.uid;
-    let name = getState().profile.userProfile.name || getState().profile.userProfile.displayName;
+    let name =
+      getState().profile.userProfile.name ||
+      getState().profile.userProfile.displayName;
     let userPhoto = getState().profile.userProfile.photoURL;
     let joined = getState().profile.userProfile.joined;
     let createdEvent = {
@@ -51,10 +69,8 @@ const createEvent = (event) => {
       },
     };
     try {
-      let docRef = await firebase
-        .firestore()
-        .collection('events')
-        .add(createdEvent);
+      let eventCollection = GeoFirestore.collection('events');
+      let docRef = await eventCollection.add(createdEvent);
 
       await firebase
         .firestore()
@@ -67,39 +83,39 @@ const createEvent = (event) => {
           host: true,
         });
       await dispatch(getEvents());
-      dispatch(stopSubmit())
+      dispatch(stopSubmit());
       toast.success('Your event is live! 🎉', {
         position: 'bottom-right',
         autoClose: 5000,
-        hideProgressBar: true
+        hideProgressBar: true,
       });
       return docRef.id;
     } catch (err) {
-      dispatch(stopSubmit())
+      dispatch(stopSubmit());
       console.log(err);
     }
   };
 };
 
 const editEvent = (event) => {
-  return async (dispatch) => {
-    dispatch(startSubmit())
+  return async (dispatch, getState) => {
+    let userCoords = getState().profile.userCoords;
+    dispatch(startSubmit());
     try {
       await firebase.firestore().collection('events').doc(event.id).set(event);
-      await dispatch(getEvents());
+      await dispatch(getEvents(userCoords));
       toast.success('Event updated! 🎉', {
         position: 'bottom-right',
         autoClose: 5000,
-        hideProgressBar: true
+        hideProgressBar: true,
       });
-      dispatch(stopSubmit())
+      dispatch(stopSubmit());
       return event.id;
     } catch (err) {
-      dispatch(stopSubmit())
+      dispatch(stopSubmit());
       console.log(err);
     }
   };
 };
-
 
 export { getEvents, createEvent, editEvent };

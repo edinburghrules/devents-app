@@ -11,7 +11,7 @@ const EventListItemCardLink = styled.a`
 `;
 
 const EventListItemCard = styled(Card)`
-  box-shadow: 0px 2px 2px 2px #e0e0e0 !important;
+  box-shadow: 0 4px 2px -2px #e0e0e0;
   border-radius: 10px !important;
   color: #222;
   margin-bottom: 3rem;
@@ -21,12 +21,6 @@ const EventListItemCardTitle = styled(Card.Title)`
   font-size: 1.6rem !important;
   font-weight: 600 !important;
   margin-top: 1.5rem !important;
-`;
-
-const EventListItemCardBookButton = styled(Card.Body)`
-  margin-top: 0.5rem;
-  display: flex;
-  justify-content: flex-start;
 `;
 
 const EventListItemCardEventInfo = styled.div`
@@ -145,7 +139,7 @@ class EventListItem extends Component {
               Object.keys(attendees).map((attendee, index) => {
                 return (
                   <EventListAttendee
-                    key={index}
+                    key={attendee}
                     attendee={attendees[attendee]}
                   />
                 );

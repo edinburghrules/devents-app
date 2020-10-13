@@ -32,11 +32,16 @@ class EventCategoryPage extends React.Component {
   }
 }
 
+let eventSelector = (state, category) => {
+  return state.events.localEvents.filter(event => {
+    return event.category === category
+  })
+}
+
 const mapStateToProps = (state, ownProps) => {
-  let events = state.events.allEvents.filter(
-    (event) => event.category === ownProps.match.params.id
-  );
-  return { events };
+ return {
+   events: eventSelector(state, ownProps.match.params.id)
+ }
 };
 
 export default connect(mapStateToProps)(EventCategoryPage);

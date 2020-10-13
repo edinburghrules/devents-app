@@ -20,6 +20,7 @@ const getUsers = () => {
         });
       });
       dispatch({ type: 'GET_USERS', payload: users });
+      return;
     } catch (err) {
       console.log(err);
     }

@@ -3,42 +3,34 @@ import { toast } from 'react-toastify';
 import { startSubmit, stopSubmit } from './asyncActions';
 
 const getEvents = (coords) => {
-  const geocollection = GeoFirestore.collection('events');
-  const query = geocollection.near({ center: new firebase.firestore.GeoPoint(coords.latitude, coords.longitude), radius: 80.4672 });
   return async (dispatch) => {
-    if(coords) {
+    const geocollection = GeoFirestore.collection('events');
+    const query = geocollection.near({
+      center: new firebase.firestore.GeoPoint(
+        coords.latitude,
+        coords.longitude
+      ),
+      radius: 150,
+    });
+
+    if (coords) {
       try {
-        query.get().then((value) => {
+        await query.get().then((value) => {
           // All GeoDocument returned by GeoQuery, like the GeoDocument added above
           let localEvents = [];
-          value.docs.forEach(doc => {
-            localEvents.push(doc.data());
-          })
-          dispatch({type: 'GET_LOCAL_EVENTS', payload: localEvents});
+          value.docs.forEach((doc) => {
+            let event = {
+              ...doc.data(),
+              id: doc.id,
+            };
+            localEvents.push(event);
+          });
+          dispatch({ type: 'GET_LOCAL_EVENTS', payload: localEvents });
+          return;
         });
-      } catch(err) {
+      } catch (err) {
         console.log(err);
       }
-    }
-    try {
-      let events = [];
-      await firebase
-        .firestore()
-        .collection('events')
-        .orderBy('date', 'desc')
-        .get()
-        .then((querySnapshot) => {
-          querySnapshot.forEach((doc) => {
-            events.push({
-              id: doc.id,
-              ...doc.data(),
-            });
-          });
-        });
-      dispatch({ type: 'GET_EVENTS', payload: events });
-      return;
-    } catch (err) {
-      console.log(err);
     }
   };
 };
@@ -46,6 +38,7 @@ const getEvents = (coords) => {
 const createEvent = (event) => {
   return async (dispatch, getState) => {
     dispatch(startSubmit());
+    let userCoords = getState().profile.userCoords;
     let hostId = getState().profile.userProfile.uid;
     let name =
       getState().profile.userProfile.name ||
@@ -82,7 +75,7 @@ const createEvent = (event) => {
           eventDate: event.date,
           host: true,
         });
-      await dispatch(getEvents());
+      await dispatch(getEvents(userCoords));
       dispatch(stopSubmit());
       toast.success('Your event is live! 🎉', {
         position: 'bottom-right',

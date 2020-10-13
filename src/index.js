@@ -23,9 +23,9 @@ let render = () => {
 };
 
 firebase.auth().onAuthStateChanged((user) => {
-  const dispatchActions = (coords = {latitude: 0 , longitude: 0}) => {
-    store.dispatch(getEvents(coords));
-    store.dispatch(getUsers());
+  const dispatchActions = async (coords = {latitude: 0 , longitude: 0}) => {
+    await store.dispatch(getEvents(coords));
+    await store.dispatch(getUsers());
     store.dispatch(supplyCoords(coords));
     store.dispatch({ type: 'APP_LOADED' });
   };

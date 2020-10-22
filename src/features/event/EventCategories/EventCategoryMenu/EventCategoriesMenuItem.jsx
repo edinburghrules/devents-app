@@ -8,7 +8,7 @@ export const CategoryCard = styled.div`
   color: #333;
   display: flex;
   align-items: center;
-  border-radius: 12px;
+  border-radius: 8px;
   box-shadow: 0 4px 2px -2px #e0e0e0;
   overflow: hidden;
 `;

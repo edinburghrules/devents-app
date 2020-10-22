@@ -1,8 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
-import { categoryOptions } from '../../../app/form-inputs/CategoryInput';
-import EventCategoryList from '../EventCategories/EventCategoryList/EventCategoryList';
+import { categoryOptions } from '../../../../app/form-inputs/CategoryInput';
+import Filter from '../../../filters/Filters';
+import EventCategoryList from '../EventCategoryList/EventCategoryList';
 
 const EventCategoryPageContainer = styled.div`
   margin: 8rem auto;
@@ -12,7 +13,7 @@ const EventCategoryPageContainer = styled.div`
 const EventCategoryPageTitle = styled.h1`
   font-weight: 600;
   font-size: 1.8rem;
-  margin-bottom: 8rem;
+  margin-bottom: 4rem;
 `;
 
 
@@ -20,14 +21,16 @@ const EventCategoryPageTitle = styled.h1`
 class EventCategoryPage extends React.Component {
   render() {
     const { events, match } = this.props;
-
     return (
+      <React.Fragment>
+      <Filter />
       <EventCategoryPageContainer>
-        {categoryOptions.map((cat, index) => {
-          return cat.value === match.params.id ? (<EventCategoryPageTitle key={index}>{cat.text}</EventCategoryPageTitle>) : null;
+        {categoryOptions.map((category, index) => {
+          return category.value === match.params.id ? (<EventCategoryPageTitle key={index}>{category.text}</EventCategoryPageTitle>) : null;
         })}
         <EventCategoryList events={events} />
       </EventCategoryPageContainer>
+      </React.Fragment>
     );
   }
 }

@@ -13,7 +13,8 @@ import EventForm from '../../features/event/EventForm/EventForm';
 import EventDetails from '../../features/event/EventDetails/EventDetails';
 import AccountDashboard from '../../features/user/Settings/AccountDashboard';
 import DetailedUserPage from '../../features/user/UserProfile/UserProfilePage';
-import EventCategoryPage from '../../features/event/EventCategories/EventCategoryPage';
+import EventCategoryPage from '../../features/event/EventCategories/EventCategoryPage/EventCategoryPage';
+import EventSearchResultsList from '../../features/event/EventSearch/EventSearchResultsList';
 import LoadingPage from './LoadingPage';
 
 const GlobalStyles = createGlobalStyle`
@@ -54,6 +55,7 @@ function App(props) {
         <Route path='/user' component={AccountDashboard} />
         <Route path='/user-profile/:id' component={DetailedUserPage} />
         <Route path='/event-category/:id' component={EventCategoryPage} />
+        <Route exact path='/search-results/:id' component={EventSearchResultsList}/>
       </Switch>
     </Fragment>
   );

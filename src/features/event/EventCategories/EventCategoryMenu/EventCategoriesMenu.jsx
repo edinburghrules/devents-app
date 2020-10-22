@@ -7,7 +7,7 @@ export const CategoriesContainer = styled.div`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-gap: 1.5rem;
-  margin-bottom: 4rem;
+  margin-bottom: 5rem;
 `;
 
 export const CategoriesHeading = styled.h6`

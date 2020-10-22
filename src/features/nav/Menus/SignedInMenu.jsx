@@ -28,6 +28,15 @@ const NavAvatar = styled(Image)`
 
 const NavDropdownLink = styled(NavLink)`
   font-size: 0.8rem;
+  background: #fff !important;
+  color: #333 !important;
+  margin: 0 !important;
+  margin-top: .5rem !important;
+
+  &:hover {
+    background: #eee !important;
+    border-radius: 0 !important;
+  }
 `;
 
 class SignedInMenu extends React.Component {

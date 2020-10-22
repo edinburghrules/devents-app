@@ -9,7 +9,7 @@ import EventCategoriesMenu from '../EventCategories/EventCategoryMenu/EventCateg
 
 
 const EventDashboardContainer = styled(Container)`
-  margin: 8rem auto;
+  margin: 5rem auto;
   max-width: 960px;
 `;
 
@@ -19,8 +19,8 @@ class EventDashboard extends Component {
     return (
       <React.Fragment>
         <EventDashboardHeader/>
+        <Filters />
         <EventDashboardContainer>
-          <Filters />
           <EventCategoriesMenu />
           <EventList events={events} />
         </EventDashboardContainer>

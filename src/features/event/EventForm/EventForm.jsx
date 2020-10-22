@@ -6,7 +6,7 @@ import { addDays, fromUnixTime } from 'date-fns';
 import { withFormik, Field } from 'formik';
 import { connect } from 'react-redux';
 import * as Yup from 'yup';
-import {Redirect} from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import { geocodeByAddress, getLatLng } from 'react-places-autocomplete';
 import TextInput from '../../../app/form-inputs/TextInput';
 import TextAreaInput from '../../../app/form-inputs/TextAreaInput';
@@ -205,16 +205,14 @@ class EventForm extends Component {
       );
     }
 
-    return (
-      <Redirect to="/"/>
-    )
+    return <Redirect to='/' />;
   }
 }
 
 const formikEventForm = withFormik({
   mapPropsToValues: (props) => {
     const { event } = props;
-    console.log(event);
+
     if (event.hasOwnProperty('title')) {
       return {
         ...event,

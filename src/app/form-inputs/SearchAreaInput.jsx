@@ -2,10 +2,10 @@ import React from 'react';
 import styled from 'styled-components';
 import PlacesAutocomplete from 'react-places-autocomplete';
 import { Form, InputGroup } from 'react-bootstrap';
-import { geocodeByAddress, getLatLng } from 'react-places-autocomplete';
 
 const SearchAreaContainer = styled.div`
   position: relative;
+  width: 50% !important;
 `;
 
 const SearchAreaField = styled(Form.Control)`
@@ -19,25 +19,13 @@ const SearchIcon = styled.img`
 const AutocompleteDropdownContainer = styled.div`
   position: absolute;
   z-index: 1000;
-  top: 3.4rem;
+  top: 3.5rem;
   left: 2.4rem;
   text-align: left;
-  border-radius: 4px;
-  border: 1px solid #ced3da;
   overflow: hidden;
 `;
 
 class SearchAreaInput extends React.Component {
-  getCoords = async (name, city) => {
-    try {
-      const geoCodeFetch = await geocodeByAddress(city);
-      const results = await getLatLng(geoCodeFetch[0]);
-      console.log(results);
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
   handleChange = (value) => {
     const {
       field: { name },
@@ -46,7 +34,7 @@ class SearchAreaInput extends React.Component {
 
     if (name === 'searchArea') {
       setFieldValue(name, value);
-      this.getCoords(name, value);
+      this.props.getCoords(value);
     }
   };
 
@@ -86,7 +74,6 @@ class SearchAreaInput extends React.Component {
                   const className = suggestion.active
                     ? 'suggestion-item--active'
                     : 'suggestion-item';
-                  // inline style for demonstration purpose
                   const style = suggestion.active
                     ? {
                         backgroundColor: '#f5f5f5',

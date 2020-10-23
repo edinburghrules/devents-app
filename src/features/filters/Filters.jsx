@@ -1,8 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Form, Button } from 'react-bootstrap';
+import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import { withFormik, Field } from 'formik';
+import { geocodeByAddress, getLatLng } from 'react-places-autocomplete';
+import { getEvents } from '../../app/redux/actions/eventActions';
 import SearchTextInput from '../../app/form-inputs/SearchTextInput';
 import SearchAreaInput from '../../app/form-inputs/SearchAreaInput';
 
@@ -26,21 +29,36 @@ const SearchFiltersForm = styled(Form)`
 `;
 
 const SearchFiltersInputs = styled.div`
-  width: 85%;
+  width: 80%;
   display: flex;
 `;
 
 const SearchButton = styled(Button)`
-  width: 10%;
+  width: 6rem;
   height: 50px;
   background: #FF6F61 !important;
   border-color: #fff !important;
 `;
 
+let searchCoords = {
+  latitude: null,
+  longitude: null
+};
+
 class Filters extends React.Component {
+getCoords = async (city) => {
+  try {
+    const geoCodeFetch = await geocodeByAddress(city);
+    const results = await getLatLng(geoCodeFetch[0]);
+    searchCoords.latitude = results.lat;
+    searchCoords.longitude = results.lng;
+  } catch (err) {
+    console.log(err);
+  }
+};
   render() {
     const { handleSubmit, values } = this.props;
-    console.log(values);
+    console.log(searchCoords);
     return (
       <SearchFiltersCard>
         <SearchFiltersContainer>
@@ -51,7 +69,7 @@ class Filters extends React.Component {
                 name='searchEvents'
                 placeholder='Find your next event'
               />
-              <Field component={SearchAreaInput} name='searchArea' searchOptions={{ types: ['(cities)'] }}/>
+              <Field getCoords={this.getCoords} component={SearchAreaInput} name='searchArea' searchOptions={{ types: ['(cities)'] }}/>
             </SearchFiltersInputs>
             <SearchButton type='submit'>Search</SearchButton>
           </SearchFiltersForm>
@@ -68,11 +86,9 @@ const eventFilters = withFormik({
       searchArea: '',
     };
   },
-  handleSubmit: (values, formikBag) => {
-    const { history } = formikBag.props;
-    if (values.searchEvents.length !== 0) {
-      history.push(`/search-results/${values.searchEvents}`);
-    }
+  handleSubmit: async (values, formikBag) => {
+    await formikBag.props.getEvents(searchCoords);
+    formikBag.props.history.push(`/search-results/${values.searchEvents}`)
     // TODO
     // Run validation with Yup
     // On submit, show loader => fire getEvents dispatch with location co-ordinates
@@ -81,4 +97,8 @@ const eventFilters = withFormik({
   },
 })(Filters);
 
-export default withRouter(eventFilters);
+const mapDispatchToProps = {
+  getEvents
+};
+
+export default connect(null, mapDispatchToProps)(withRouter(eventFilters));

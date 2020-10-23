@@ -10,13 +10,12 @@ const getEvents = (coords) => {
         coords.latitude,
         coords.longitude
       ),
-      radius: 150,
+      radius: 64.3738,
     });
 
     if (coords) {
       try {
         await query.get().then((value) => {
-          // All GeoDocument returned by GeoQuery, like the GeoDocument added above
           let localEvents = [];
           value.docs.forEach((doc) => {
             let event = {

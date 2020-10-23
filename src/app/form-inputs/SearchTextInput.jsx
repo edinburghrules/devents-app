@@ -8,7 +8,7 @@ const SearchIcon = styled.img`
 
 const SearchTextField = styled(InputGroup)`
 margin-right: -1rem;
-width: 80%;
+width: 50%;
   & > * {
     height: 50px;
   }

@@ -4,13 +4,14 @@ import { startSubmit, stopSubmit } from './asyncActions';
 
 const getEvents = (coords) => {
   return async (dispatch) => {
+    dispatch(startSubmit());
     const geocollection = GeoFirestore.collection('events');
     const query = geocollection.near({
       center: new firebase.firestore.GeoPoint(
         coords.latitude,
         coords.longitude
       ),
-      radius: 64.3738,
+      radius: 65,
     });
 
     if (coords) {
@@ -25,6 +26,7 @@ const getEvents = (coords) => {
             localEvents.push(event);
           });
           dispatch({ type: 'GET_LOCAL_EVENTS', payload: localEvents });
+          dispatch(stopSubmit());
           return;
         });
       } catch (err) {

@@ -9,8 +9,10 @@ const EventDashboardHeaderContainer = styled.div`
   margin-top: 1rem;
   margin-bottom: -12rem;
   background: url(./assets/headerimg.jpg);
-  background-size: cover;
-  background-position-y: 5rem;
+  background-size: 40%;
+  background-position-y: 1rem;
+  background-position-x: 45rem;
+  background-repeat: no-repeat;
   display: flex;
   justify-content: flex-start;
   align-items: center;
@@ -19,21 +21,22 @@ const EventDashboardHeaderContainer = styled.div`
 const EventDashboardHeaderContent = styled.div`
   display: flex;
   flex-direction: column;
-  margin-left: 6rem;
+  margin-left: 18rem;
   align-items: flex-start;
-  margin-top: -12.5rem;
+  margin-top: -4rem;
 `;
 
 const EventDashboardHeaderText = styled.h1`
-  font-size: 3rem;
-  color: #333;
+  font-size: 2.5rem;
+  color: #000;
   font-weight: 700;
 `;
 
 const EventDashboardHeaderSubText = styled.p`
-  font-size: 1.2rem;
-  font-weight: 600;
-  color: #333;
+  font-size: 1rem;
+  font-weight: 500;
+  color: #444;
+  margin-top: 1rem;
 `;
 
 const EventDashboardHeaderBtn = styled(Button)`
@@ -43,7 +46,7 @@ const EventDashboardHeaderBtn = styled(Button)`
   font-weight: 400;
   background: #FF6F61 !important;
   color: #fff !important;
-  border-radius: 8px;
+  border-radius: 4px;
 `;
 
 
@@ -51,8 +54,8 @@ const EventDashboardHeader = (props) => {
   return (
     <EventDashboardHeaderContainer>
       <EventDashboardHeaderContent>
-        <EventDashboardHeaderText>Find your interests</EventDashboardHeaderText>
-        <EventDashboardHeaderSubText>and the people that share them too.</EventDashboardHeaderSubText>
+        <EventDashboardHeaderText>Find your interests <br/> and the people <br/> that share them.</EventDashboardHeaderText>
+        <EventDashboardHeaderSubText>Devents helps developers network and grow.</EventDashboardHeaderSubText>
         {!props.authenticated && (
           <EventDashboardHeaderBtn as={Link} to={'/signup'}>
             Join us - it's free

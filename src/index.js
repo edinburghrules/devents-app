@@ -1,3 +1,4 @@
+/* global google */
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './app/styles/toastStyles.css';
@@ -6,8 +7,9 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import configureStore from './app/redux/store/configureStore';
 import { getEvents } from './app/redux/actions/eventActions';
-import { getUsers, supplyCoords } from './app/redux/actions/userActions';
+import { getUsers, supplyCoords, supplyLocation } from './app/redux/actions/userActions';
 import firebase from './app/config/firebase';
+import { geocodeByPlaceId } from 'react-places-autocomplete';
 
 const store = configureStore();
 
@@ -23,13 +25,44 @@ let render = () => {
 };
 
 firebase.auth().onAuthStateChanged((user) => {
-  const dispatchActions = async (coords = {latitude: 0 , longitude: 0}) => {
-    await store.dispatch(getEvents(coords));
-    await store.dispatch(getUsers());
-    store.dispatch(supplyCoords(coords));
-    store.dispatch({ type: 'APP_LOADED' });
+
+  const geocoder = new google.maps.Geocoder();
+
+  const getAddressDetails = (coords) => {
+    return new Promise ((resolve, reject) => {
+      geocoder.geocode({location: coords}, (results, status) => {
+        if(status === 'OK') {
+          resolve(results);
+        } else {
+          reject(new Error('Could not find address at ' + coords))
+        }
+      })
+    })
+  }
+  
+  // Actions for app initialisation
+  const dispatchActions = async (coords = {latitude: 56.462018, longitude: -2.970721}) => {
+    try {
+      const address = await getAddressDetails({lat: Number(coords.latitude), lng: Number(coords.longitude)});
+      let formattedAddress;
+      if(address[0].formatted_address.includes('UK')) {
+        formattedAddress = address[8].formatted_address;
+      } else if(address[0].formatted_address.includes('US')) {
+        formattedAddress = address[5].formatted_address;
+      } else {
+        formattedAddress = address[8].formatted_address;
+      }
+      store.dispatch(supplyLocation(formattedAddress));
+      await store.dispatch(getEvents(coords));
+      await store.dispatch(getUsers());
+      store.dispatch(supplyCoords(coords));
+      store.dispatch({ type: 'APP_LOADED' });
+    } catch (err) {
+      new Error('There has been an error fetching  data', err);
+    }
   };
 
+  // Prompt user for their location
   const getUserLocation = async () => {
     return new Promise((resolve, reject) => {
       window.navigator.geolocation.getCurrentPosition(
@@ -43,6 +76,8 @@ firebase.auth().onAuthStateChanged((user) => {
     });
   };
 
+  // Submit user location either from local storage if exists or
+  // from user input and then dispatch all actions for app initatialisation
   const userLocation = async () => {
     let userCoordsJSON = localStorage.getItem('userCoords');
     let userCoordsParsed = JSON.parse(userCoordsJSON);
@@ -62,8 +97,8 @@ firebase.auth().onAuthStateChanged((user) => {
         );
         dispatchActions(userCoordsObj);
       } catch (err) {
-        console.log(err.message);
         dispatchActions();
+        console.log(err.message);
       }
     }
   };

@@ -3,13 +3,13 @@ import styled from 'styled-components';
 import PlacesAutocomplete from 'react-places-autocomplete';
 import { Form, InputGroup } from 'react-bootstrap';
 
-const SearchAreaContainer = styled.div`
+const SearchLocationContainer = styled.div`
   position: relative;
-  width: 50% !important;
+  width: 20rem !important;
 `;
 
-const SearchAreaField = styled(Form.Control)`
-  height: 50px !important;
+const SearchLocationField = styled(Form.Control)`
+  height: 45px !important;
 `;
 
 const SearchIcon = styled.img`
@@ -25,18 +25,27 @@ const AutocompleteDropdownContainer = styled.div`
   overflow: hidden;
 `;
 
-class SearchAreaInput extends React.Component {
+class SearchLocationInput extends React.Component {
   handleChange = (value) => {
     const {
       field: { name },
       form: { setFieldValue },
     } = this.props;
 
-    if (name === 'searchArea') {
+    if (name === 'searchLocation') {
       setFieldValue(name, value);
       this.props.getCoords(value);
     }
   };
+
+  componentDidMount = () => {
+    const {
+      field: { name, value },
+      form: { setFieldValue },
+    } = this.props;
+    setFieldValue(name, value);
+    this.props.getCoords(value);
+  }
 
   render() {
     const {
@@ -51,14 +60,14 @@ class SearchAreaInput extends React.Component {
         onChange={this.handleChange}
       >
         {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
-          <SearchAreaContainer>
+          <SearchLocationContainer>
             <InputGroup>
               <InputGroup.Prepend>
                 <InputGroup.Text>
                   <SearchIcon src='/assets/pin.png' />
                 </InputGroup.Text>
               </InputGroup.Prepend>
-              <SearchAreaField
+              <SearchLocationField
                 {...getInputProps({
                   placeholder: 'Location',
                 })}
@@ -98,11 +107,11 @@ class SearchAreaInput extends React.Component {
                   );
                 })}
             </AutocompleteDropdownContainer>
-          </SearchAreaContainer>
+          </SearchLocationContainer>
         )}
       </PlacesAutocomplete>
     );
   }
 }
 
-export default SearchAreaInput;
+export default SearchLocationInput;

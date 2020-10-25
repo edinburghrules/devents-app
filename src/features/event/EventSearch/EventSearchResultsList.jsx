@@ -16,24 +16,55 @@ const EventSearchResultsListTitle = styled.h1`
   margin-bottom: 4rem;
 `;
 
+const NoResultsContainer = styled.div`
+  margin-top: 10rem;
+  width: 100%;
+  text-align: center;
+`;
+
+const NoResultsText = styled.h1`
+  font-weight: 600;
+  font-size: 1.2rem;
+`;
+
+const NoResultsSubText = styled.h1`
+  margin-top: .5rem;
+  font-weight: 500;
+  font-size: 1rem;
+`;
+
 class EventSearchResultsList extends React.Component {
   render() {
-    let { results } = this.props;
-    return (
-      <React.Fragment>
-        <Filter/>
-        <EventResultsListContainer>
-          <EventSearchResultsListTitle>
-            Search results
-          </EventSearchResultsListTitle>
+    let { results, match } = this.props;
+    if (results.length > 0) {
+      return (
+        <React.Fragment>
+          <Filter />
+          <EventResultsListContainer>
+            <EventSearchResultsListTitle>
+              Search results
+            </EventSearchResultsListTitle>
 
-          {results &&
-            results.map((event) => {
-              return <EventListItem key={event.id} event={event} />;
-            })}
-        </EventResultsListContainer>
-      </React.Fragment>
-    );
+            {results &&
+              results.map((event) => {
+                return <EventListItem key={event.id} event={event} />;
+              })}
+          </EventResultsListContainer>
+        </React.Fragment>
+      );
+    } else {
+      return (
+        <React.Fragment>
+          <Filter />
+          <EventResultsListContainer>
+            <NoResultsContainer>
+              <NoResultsText>Sorry, there are no results for events near you.</NoResultsText>
+              <NoResultsSubText>Try searching for something else.</NoResultsSubText>
+            </NoResultsContainer>
+          </EventResultsListContainer>
+        </React.Fragment>
+      );
+    }
   }
 }
 
@@ -44,9 +75,15 @@ let eventSearchSelector = (state, searchText) => {
 };
 
 const mapStateToProps = (state, ownProps) => {
-  return {
-    results: eventSearchSelector(state, ownProps.match.params.id),
-  };
+  if (ownProps.match.params.id === 'no-search-string') {
+    return {
+      results: state.events.localEvents,
+    };
+  } else {
+    return {
+      results: eventSearchSelector(state, ownProps.match.params.id),
+    };
+  }
 };
 
 export default connect(mapStateToProps)(withRouter(EventSearchResultsList));

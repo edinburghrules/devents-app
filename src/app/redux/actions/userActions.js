@@ -33,10 +33,17 @@ const supplyCoords = (coords) => {
   }
 }
 
+const supplyLocation = (location) => {
+  return async dispatch => {
+    dispatch({type: 'USER_LOCATION', payload: location});
+  }
+}
+
 
 const attendEvent = (event) => {
   return async (dispatch, getState) => {
     dispatch(startSubmit())
+    let userCoords = getState().profile.userCoords;
     let currentUser = getState().auth.currentUser.uid
     let newAttendee = {
       attending: true,
@@ -52,7 +59,7 @@ const attendEvent = (event) => {
           [`attendees.${currentUser}`]: newAttendee
         })
       
-      await dispatch(getEvents());
+      await dispatch(getEvents(userCoords));
       dispatch(stopSubmit());
 
     }  catch(err) {
@@ -65,6 +72,7 @@ const unattendEvent = event => {
   return async (dispatch, getState) => {
     dispatch(startSubmit());
     let currentUser = getState().auth.currentUser.uid
+    let userCoords = getState().profile.userCoords;
     try{
       await firebase
         .firestore()
@@ -73,7 +81,7 @@ const unattendEvent = event => {
         .update({
           [`attendees.${currentUser}`]: firebase.firestore.FieldValue.delete()
         })
-      await dispatch(getEvents());
+      await dispatch(getEvents(userCoords));
       dispatch(stopSubmit());
     } catch(err) {
         console.log(err);
@@ -187,4 +195,4 @@ const handlePhotoUpload = (file) => {
   };
 };
 
-export { getUsers, supplyCoords, attendEvent, unattendEvent, editPassword, handlePhotoUpload, updateProfile };
+export { getUsers, supplyCoords, supplyLocation, attendEvent, unattendEvent, editPassword, handlePhotoUpload, updateProfile };

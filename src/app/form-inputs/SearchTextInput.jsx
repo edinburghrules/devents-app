@@ -7,10 +7,10 @@ const SearchIcon = styled.img`
 `;
 
 const SearchTextField = styled(InputGroup)`
-margin-right: -1rem;
-width: 50%;
+margin-right: 1rem;
+width: 40rem;
   & > * {
-    height: 50px;
+    height: 45px;
   }
 `;
 

@@ -13,12 +13,18 @@ const EventDashboardContainer = styled(Container)`
   max-width: 960px;
 `;
 
+const EventDashboardBG = styled.div`
+  background: white;
+`;
+
 class EventDashboard extends Component {
   render() {
     const { events } = this.props;
     return (
       <React.Fragment>
+      <EventDashboardBG>
         <EventDashboardHeader/>
+      </EventDashboardBG>  
         <Filters />
         <EventDashboardContainer>
           <EventCategoriesMenu />

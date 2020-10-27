@@ -60,6 +60,14 @@ const attendEvent = (event) => {
         })
       
       await dispatch(getEvents(userCoords));
+      toast.info(`You've booked your place for ${event.title} 🙋🏻‍♂️ `, {
+        position: 'bottom-right',
+        autoClose: 5000,
+        hideProgressBar: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
       dispatch(stopSubmit());
 
     }  catch(err) {
@@ -82,6 +90,14 @@ const unattendEvent = event => {
           [`attendees.${currentUser}`]: firebase.firestore.FieldValue.delete()
         })
       await dispatch(getEvents(userCoords));
+      toast.info(`You've cancelled your place for ${event.title} ❌ `, {
+        position: 'bottom-right',
+        autoClose: 5000,
+        hideProgressBar: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
       dispatch(stopSubmit());
     } catch(err) {
         console.log(err);

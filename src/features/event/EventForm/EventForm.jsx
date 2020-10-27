@@ -216,7 +216,7 @@ const formikEventForm = withFormik({
     if (event.hasOwnProperty('title')) {
       return {
         ...event,
-        date: new Date(fromUnixTime(event.date.seconds)),
+        date: fromUnixTime(event.date.seconds),
       };
     } else {
       return {

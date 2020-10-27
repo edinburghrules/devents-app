@@ -56,7 +56,6 @@ class Filters extends React.Component {
       const results = await getLatLng(geoCodeFetch[0]);
       searchCoords.latitude = results.lat;
       searchCoords.longitude = results.lng;
-      console.log(searchCoords);
     } catch (err) {
       console.log(err);
     }

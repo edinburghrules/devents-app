@@ -45,10 +45,10 @@ const profileReducer = (state = initState, action) => {
         ...state,
         userCoords: action.payload
       }
-    case 'USER_LOCATION':
+    case 'SEARCH_LOCATION':
       return {
         ...state,
-        userLocation: action.payload
+        searchLocation: action.payload
       }
     default:
       return state;

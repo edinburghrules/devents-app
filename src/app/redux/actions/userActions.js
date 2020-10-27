@@ -33,9 +33,9 @@ const supplyCoords = (coords) => {
   }
 }
 
-const supplyLocation = (location) => {
+const supplySearchLocation = (location) => {
   return async dispatch => {
-    dispatch({type: 'USER_LOCATION', payload: location});
+    dispatch({type: 'SEARCH_LOCATION', payload: location});
   }
 }
 
@@ -195,4 +195,4 @@ const handlePhotoUpload = (file) => {
   };
 };
 
-export { getUsers, supplyCoords, supplyLocation, attendEvent, unattendEvent, editPassword, handlePhotoUpload, updateProfile };
+export { getUsers, supplyCoords, supplySearchLocation, attendEvent, unattendEvent, editPassword, handlePhotoUpload, updateProfile };

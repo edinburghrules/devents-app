@@ -12,7 +12,7 @@ const EventCategoryPageContainer = styled.div`
 
 const EventCategoryPageTitle = styled.h1`
   font-weight: 600;
-  font-size: 1.8rem;
+  font-size: 1.4rem;
   margin-bottom: 4rem;
 `;
 

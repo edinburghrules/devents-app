@@ -8,6 +8,10 @@ import { geocodeByAddress, getLatLng } from 'react-places-autocomplete';
 import { getEvents } from '../../app/redux/actions/eventActions';
 import SearchTextInput from '../../app/form-inputs/SearchTextInput';
 import SearchAreaInput from '../../app/form-inputs/SearchLocationInput';
+import { supplySearchLocation } from '../../app/redux/actions/userActions';
+import getAddressDetails, {
+  getFormattedAddress,
+} from '../../app/utils/locationHelper';
 
 const SearchFiltersCard = styled.div`
   box-shadow: 0 4px 2px -2px #e0e0e0;
@@ -52,7 +56,7 @@ class Filters extends React.Component {
       const results = await getLatLng(geoCodeFetch[0]);
       searchCoords.latitude = results.lat;
       searchCoords.longitude = results.lng;
-      console.log(searchCoords)
+      console.log(searchCoords);
     } catch (err) {
       console.log(err);
     }
@@ -90,12 +94,11 @@ class Filters extends React.Component {
   }
 }
 
-
 const eventFilters = withFormik({
   mapPropsToValues: (props) => {
     return {
       searchText: '',
-      searchLocation: props.userCoords ? props.userLocation : '',
+      searchLocation: props.searchLocation || '',
     };
   },
   handleSubmit: async (values, formikBag) => {
@@ -103,7 +106,17 @@ const eventFilters = withFormik({
     if (values.searchLocation !== '') {
       try {
         await props.getEvents(searchCoords);
-        props.history.push(`/search-results/${values.searchText === '' ? 'no-search-string' : values.searchText}`);
+        const address = await getAddressDetails({
+          lat: Number(searchCoords.latitude),
+          lng: Number(searchCoords.longitude),
+        });
+        let formattedAddress = getFormattedAddress(address);
+        props.supplySearchLocation(formattedAddress);
+        props.history.push(
+          `/search-results/${
+            values.searchText === '' ? 'no-search-string' : values.searchText
+          }`
+        );
       } catch (err) {
         new Error(err);
       }
@@ -115,12 +128,13 @@ const mapStateToProps = (state) => {
   return {
     submitting: state.async.submitting,
     userCoords: state.profile.userCoords,
-    userLocation: state.profile.userLocation
+    searchLocation: state.profile.searchLocation,
   };
 };
 
 const mapDispatchToProps = {
   getEvents,
+  supplySearchLocation
 };
 
 export default connect(

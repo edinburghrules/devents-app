@@ -7,9 +7,15 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import configureStore from './app/redux/store/configureStore';
 import { getEvents } from './app/redux/actions/eventActions';
-import { getUsers, supplyCoords, supplyLocation } from './app/redux/actions/userActions';
+import {
+  getUsers,
+  supplyCoords,
+  supplySearchLocation,
+} from './app/redux/actions/userActions';
 import firebase from './app/config/firebase';
-import { geocodeByPlaceId } from 'react-places-autocomplete';
+import getAddressDetails, {
+  getFormattedAddress,
+} from './app/utils/locationHelper';
 
 const store = configureStore();
 
@@ -25,34 +31,17 @@ let render = () => {
 };
 
 firebase.auth().onAuthStateChanged((user) => {
-
-  const geocoder = new google.maps.Geocoder();
-
-  const getAddressDetails = (coords) => {
-    return new Promise ((resolve, reject) => {
-      geocoder.geocode({location: coords}, (results, status) => {
-        if(status === 'OK') {
-          resolve(results);
-        } else {
-          reject(new Error('Could not find address at ' + coords))
-        }
-      })
-    })
-  }
-  
   // Actions for app initialisation
-  const dispatchActions = async (coords = {latitude: 56.462018, longitude: -2.970721}) => {
+  const dispatchActions = async (
+    coords = { latitude: 56.462018, longitude: -2.970721 }
+  ) => {
     try {
-      const address = await getAddressDetails({lat: Number(coords.latitude), lng: Number(coords.longitude)});
-      let formattedAddress;
-      if(address[0].formatted_address.includes('UK')) {
-        formattedAddress = address[8].formatted_address;
-      } else if(address[0].formatted_address.includes('US')) {
-        formattedAddress = address[5].formatted_address;
-      } else {
-        formattedAddress = address[8].formatted_address;
-      }
-      store.dispatch(supplyLocation(formattedAddress));
+      const address = await getAddressDetails({
+        lat: Number(coords.latitude),
+        lng: Number(coords.longitude),
+      });
+      let formattedAddress = getFormattedAddress(address);
+      store.dispatch(supplySearchLocation(formattedAddress));
       await store.dispatch(getEvents(coords));
       await store.dispatch(getUsers());
       store.dispatch(supplyCoords(coords));
@@ -90,11 +79,8 @@ firebase.auth().onAuthStateChanged((user) => {
         const userCoordsObj = {
           latitude: result.latitude,
           longitude: result.longitude,
-        }
-        localStorage.setItem(
-          'userCoords',
-          JSON.stringify(userCoordsObj)
-        );
+        };
+        localStorage.setItem('userCoords', JSON.stringify(userCoordsObj));
         dispatchActions(userCoordsObj);
       } catch (err) {
         dispatchActions();

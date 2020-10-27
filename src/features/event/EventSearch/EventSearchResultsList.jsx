@@ -12,7 +12,7 @@ const EventResultsListContainer = styled.div`
 
 const EventSearchResultsListTitle = styled.h1`
   font-weight: 600;
-  font-size: 1.8rem;
+  font-size: 1.4rem;
   margin-bottom: 4rem;
 `;
 
@@ -35,14 +35,14 @@ const NoResultsSubText = styled.h1`
 
 class EventSearchResultsList extends React.Component {
   render() {
-    let { results, match } = this.props;
+    let { results, searchLocation } = this.props;
     if (results.length > 0) {
       return (
         <React.Fragment>
           <Filter />
           <EventResultsListContainer>
             <EventSearchResultsListTitle>
-              Search results
+              Events near <span style={{fontStyle: 'italic'}}>"{searchLocation}"</span>
             </EventSearchResultsListTitle>
 
             {results &&
@@ -69,20 +69,21 @@ class EventSearchResultsList extends React.Component {
 }
 
 let eventSearchSelector = (state, searchText) => {
-  return state.events.localEvents.filter((event) => {
-    return event.title.toLowerCase().includes(searchText.toLowerCase());
-  });
+  if(searchText === 'no-search-string') {
+    return state.events.localEvents;
+  } else {
+    return state.events.localEvents.filter((event) => {
+      return event.title.toLowerCase().includes(searchText.toLowerCase());
+    });
+  }
 };
 
+
+
 const mapStateToProps = (state, ownProps) => {
-  if (ownProps.match.params.id === 'no-search-string') {
-    return {
-      results: state.events.localEvents,
-    };
-  } else {
-    return {
-      results: eventSearchSelector(state, ownProps.match.params.id),
-    };
+  return {
+    results: eventSearchSelector(state, ownProps.match.params.id),
+    searchLocation: state.profile.searchLocation
   }
 };
 

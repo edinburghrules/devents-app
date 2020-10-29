@@ -8,6 +8,8 @@ import InfiniteScrollComponent from '../../../app/utils/InfiniteScroll';
 const EventResultsListContainer = styled.div`
   margin: 8rem auto;
   max-width: 960px;
+  /* overflow: hidden; */
+  height: 50vh;
 `;
 
 const EventSearchResultsListTitle = styled.h1`

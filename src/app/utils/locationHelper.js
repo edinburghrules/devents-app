@@ -14,16 +14,15 @@ const getAddressDetails = (coords) => {
   });
 };
 
-const getFormattedAddress = (address) => {
-  let formattedAddress;
-  if (address[0].formatted_address.includes('UK')) {
-    formattedAddress = address[8].formatted_address;
-  } else if (address[0].formatted_address.includes('US')) {
-    formattedAddress = address[5].formatted_address;
-  } else {
-    formattedAddress = address[8].formatted_address;
-  }
-  return formattedAddress;
+const getFormattedAddress = (addresses) => {
+
+  const formattedAddressArr = addresses.filter((address) => {
+    if (address.types[0] === 'locality' && address.types[1] === 'political') {
+      return true;
+    }
+  });
+
+  return formattedAddressArr[0].formatted_address;
 };
 
 export { getAddressDetails as default, getFormattedAddress };

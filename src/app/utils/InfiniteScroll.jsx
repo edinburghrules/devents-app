@@ -4,12 +4,13 @@ import EventListItem from '../../features/event/EventList/EventListItem';
 import InfiniteScroll from 'react-infinite-scroll-component';
 
 const NoMoreEvents = styled.h6`
-  margin-top: 6rem;
+  margin: 6rem 0rem;
   color: #000;
   text-align: center;
 `;
 
 const Loading = styled.div`
+  margin: 4rem 0rem;
   display: flex;
   position: relative;
   justify-content: center;
@@ -49,7 +50,7 @@ class InfiniteScrollComponent extends React.Component {
     events: this.props.events,
     slicedEvents: [],
     start: 0,
-    end: 1,
+    end: 2,
     moreToLoad: true,
   };
   componentDidMount = () => {
@@ -76,7 +77,7 @@ class InfiniteScrollComponent extends React.Component {
         moreToLoad: false,
       });
     } else {
-      this.incrementSlicePoints(1);
+      this.incrementSlicePoints(2);
       setTimeout(() => {
         this.setState((prevState) => {
           return {
@@ -102,7 +103,6 @@ class InfiniteScrollComponent extends React.Component {
     );
     return (
       <InfiniteScroll
-        style={{ overflow: 'hidden' }}
         dataLength={this.state.slicedEvents.length}
         next={this.fetchMoreData}
         hasMore={moreToLoad}

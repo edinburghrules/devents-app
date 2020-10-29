@@ -10,6 +10,7 @@ import EventCategoriesMenu from '../EventCategories/EventCategoryMenu/EventCateg
 const EventDashboardContainer = styled(Container)`
   margin: 5rem auto;
   max-width: 960px;
+  height: 100vh;
 `;
 
 const EventDashboardBG = styled.div`

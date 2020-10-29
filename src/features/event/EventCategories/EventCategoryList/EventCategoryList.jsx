@@ -1,15 +1,12 @@
 import React from 'react';
-import EventListItem from '../../EventList/EventListItem';
+import InfiniteScrollComponent from '../../../../app/utils/InfiniteScroll';
 
 class EventCategoryList extends React.Component {
   render() {
     let { events } = this.props;
     return (
       <React.Fragment>
-        {events &&
-          events.map((event) => {
-            return <EventListItem key={event.id} event={event} />;
-          })}
+        <InfiniteScrollComponent events={events} />
       </React.Fragment>
     );
   }

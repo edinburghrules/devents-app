@@ -105,17 +105,17 @@ const eventFilters = withFormik({
     if (values.searchLocation !== '') {
       try {
         await props.getEvents(searchCoords);
+        props.history.push(
+          `/search-results/${
+            values.searchText === '' ? 'no-search-string' : values.searchText
+          }`
+        );
         const address = await getAddressDetails({
           lat: Number(searchCoords.latitude),
           lng: Number(searchCoords.longitude),
         });
         let formattedAddress = getFormattedAddress(address);
         props.supplySearchLocation(formattedAddress);
-        props.history.push(
-          `/search-results/${
-            values.searchText === '' ? 'no-search-string' : values.searchText
-          }`
-        );
       } catch (err) {
         new Error(err);
       }

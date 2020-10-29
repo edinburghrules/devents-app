@@ -12,6 +12,47 @@ const EventListHeading = styled.h6`
   margin-bottom: 2rem;
 `;
 
+const NoMoreEvents = styled(EventListHeading)`
+  margin-top: 6rem;
+  color: #000;
+  text-align: center;
+`
+
+const Loading = styled.div`
+  display: flex;
+  position: relative;
+  justify-content: center;
+  transition: opacity 3.5s ease-in;
+`;
+
+const Ball = styled.div`
+  background-color: #999;
+  border-radius: 50%;
+  margin: 5px;
+  height: 7px;
+  width: 7px;
+  animation: jump 0.5s ease-in infinite;
+
+  @keyframes jump {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+
+    50% {
+      transform: translateY(-10px);
+    }
+  }
+
+  &:nth-of-type(2) {
+    animation-delay: 0.1s;
+  }
+
+  &:nth-of-type(3) {
+    animation-delay: 0.2s;
+  }
+`;
+
 class EventList extends Component {
   state = {
     slicedEvents: [],
@@ -64,9 +105,11 @@ class EventList extends Component {
     const { slicedEvents, moreToLoad } = this.state;
     console.log(slicedEvents);
     let loader = (
-      <div style={{width: '100%', textAlign: 'center'}}>
-        <Spinner variant='primary' size='sm' animation='border' />
-      </div>
+      <Loading>
+        <Ball/>
+        <Ball/>
+        <Ball/>
+      </Loading>
     );
     return (
       <EventListContainer>
@@ -77,10 +120,7 @@ class EventList extends Component {
           next={this.fetchMoreData}
           hasMore={moreToLoad}
           loader={loader}
-          endMessage={
-            <p style={{ textAlign: 'center', marginTop: '4rem' }}>
-              <b>No more events to show</b>
-            </p>
+          endMessage={(<NoMoreEvents>No more events to load</NoMoreEvents>)
           }
         >
           {slicedEvents &&

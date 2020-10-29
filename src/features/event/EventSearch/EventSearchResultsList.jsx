@@ -2,8 +2,8 @@ import React from 'react';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import EventListItem from '../EventList/EventListItem';
 import Filter from '../../filters/Filters';
+import InfiniteScrollComponent from '../../../app/utils/InfiniteScroll';
 
 const EventResultsListContainer = styled.div`
   margin: 8rem auto;
@@ -44,11 +44,7 @@ class EventSearchResultsList extends React.Component {
             <EventSearchResultsListTitle>
               Events near <span style={{fontStyle: 'italic'}}>"{searchLocation}"</span>
             </EventSearchResultsListTitle>
-
-            {results &&
-              results.map((event) => {
-                return <EventListItem key={event.id} event={event} />;
-              })}
+            <InfiniteScrollComponent events={results}/>
           </EventResultsListContainer>
         </React.Fragment>
       );

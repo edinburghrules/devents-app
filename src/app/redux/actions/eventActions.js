@@ -31,8 +31,6 @@ const getEvents = (coords) => {
             }
           });
 
-          console.log(localEvents);
-
           localEvents.sort((a, b) => {
             if (fromUnixTime(a.date.seconds) > fromUnixTime(b.date.seconds)) {
               return 1;

@@ -7,7 +7,6 @@ import Filters from '../../filters/Filters';
 import EventDashboardHeader from '../EventDashboardHeader/EventDashboardHeader';
 import EventCategoriesMenu from '../EventCategories/EventCategoryMenu/EventCategoriesMenu';
 
-
 const EventDashboardContainer = styled(Container)`
   margin: 5rem auto;
   max-width: 960px;

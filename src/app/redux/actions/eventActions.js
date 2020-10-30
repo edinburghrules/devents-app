@@ -74,6 +74,7 @@ const createEvent = (event) => {
       attendees: {
         [hostId]: {
           attending: true,
+          host: true,
           joined,
           attendeePhoto: userPhoto,
           name,

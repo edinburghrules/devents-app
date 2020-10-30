@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { fromUnixTime, format } from 'date-fns';
 import { Row, Col, Container } from 'react-bootstrap';
-import EventListAttendee from './EventDetailsAttendee';
+import EventDetailsAttendee from './EventDetailsAttendee';
 import EventDetailsMap from './EventDetailsMap';
 
 const EventDetailsInformationContainer = styled(Container)`
@@ -53,11 +53,20 @@ const EventDetailsInformationDate = styled.span`
 
 const EventDetailsInformation = (props) => {
   const {
-    event: { description, attendees, date, cancelled, venue, cost, coordinates },
-    isHost,
+    event: { description, attendees, date, cancelled, venue, cost, coordinates }
   } = props;
   let parsedDate = fromUnixTime(date.seconds);
   let numberOfAttendees = Object.keys(attendees).length;
+  const attendeesArr = Object.keys(attendees);
+  const filteredAttendeesArr = [];
+  attendeesArr.forEach(attendee => {
+    if(attendees[attendee].hasOwnProperty('host')) {
+      filteredAttendeesArr.unshift(attendees[attendee]);
+    } else {
+      filteredAttendeesArr.push(attendees[attendee]);
+    }
+  })
+  console.log(filteredAttendeesArr);
   return (
     <EventDetailsInformationContainer>
       <Row>
@@ -80,12 +89,12 @@ const EventDetailsInformation = (props) => {
               </EventDetailsInformationCardHeading>
               <EventDetailsInformationAttendeesSection>
                 {attendees &&
-                  Object.keys(attendees).map((attendee, index) => {
+                  filteredAttendeesArr.map((attendee, index) => {
                     return (
-                      <EventListAttendee
+                      <EventDetailsAttendee
                         key={index}
-                        isHost={isHost}
-                        attendee={attendees[attendee]}
+                        host={attendee.host}
+                        attendee={attendee}
                         attendeeId={attendee}
                       />
                     );

@@ -30,11 +30,11 @@ const EventDetailsCancelled = styled(EventDetailsHeadingTitle)`
 const EventDetailsHostSection = styled.div`
   display: flex;
   align-items: center;
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
 `;
 
 const EventDetailsHostImage = styled.img`
-  height: 50px;
+  height: 70px;
   margin-right: 1rem;
   border-radius: 50%;
 `;
@@ -55,9 +55,10 @@ const EventDetailsAttendButton = styled(Button)`
   align-items: center;
   width: 12rem;
   height: 3rem;
+  margin-top: 1rem !important;
 `;
 
-const EventDetailsUnattendButton = styled(Button)`
+const EventDetailsUnattendButton = styled(EventDetailsAttendButton)`
   width: 12rem;
   height: 3rem;
 `;

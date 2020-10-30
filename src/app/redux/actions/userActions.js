@@ -1,114 +1,144 @@
+import React from 'react';
+import styled from 'styled-components';
 import firebase from '../../config/firebase';
 import { toast } from 'react-toastify';
 import { startSubmit, stopSubmit } from './asyncActions';
 import { getEvents } from './eventActions';
+import { Notification, NotificationIcon } from '../../styles/toastNotification';
 
 const getUsers = () => {
-  return async dispatch => {
+  return async (dispatch) => {
     try {
-      let users = []; 
+      let users = [];
       await firebase
-      .firestore()
-      .collection('users')
-      .get()
-      .then((querySnapshot) => {
-        querySnapshot.forEach((doc) => {
-          users.push({
-            id: doc.id,
-            ...doc.data(),
+        .firestore()
+        .collection('users')
+        .get()
+        .then((querySnapshot) => {
+          querySnapshot.forEach((doc) => {
+            users.push({
+              id: doc.id,
+              ...doc.data(),
+            });
           });
         });
-      });
       dispatch({ type: 'GET_USERS', payload: users });
       return;
     } catch (err) {
       console.log(err);
     }
-  }
-}
+  };
+};
 
 const supplyCoords = (coords) => {
-  return async dispatch => {
-    dispatch({type: 'USER_COORDS', payload: coords});
-  }
-}
+  return async (dispatch) => {
+    dispatch({ type: 'USER_COORDS', payload: coords });
+  };
+};
 
 const supplySearchLocation = (location) => {
-  return async dispatch => {
-    dispatch({type: 'SEARCH_LOCATION', payload: location});
-  }
-}
-
+  return async (dispatch) => {
+    dispatch({ type: 'SEARCH_LOCATION', payload: location });
+  };
+};
 
 const attendEvent = (event) => {
   return async (dispatch, getState) => {
-    dispatch(startSubmit())
+    dispatch(startSubmit());
     let userCoords = getState().profile.userCoords;
-    let currentUser = getState().auth.currentUser.uid
+    let currentUser = getState().auth.currentUser.uid;
     let newAttendee = {
       attending: true,
       attendeePhoto: getState().profile.userProfile.photoURL,
       name: getState().profile.userProfile.displayName,
-    }
+    };
     try {
       await firebase
         .firestore()
         .collection('events')
         .doc(event.id)
         .update({
-          [`attendees.${currentUser}`]: newAttendee
-        })
-      
-      await dispatch(getEvents(userCoords));
-      toast.info(`You've booked your place for ${event.title} 🙋🏻‍♂️ `, {
-        position: 'bottom-right',
-        autoClose: 5000,
-        hideProgressBar: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      });
-      dispatch(stopSubmit());
+          [`attendees.${currentUser}`]: newAttendee,
+        });
 
-    }  catch(err) {
+      await firebase
+        .firestore()
+        .collection('event_attendee')
+        .doc(`${event.id}_${currentUser}`)
+        .set({
+          eventDate: event.date,
+          eventId: event.id,
+          host: false,
+          userId: currentUser,
+        });
+
+      await dispatch(getEvents(userCoords));
+      toast.info(
+        <Notification>
+          <NotificationIcon src='/assets/notification.png' />
+          You've booked your place for {event.title}.
+        </Notification>,
+        {
+          position: 'bottom-right',
+          autoClose: 5000,
+          hideProgressBar: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        }
+      );
+      dispatch(stopSubmit());
+    } catch (err) {
       console.log(err);
     }
-  } 
-}
+  };
+};
 
-const unattendEvent = event => {
+const unattendEvent = (event) => {
   return async (dispatch, getState) => {
     dispatch(startSubmit());
-    let currentUser = getState().auth.currentUser.uid
+    let currentUser = getState().auth.currentUser.uid;
     let userCoords = getState().profile.userCoords;
-    try{
+    try {
       await firebase
         .firestore()
         .collection('events')
         .doc(event.id)
         .update({
-          [`attendees.${currentUser}`]: firebase.firestore.FieldValue.delete()
-        })
+          [`attendees.${currentUser}`]: firebase.firestore.FieldValue.delete(),
+        });
+      await firebase
+        .firestore()
+        .collection('event_attendee')
+        .doc(`${event.id}_${currentUser}`)
+        .delete();
+
       await dispatch(getEvents(userCoords));
-      toast.info(`You've cancelled your place for ${event.title} ❌ `, {
-        position: 'bottom-right',
-        autoClose: 5000,
-        hideProgressBar: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      });
+      toast.info(
+        <Notification>
+          <NotificationIcon src='/assets/notification.png' />
+          You've cancelled your place for {event.title}.
+        </Notification>,
+        {
+          position: 'bottom-right',
+          autoClose: 5000,
+          hideProgressBar: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        }
+      );
       dispatch(stopSubmit());
-    } catch(err) {
-        console.log(err);
+    } catch (err) {
+      console.log(err);
     }
-  }
-}
+  };
+};
 
 const editPassword = (newPassword) => {
   return async (dispatch) => {
     try {
-      dispatch({type: 'CLEAR_PROFILE_UPDATE_ERROR'})
+      dispatch({ type: 'CLEAR_PROFILE_UPDATE_ERROR' });
       dispatch(startSubmit());
       await firebase.auth().currentUser.updatePassword(newPassword);
       dispatch(stopSubmit());
@@ -122,7 +152,7 @@ const editPassword = (newPassword) => {
       });
     } catch (err) {
       dispatch(stopSubmit());
-      dispatch({type: 'PROFILE_UPDATE_ERROR', payload: err})
+      dispatch({ type: 'PROFILE_UPDATE_ERROR', payload: err });
       console.log(err);
     }
   };
@@ -199,7 +229,7 @@ const handlePhotoUpload = (file) => {
         toast.info('Profile photo updated! 📷', {
           position: 'bottom-right',
           autoClose: 5000,
-          hideProgressBar: true
+          hideProgressBar: true,
         });
         return;
       } else {
@@ -211,4 +241,13 @@ const handlePhotoUpload = (file) => {
   };
 };
 
-export { getUsers, supplyCoords, supplySearchLocation, attendEvent, unattendEvent, editPassword, handlePhotoUpload, updateProfile };
+export {
+  getUsers,
+  supplyCoords,
+  supplySearchLocation,
+  attendEvent,
+  unattendEvent,
+  editPassword,
+  handlePhotoUpload,
+  updateProfile,
+};

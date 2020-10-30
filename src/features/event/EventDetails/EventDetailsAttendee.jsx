@@ -17,7 +17,7 @@ const EventDetailsAttendeeCard = styled.div`
 `;
 
 const EventDetailsAttendeeCardImage = styled.img`
-  height: 30px;
+  height: 40px;
   border-radius: 50%;
 `;
 
@@ -25,7 +25,7 @@ const EventDetailsAttendeeCardName = styled.span`
   margin-top: 0.5rem;
   font-size: 0.7rem;
   text-align: center;
-  font-weight: 400;
+  font-weight: 600;
   display: flex;
   flex-direction: column;
   width: 60%;
@@ -33,13 +33,21 @@ const EventDetailsAttendeeCardName = styled.span`
   align-items: center;
 `;
 
+const Host = styled.p`
+  font-size: 0.7rem;
+`;
+
+const Guest = styled.p`
+  font-size: 0.7rem;
+`;
+
 
 const EventDetailsAttendee = (props) => {
   const {
     attendee: { attendeePhoto, name },
-    attendeeId
+    attendeeId,
+    host
   } = props;
-
   return (
     <EventDetailsAttendeeCard as={Link} to={`/user-profile/${attendeeId}`}>
       <EventDetailsAttendeeCardImage
@@ -47,6 +55,7 @@ const EventDetailsAttendee = (props) => {
         alt='event attendee'
       />
       <EventDetailsAttendeeCardName>{name}</EventDetailsAttendeeCardName>
+      {host ? (<Host>Host</Host>) : (<Guest>Guest</Guest>)}
     </EventDetailsAttendeeCard>
   );
 };

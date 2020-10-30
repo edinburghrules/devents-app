@@ -51,7 +51,7 @@ class InfiniteScrollComponent extends React.Component {
     slicedEvents: [],
     start: 0,
     end: 2,
-    moreToLoad: true,
+    moreToLoad: this.props.events.length > 1,
   };
   componentDidMount = () => {
     this.setState((prevState) => {

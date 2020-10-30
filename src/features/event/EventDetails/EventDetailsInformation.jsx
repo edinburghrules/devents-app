@@ -42,31 +42,41 @@ const EventDetailsInformationMap = styled.div`
   padding: 0;
 `;
 
-
 const EventDetailsInformationDate = styled.span`
-  margin-left: .7rem;
-  ${({ isCancelled }) => isCancelled && `
+  margin-left: 0.7rem;
+  ${({ isCancelled }) =>
+    isCancelled &&
+    `
     text-decoration: line-through;
   `}
 `;
 
-
 const EventDetailsInformation = (props) => {
   const {
-    event: { description, attendees, date, cancelled, venue, cost, coordinates }
+    event: {
+      description,
+      attendees,
+      date,
+      cancelled,
+      venue,
+      cost,
+      coordinates,
+    },
   } = props;
+
   let parsedDate = fromUnixTime(date.seconds);
   let numberOfAttendees = Object.keys(attendees).length;
   const attendeesArr = Object.keys(attendees);
   const filteredAttendeesArr = [];
-  attendeesArr.forEach(attendee => {
-    if(attendees[attendee].hasOwnProperty('host')) {
+
+  attendeesArr.forEach((attendee) => {
+    if (attendees[attendee].hasOwnProperty('host')) {
       filteredAttendeesArr.unshift(attendees[attendee]);
     } else {
       filteredAttendeesArr.push(attendees[attendee]);
     }
-  })
-  console.log(filteredAttendeesArr);
+  });
+
   return (
     <EventDetailsInformationContainer>
       <Row>

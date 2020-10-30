@@ -7,12 +7,21 @@ import * as Yup from 'yup';
 import TextInput from '../../../app/form-inputs/TextInput';
 import { editPassword } from '../../../app/redux/actions/userActions';
 
+const ChangePasswordButton = styled(Button)`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 12rem;
+  height: 3rem;
+  margin-top: 2rem !important;
+`;
+
 const GoogleButton = styled(Button)`
   font-size: 0.9rem !important;
   font-weight: 600 !important;
   text-decoration: none;
   border: 2px solid #f0f0f0;
-  margin-top: 1rem;
+  margin-top: 2rem;
   background: #ffffff;
 `;
 
@@ -42,13 +51,13 @@ const ChangePasswordPage = ({
             <Alert variant='danger'>{errors.error}</Alert>
           )}
           {error && (<Alert variant='danger'>{error.message}</Alert>)}
-          <Button type='submit'>
+          <ChangePasswordButton type='submit'>
             {submitting ? (
               <Spinner animation='border' size='sm' variant='light' />
             ) : (
               'Change password'
             )}
-          </Button>
+          </ChangePasswordButton>
         </Form>
       </div>
     );

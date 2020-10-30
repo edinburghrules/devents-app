@@ -142,14 +142,20 @@ const editPassword = (newPassword) => {
       dispatch(startSubmit());
       await firebase.auth().currentUser.updatePassword(newPassword);
       dispatch(stopSubmit());
-      toast.info('Password updated! 🔒', {
-        position: 'bottom-right',
-        autoClose: 5000,
-        hideProgressBar: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      });
+      toast.info(
+        <Notification>
+          <NotificationIcon src='/assets/notification.png' />
+          Your password has been updated.
+        </Notification>,
+        {
+          position: 'bottom-right',
+          autoClose: 5000,
+          hideProgressBar: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        }
+      );
     } catch (err) {
       dispatch(stopSubmit());
       dispatch({ type: 'PROFILE_UPDATE_ERROR', payload: err });
@@ -171,15 +177,21 @@ const updateProfile = (updatedInfo) => {
           ...updatedInfo,
         });
       dispatch(stopSubmit());
-      toast.info('Profile updated! ✅', {
-        position: 'bottom-right',
-        autoClose: 5000,
-        hideProgressBar: true,
-        closeOnClick: false,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      });
+      toast.info(
+        <Notification>
+          <NotificationIcon src='/assets/notification.png' />
+          Your profile has been updated.
+        </Notification>,
+        {
+          position: 'bottom-right',
+          autoClose: 5000,
+          hideProgressBar: true,
+          closeOnClick: false,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        }
+      );
 
       const getUser = firebase.firestore().collection('users').doc(currentUser);
 
@@ -226,11 +238,17 @@ const handlePhotoUpload = (file) => {
       });
 
       if (userProfileData) {
-        toast.info('Profile photo updated! 📷', {
-          position: 'bottom-right',
-          autoClose: 5000,
-          hideProgressBar: true,
-        });
+        toast.info(
+          <Notification>
+            <NotificationIcon src='/assets/notification.png' />
+            Your profile photo has been updated.
+          </Notification>,
+          {
+            position: 'bottom-right',
+            autoClose: 5000,
+            hideProgressBar: true,
+          }
+        );
         return;
       } else {
         console.log('Sorry, there has been an error.');

@@ -1,21 +1,35 @@
+import React from 'react';
 import firebase, { GeoFirestore } from '../../config/firebase';
+import styled from 'styled-components';
 import { toast } from 'react-toastify';
 import { fromUnixTime } from 'date-fns';
 import { startSubmit, stopSubmit } from './asyncActions';
+
+const Notification = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+`;
+
+const NotificationIcon = styled.img`
+  height: 25px;
+  margin-right: 1rem;
+`;
+
+export { Notification, NotificationIcon };
 
 const getEvents = (coords) => {
   return async (dispatch) => {
     dispatch(startSubmit());
     const geocollection = GeoFirestore.collection('events');
-    const locationQuery = geocollection
-      .near({
-        center: new firebase.firestore.GeoPoint(
-          coords.latitude,
-          coords.longitude
-        ),
-        radius: 65,
-      });
-      
+    const locationQuery = geocollection.near({
+      center: new firebase.firestore.GeoPoint(
+        coords.latitude,
+        coords.longitude
+      ),
+      radius: 65,
+    });
+
     if (coords) {
       try {
         await locationQuery.get().then((value) => {
@@ -97,11 +111,17 @@ const createEvent = (event) => {
         });
       await dispatch(getEvents(userCoords));
       dispatch(stopSubmit());
-      toast.success('Your event is live! 🎉', {
-        position: 'bottom-right',
-        autoClose: 5000,
-        hideProgressBar: true,
-      });
+      toast.success(
+        <Notification>
+          <NotificationIcon src='/assets/notification.png' />
+          Your event has been submitted.
+        </Notification>,
+        {
+          position: 'bottom-right',
+          autoClose: 5000,
+          hideProgressBar: true,
+        }
+      );
       return docRef.id;
     } catch (err) {
       dispatch(stopSubmit());
@@ -117,11 +137,17 @@ const editEvent = (event) => {
     try {
       await firebase.firestore().collection('events').doc(event.id).set(event);
       await dispatch(getEvents(userCoords));
-      toast.success('Event updated! 🎉', {
-        position: 'bottom-right',
-        autoClose: 5000,
-        hideProgressBar: true,
-      });
+      toast.success(
+        <Notification>
+          <NotificationIcon src='/assets/notification.png' />
+          Your event has been amended.
+        </Notification>,
+        {
+          position: 'bottom-right',
+          autoClose: 5000,
+          hideProgressBar: true,
+        }
+      );
       dispatch(stopSubmit());
       return event.id;
     } catch (err) {

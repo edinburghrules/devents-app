@@ -68,9 +68,9 @@ class EventSearchResultsList extends React.Component {
 
 let eventSearchSelector = (state, searchText) => {
   if(searchText === 'no-search-string') {
-    return state.events.localEvents;
+    return state.events.events;
   } else {
-    return state.events.localEvents.filter((event) => {
+    return state.events.events.filter((event) => {
       return event.title.toLowerCase().includes(searchText.toLowerCase());
     });
   }

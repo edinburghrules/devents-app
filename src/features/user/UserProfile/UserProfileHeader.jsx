@@ -6,8 +6,15 @@ import UserProfileFollow from './UserProfileFollow';
 
 const UserProfileHeaderContainer = styled.div`
   display: flex;
-  margin-bottom: 3rem;
+  margin-bottom: 2rem;
   align-items: flex-start;
+`;
+
+const UsersName = styled.h3`
+  font-weight: 600;
+  font-size: 1.3rem;
+  display: flex;
+  align-items: center;
 `;
 
 const UserProfileHeaderImg = styled.img`
@@ -23,7 +30,6 @@ const UserProfileHeaderJoinDate = styled.h6`
 `;
 
 const UserProfileHeader = ({ userDetails, currentUser }) => {
-  console.log(userDetails)
   let date = fromUnixTime(userDetails && userDetails.joined.seconds);
   let parsedJoinDate = format(date && date, 'EEEE, do MMMM yyyy');
   return (
@@ -35,7 +41,7 @@ const UserProfileHeader = ({ userDetails, currentUser }) => {
         />
       </div>
       <div>
-        <h4>{userDetails && userDetails.name}</h4>
+        <UsersName>{userDetails && userDetails.name}</UsersName>
         {userDetails.occupation && <h6>{userDetails.occupation}</h6>}
         {userDetails.homeCity && <h6>{userDetails.homeCity}</h6>}
         {userDetails.joined && (

@@ -2,7 +2,14 @@ import React from 'react';
 import styled from 'styled-components';
 
 const UserProfileAboutContainer = styled.div`
-  margin: 2rem 0;
+  margin-top: 2rem;
+`;
+
+const Heading = styled.h3`
+  font-weight: 600;
+  font-size: 1.3rem;
+  display: flex;
+  align-items: center;
 `;
 
 const UserProfileInterests = styled.div`
@@ -23,27 +30,38 @@ const UserProfileAboutListItem = styled.li`
   margin-right: 1.5rem;
 `;
 
-const UserProfileAbout = ({ userDetails }) => {
+const UserProfileAbout = (props) => {
+  const { about, interests } = props;
   return (
     <UserProfileAboutContainer>
-      <h5 className='mb-3'>About</h5>
-      {<p>{userDetails.about && userDetails.about}</p>}
-      <UserProfileInterests>
-        <h5 className='mb-3'>Interests</h5>
-        <UserProfileAboutList>
-          {userDetails.interests &&
-            userDetails.interests.map((interest, index) => {
-              return (
-                <UserProfileAboutListItem key={index}>
-                  <span className='mr-1' role='img' aria-labelledby='tick icon'>
-                    ✅
-                  </span>
-                  {interest}
-                </UserProfileAboutListItem>
-              );
-            })}
-        </UserProfileAboutList>
-      </UserProfileInterests>
+      {about && (
+        <React.Fragment>
+          <Heading>About</Heading>
+          <p>{about}</p>
+        </React.Fragment>
+      )}
+      {interests && (
+        <UserProfileInterests>
+          <Heading>Interests</Heading>
+          <UserProfileAboutList>
+            {interests &&
+              interests.map((interest, index) => {
+                return (
+                  <UserProfileAboutListItem key={index}>
+                    <span
+                      className='mr-1'
+                      role='img'
+                      aria-labelledby='tick icon'
+                    >
+                      ✅
+                    </span>
+                    {interest}
+                  </UserProfileAboutListItem>
+                );
+              })}
+          </UserProfileAboutList>
+        </UserProfileInterests>
+      )}
     </UserProfileAboutContainer>
   );
 };

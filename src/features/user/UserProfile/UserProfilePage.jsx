@@ -16,20 +16,23 @@ const UserProfileCard = styled.div`
   border-radius: 8px;
   background: #ffffff;
   color: #222;
-  padding: 2.5rem 3rem; 
+  padding: 2.5rem 3rem;
+  margin-bottom: 2rem;
 `;
 
 class UserProfilePage extends React.Component {
   render() {
-    const {
-      userProfileDetails, 
-      currentUser
-    } = this.props;
+    const { userProfileDetails, currentUser } = this.props;
     return (
       <UserProfileContainer>
         <UserProfileCard>
-          <UserProfileHeader currentUser={currentUser} userDetails={userProfileDetails} />
+          <UserProfileHeader
+            currentUser={currentUser}
+            userDetails={userProfileDetails}
+          />
           <UserProfileAbout userDetails={userProfileDetails} />
+        </UserProfileCard>
+        <UserProfileCard>
           <UserProfileEvents />
         </UserProfileCard>
       </UserProfileContainer>
@@ -38,26 +41,52 @@ class UserProfilePage extends React.Component {
 }
 
 const eventSelector = (events, type, user) => {
-  switch(type) {
+  switch (type) {
     case 'past':
-      return events.filter(event => fromUnixTime(event.date.seconds) < new Date() && event.attendees.hasOwnProperty(user));
+      return events.filter(
+        (event) =>
+          fromUnixTime(event.date.seconds) < new Date() &&
+          event.attendees.hasOwnProperty(user)
+      );
     case 'future':
-      return events.filter(event => fromUnixTime(event.date.seconds) > new Date() && event.attendees.hasOwnProperty(user));
+      return events.filter(
+        (event) =>
+          fromUnixTime(event.date.seconds) > new Date() &&
+          event.attendees.hasOwnProperty(user)
+      );
     case 'hosting':
-      return events.filter(event => fromUnixTime(event.date.seconds) > new Date() && event.hostedBy.hostId === user);
+      return events.filter(
+        (event) =>
+          fromUnixTime(event.date.seconds) > new Date() &&
+          event.hostedBy.hostId === user
+      );
     default:
       return events;
   }
-}
+};
 
 const mapStateToProps = (state, ownProps) => {
- return {
-   userProfileDetails: state.profile.usersCollection.find(user => user.id === ownProps.match.params.id),
-   currentUser: state.auth.currentUser && state.auth.currentUser.uid || null,
-   pastEvents: eventSelector(state.events.events, 'past', state.auth.currentUser.uid),
-   futureEvents: eventSelector(state.events.events, 'future', state.auth.currentUser.uid),
-   hosting: eventSelector(state.events.events, 'hosting', state.auth.currentUser.uid)
- }
+  return {
+    userProfileDetails: state.profile.usersCollection.find(
+      (user) => user.id === ownProps.match.params.id
+    ),
+    currentUser: (state.auth.currentUser && state.auth.currentUser.uid) || null,
+    pastEvents: eventSelector(
+      state.events.events,
+      'past',
+      state.auth.currentUser.uid
+    ),
+    futureEvents: eventSelector(
+      state.events.events,
+      'future',
+      state.auth.currentUser.uid
+    ),
+    hosting: eventSelector(
+      state.events.events,
+      'hosting',
+      state.auth.currentUser.uid
+    ),
+  };
 };
 
 export default connect(mapStateToProps)(UserProfilePage);

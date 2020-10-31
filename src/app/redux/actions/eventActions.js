@@ -33,19 +33,20 @@ const getEvents = (coords) => {
     if (coords) {
       try {
         await locationQuery.get().then((value) => {
-          let localEvents = [];
+          let events = [];
 
           value.docs.forEach((doc) => {
             let event = {
               ...doc.data(),
               id: doc.id,
             };
+
             if (fromUnixTime(doc.data().date.seconds) >= new Date()) {
-              localEvents.push(event);
+              events.push(event);
             }
           });
 
-          localEvents.sort((a, b) => {
+          events.sort((a, b) => {
             if (fromUnixTime(a.date.seconds) > fromUnixTime(b.date.seconds)) {
               return 1;
             } else if (
@@ -57,7 +58,8 @@ const getEvents = (coords) => {
             }
           });
 
-          dispatch({ type: 'GET_LOCAL_EVENTS', payload: localEvents });
+
+          dispatch({ type: 'GET_EVENTS', payload: events });
           dispatch(stopSubmit());
           return;
         });

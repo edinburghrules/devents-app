@@ -37,7 +37,7 @@ class EventDashboard extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    events: state.events.localEvents
+    events: state.events.events
   };
 };
 

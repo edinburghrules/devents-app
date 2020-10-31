@@ -8,8 +8,8 @@ const EventDetailsAttendeeCard = styled.div`
   justify-content: center;
   align-items: center;
   color: #222;
-  padding: .4rem 0;
-  
+  padding: 0.4rem 0;
+
   &:hover {
     text-decoration: none;
     color: #222;
@@ -41,21 +41,19 @@ const Guest = styled.p`
   font-size: 0.7rem;
 `;
 
-
 const EventDetailsAttendee = (props) => {
   const {
-    attendee: { attendeePhoto, name },
-    attendeeId,
-    host
+    attendee: { attendeePhoto, name, host, id },
   } = props;
+
   return (
-    <EventDetailsAttendeeCard as={Link} to={`/user-profile/${attendeeId}`}>
+    <EventDetailsAttendeeCard as={Link} to={`/user-profile/${id}`}>
       <EventDetailsAttendeeCardImage
         src={attendeePhoto || '/assets/profile.png'}
         alt='event attendee'
       />
       <EventDetailsAttendeeCardName>{name}</EventDetailsAttendeeCardName>
-      {host ? (<Host>Host</Host>) : (<Guest>Guest</Guest>)}
+      {host ? <Host>Host</Host> : <Guest>Guest</Guest>}
     </EventDetailsAttendeeCard>
   );
 };

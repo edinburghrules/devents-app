@@ -288,7 +288,7 @@ const eventSelector = (state, data) => {
   if (data === undefined) {
     return {};
   } else {
-    return state.events.localEvents.find((event) => event.id === data);
+    return state.events.events.find((event) => event.id === data);
   }
 };
 

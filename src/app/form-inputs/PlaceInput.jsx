@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import PlacesAutocomplete from 'react-places-autocomplete';
-import { Form } from 'react-bootstrap';
+import { Form, Spinner } from 'react-bootstrap';
 
 const FormContainer = styled(Form.Group)`
   position: relative;
@@ -71,7 +71,7 @@ class PlaceInput extends React.Component {
               }}
             />
             <AutocompleteDropdownContainer>
-              {loading && <div>Loading...</div>}
+              {loading && <Loading><Spinner animation='border' size='sm' variant='primary'/>Loading...</Loading>}
               {suggestions.length > 0 &&
                 suggestions.map((suggestion, index) => {
                   const className = suggestion.active

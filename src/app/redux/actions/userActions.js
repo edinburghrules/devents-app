@@ -1,5 +1,4 @@
 import React from 'react';
-import styled from 'styled-components';
 import firebase from '../../config/firebase';
 import { toast } from 'react-toastify';
 import { startSubmit, stopSubmit } from './asyncActions';

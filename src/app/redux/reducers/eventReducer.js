@@ -1,6 +1,5 @@
 const initState = {
-  allEvents: [],
-  localEvents: [],
+  events: [],
 };
 
 const eventReducer = (state = initState, action) => {
@@ -8,17 +7,12 @@ const eventReducer = (state = initState, action) => {
     case 'GET_EVENTS':
       return {
         ...state,
-        allEvents: [...action.payload],
-      };
-    case 'GET_LOCAL_EVENTS':
-      return {
-        ...state,
-        localEvents: [...action.payload],
+        events: [...action.payload],
       };
     case 'CREATE_EVENT':
       return {
         ...state,
-        allEvents: [...action.payload],
+        events: [...action.payload],
       };
     default:
       return state;

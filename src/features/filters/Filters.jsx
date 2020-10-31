@@ -42,6 +42,9 @@ const SearchButton = styled(Button)`
   height: 45px;
   background: #ff6f61 !important;
   border-color: #fff !important;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 let searchCoords = {

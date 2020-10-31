@@ -3,10 +3,28 @@ import styled from 'styled-components';
 import PlacesAutocomplete from 'react-places-autocomplete';
 import { Form } from 'react-bootstrap';
 
+const FormContainer = styled(Form.Group)`
+  position: relative;
+`;
+
 const FormLabel = styled(Form.Label)`
   font-size: 0.8rem;
   font-weight: 600;
   color: #222;
+`;
+
+const AutocompleteDropdownContainer = styled.div`
+  position: absolute;
+  z-index: 1000;
+  top: 4.5rem;
+  left:  0;
+  text-align: left;
+  overflow: hidden;
+  width: 100%;
+`;
+
+const Loading = styled.div`
+  background: #ffffff;
 `;
 
 class PlaceInput extends React.Component {
@@ -39,7 +57,7 @@ class PlaceInput extends React.Component {
         onChange={this.handleChange}
       >
         {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
-          <Form.Group>
+          <FormContainer>
             <FormLabel>
               {name === 'homeCity' ? 'Hometown' : `Event ${name}`}
             </FormLabel>
@@ -52,7 +70,7 @@ class PlaceInput extends React.Component {
                 setFieldTouched(name, 'true');
               }}
             />
-            <div className='autocomplete-dropdown-container'>
+            <AutocompleteDropdownContainer>
               {loading && <div>Loading...</div>}
               {suggestions.length > 0 &&
                 suggestions.map((suggestion, index) => {
@@ -65,13 +83,12 @@ class PlaceInput extends React.Component {
                         backgroundColor: '#f5f5f5',
                         cursor: 'pointer',
                         padding: '1rem',
-                        transition: '0.2s',
+
                       }
                     : {
                         backgroundColor: '#ffffff',
                         cursor: 'pointer',
-                        padding: '0.9rem',
-                        transition: '0.2s',
+                        padding: '1rem',
                       };
                   return (
                     <div
@@ -85,8 +102,8 @@ class PlaceInput extends React.Component {
                     </div>
                   );
                 })}
-            </div>
-          </Form.Group>
+            </AutocompleteDropdownContainer>
+          </FormContainer>
         )}
       </PlacesAutocomplete>
     );

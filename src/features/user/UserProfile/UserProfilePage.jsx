@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { Container } from 'react-bootstrap';
 import { connect } from 'react-redux';
+import { fromUnixTime } from 'date-fns';
 import UserProfileHeader from './UserProfileHeader';
 import UserProfileAbout from './UserProfileAbout';
 import UserProfileEvents from './UserProfileEvents';
@@ -36,10 +37,26 @@ class UserProfilePage extends React.Component {
   }
 }
 
+const eventSelector = (events, type, user) => {
+  switch(type) {
+    case 'past':
+      return events.filter(event => fromUnixTime(event.date.seconds) < new Date() && event.attendees.hasOwnProperty(user));
+    case 'future':
+      return events.filter(event => fromUnixTime(event.date.seconds) > new Date() && event.attendees.hasOwnProperty(user));
+    case 'hosting':
+      return events.filter(event => fromUnixTime(event.date.seconds) > new Date() && event.hostedBy.hostId === user);
+    default:
+      return events;
+  }
+}
+
 const mapStateToProps = (state, ownProps) => {
  return {
    userProfileDetails: state.profile.usersCollection.find(user => user.id === ownProps.match.params.id),
-   currentUser: state.auth.currentUser && state.auth.currentUser.uid || null
+   currentUser: state.auth.currentUser && state.auth.currentUser.uid || null,
+   pastEvents: eventSelector(state.events.events, 'past', state.auth.currentUser.uid),
+   futureEvents: eventSelector(state.events.events, 'future', state.auth.currentUser.uid),
+   hosting: eventSelector(state.events.events, 'hosting', state.auth.currentUser.uid)
  }
 };
 

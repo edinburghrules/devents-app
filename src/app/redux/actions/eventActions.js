@@ -40,10 +40,7 @@ const getEvents = (coords) => {
               ...doc.data(),
               id: doc.id,
             };
-
-            if (fromUnixTime(doc.data().date.seconds) >= new Date()) {
-              events.push(event);
-            }
+            events.push(event);
           });
 
           events.sort((a, b) => {
@@ -57,7 +54,6 @@ const getEvents = (coords) => {
               return 0;
             }
           });
-
 
           dispatch({ type: 'GET_EVENTS', payload: events });
           dispatch(stopSubmit());

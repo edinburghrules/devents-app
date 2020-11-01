@@ -31,7 +31,7 @@ const UserProfileAboutListItem = styled.li`
 `;
 
 const UserProfileAbout = (props) => {
-  const { about, interests } = props;
+  const { about, interests } = props.userDetails;
   return (
     <UserProfileAboutContainer>
       {about && (

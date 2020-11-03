@@ -70,15 +70,12 @@ const EventDetailsInformation = (props) => {
   const filteredAttendeesArr = [];
 
   attendeesArr.forEach((attendee) => {
-    console.log(attendee);
     if (attendees[attendee].hasOwnProperty('host')) {
       filteredAttendeesArr.unshift({...attendees[attendee], id: attendee});
     } else {
       filteredAttendeesArr.push({...attendees[attendee], id: attendee});
     }
   });
-
-  console.log(filteredAttendeesArr);
 
   return (
     <EventDetailsInformationContainer>

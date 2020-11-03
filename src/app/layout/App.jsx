@@ -40,6 +40,7 @@ function App(props) {
     <Fragment>
       <GlobalStyles/>
       <Navigation />
+      <div style={{marginBottom: '16rem'}}>
       <ToastContainer />
       <Switch>
         <Route exact path='/' component={EventDashboard} />
@@ -57,6 +58,7 @@ function App(props) {
         <Route path='/event-category/:id' component={EventCategoryPage} />
         <Route exact path='/search-results/:id' component={EventSearchResultsList}/>
       </Switch>
+      </div>
     </Fragment>
   );
 }

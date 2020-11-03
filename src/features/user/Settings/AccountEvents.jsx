@@ -15,7 +15,7 @@ const EventsCard = styled.div`
 const EventsHeading = styled.h3`
   font-weight: 600;
   font-size: 1.3rem;
-  margin-bottom: 1.4rem;
+  margin-bottom: 4rem;
   display: flex;
   align-items: center;
 `;

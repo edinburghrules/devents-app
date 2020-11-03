@@ -14,9 +14,11 @@ import CategoryInput from '../../../app/form-inputs/CategoryInput';
 import DatePickerInput from '../../../app/form-inputs/DatePickerInput';
 import PlaceInput from '../../../app/form-inputs/PlaceInput';
 import CostInput from '../../../app/form-inputs/CostInput';
+import EventFormPhoto from '../../../app/form-inputs/EventFormPhoto';
 import {
   createEvent,
   editEvent,
+  eventPhotoUpload
 } from '../../../app/redux/actions/eventActions';
 import firebase from '../../../app/config/firebase';
 
@@ -158,7 +160,13 @@ class EventForm extends Component {
               {touched.venue && errors.hasOwnProperty('venue') && (
                 <Alert variant='danger'>{errors.venue}</Alert>
               )}
+
+              <Field 
+                component={EventFormPhoto}
+                name='photo'
+              />
             </Form>
+
           </fieldset>
           {event && event.id && <Form.Label>Cancel Event</Form.Label>}
           {location.pathname !== '/createEvent' && (
@@ -229,6 +237,7 @@ const formikEventForm = withFormik({
         category: '',
         cost: 0,
         cancelled: false,
+        photo: ''
       };
     }
   },
@@ -257,6 +266,7 @@ const formikEventForm = withFormik({
       history,
       createEvent,
       editEvent,
+      eventPhotoUpload
     } = formikBag.props;
 
     if (location.pathname === '/createEvent') {
@@ -268,6 +278,8 @@ const formikEventForm = withFormik({
         ),
       };
       let createdEventId = await createEvent(newEvent);
+      console.log(createdEventId)
+      await eventPhotoUpload(values.photo, createdEventId)
       history.push(`/event/${createdEventId}`);
     } else {
       const editedEvent = {
@@ -302,6 +314,7 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = {
   createEvent,
   editEvent,
+  eventPhotoUpload
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(formikEventForm);

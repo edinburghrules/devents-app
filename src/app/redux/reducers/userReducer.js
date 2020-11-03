@@ -1,9 +1,7 @@
 const initState = {
   userProfile: {},
   error: null,
-  usersCollection: [],
-  userCoords: null,
-  userLocation: null
+  usersCollection: []
 };
 
 const profileReducer = (state = initState, action) => {
@@ -40,11 +38,6 @@ const profileReducer = (state = initState, action) => {
         userProfile: {},
         error: null, 
       };
-    case 'USER_COORDS':
-      return {
-        ...state,
-        userCoords: action.payload
-      }
     case 'SEARCH_LOCATION':
       return {
         ...state,

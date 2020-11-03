@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import { Container } from 'react-bootstrap';
+import { fromUnixTime } from 'date-fns';
 import { connect } from 'react-redux';
 import EventList from '../EventList/EventList';
 import Filters from '../../filters/Filters';
@@ -35,9 +36,13 @@ class EventDashboard extends Component {
   }
 }
 
+const eventSelector = (events) => {
+  return events.filter(event => fromUnixTime(event.date.seconds) > new Date());
+}
+
 const mapStateToProps = (state) => {
   return {
-    events: state.events.events
+    events: eventSelector(state.events.events)
   };
 };
 

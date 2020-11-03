@@ -32,10 +32,11 @@ const EventCity = styled.p`
 `;
 
 const AccountEventCard = (props) => {
-  const {title, date, city, id } = props.event;
+  const {title, date, city, id, photo } = props.event;
   const formattedDate = format(fromUnixTime(date.seconds), 'MM/dd/yyyy');
   return (
     <EventCard to={`/event/${id}`}>
+    <img src={photo} alt='event' />
       <EventTitle>{title}</EventTitle>
       <EventDate>{formattedDate}</EventDate>
       <EventCity>{city}</EventCity>

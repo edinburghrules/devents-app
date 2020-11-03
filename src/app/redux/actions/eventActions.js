@@ -18,7 +18,7 @@ const NotificationIcon = styled.img`
 
 export { Notification, NotificationIcon };
 
-const getEvents = (coords) => {
+const getEvents = (coords = { latitude: 56.462018, longitude: -2.970721 }) => {
   return async (dispatch) => {
     dispatch(startSubmit());
     const geocollection = GeoFirestore.collection('events');
@@ -78,6 +78,7 @@ const createEvent = (event) => {
     let joined = getState().profile.userProfile.joined;
     let createdEvent = {
       ...event,
+      photo: '',
       hostedBy: {
         hostId,
         name,
@@ -107,12 +108,51 @@ const createEvent = (event) => {
           eventDate: event.date,
           host: true,
         });
+
       await dispatch(getEvents(userCoords));
+
       dispatch(stopSubmit());
+
+      return docRef.id;
+
+    } catch (err) {
+      dispatch(stopSubmit());
+      console.log(err);
+    }
+  };
+};
+
+const eventPhotoUpload = (file, eventId) => {
+  console.log(eventId)
+  return async (dispatch) => {
+    try {
+      const path = `${eventId}/event_images/${file.name}`;
+      const storageRef = firebase.storage().ref(path);
+      await storageRef.put(file);
+
+      const eventRef = firebase
+        .firestore()
+        .collection('events')
+        .doc(eventId);
+
+      let imageUrl = await storageRef.getDownloadURL();
+
+      await eventRef.update({
+        photo: imageUrl,
+      });
+
+      const eventData = await firebase
+        .firestore()
+        .collection('events')
+        .doc(eventId)
+        .get();
+      
+      dispatch(getEvents());
+
       toast.success(
         <Notification>
           <NotificationIcon src='/assets/notification.png' />
-          Your event has been submitted.
+          Your event has been successfully submitted.
         </Notification>,
         {
           position: 'bottom-right',
@@ -120,10 +160,11 @@ const createEvent = (event) => {
           hideProgressBar: true,
         }
       );
-      return docRef.id;
+
+      return eventData.id;
+
     } catch (err) {
-      dispatch(stopSubmit());
-      console.log(err);
+      console.log('Error getting document.', err);
     }
   };
 };
@@ -155,4 +196,4 @@ const editEvent = (event) => {
   };
 };
 
-export { getEvents, createEvent, editEvent };
+export { getEvents, createEvent, eventPhotoUpload, editEvent };

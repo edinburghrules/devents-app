@@ -23,7 +23,7 @@ const AccountDashboard = ({ providerId, profile, pastEvents, futureEvents, hosti
           <Col>
             <AccountNav userId={profile.uid} />
           </Col>
-          <Col lg={8}>
+          <Col lg={9}>
             <Switch>
               <Redirect exact from='/user' to='/' />
               <Route

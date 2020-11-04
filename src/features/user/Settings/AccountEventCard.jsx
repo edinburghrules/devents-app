@@ -7,36 +7,45 @@ const EventCard = styled(Link)`
   text-decoration: none !important;
   color: #333 !important;
   background: #fff;
-  box-shadow: 0 4px 2px -2px #eee;
   border: 1px solid #eee;
-  width: 33.3%;
-  border-radius: 4px;
-  padding: 0.75rem 1rem 0.75rem 1rem;
+  width: 30%;
+  border-radius: 8px;
+  padding: 1rem 1.2rem 1rem 1.2rem;
+  margin-right: 3%;
+`;
+
+const EventPhoto = styled.img`
+  width: 100%;
+  text-align: center;
+  border-radius: 8px;
 `;
 
 const EventTitle = styled.h3`
-  font-size: 1rem;
-  font-weight: 600;
+  font-size: 1.1rem;
+  font-weight: 500;
+  margin-top: 1.2rem;
+  color: #222;
 `;
 
 const EventDate = styled.p`
-  font-size: .7rem;
-  font-weight: 500;
-  color: #666;
+  font-size: .8rem;
+  font-weight: 400;
+  color: #777;
 `;
 
 const EventCity = styled.p`
-  font-size: .7rem;
-  font-weight: 500;
-  color: #666;
+  font-size: .8rem;
+  font-weight: 400;
+  color: #777;
+  margin-top: -1rem;
 `;
 
 const AccountEventCard = (props) => {
   const {title, date, city, id, photo } = props.event;
-  const formattedDate = format(fromUnixTime(date.seconds), 'MM/dd/yyyy');
+  const formattedDate = format(fromUnixTime(date.seconds), 'do MMMM yyyy');
   return (
     <EventCard to={`/event/${id}`}>
-    <img src={photo} alt='event' />
+      <EventPhoto src={photo} alt='event' />
       <EventTitle>{title}</EventTitle>
       <EventDate>{formattedDate}</EventDate>
       <EventCity>{city}</EventCity>

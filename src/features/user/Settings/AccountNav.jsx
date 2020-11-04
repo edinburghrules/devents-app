@@ -4,17 +4,20 @@ import { NavLink } from 'react-router-dom';
 import { Nav } from 'react-bootstrap';
 
 const NavItem = styled(NavLink)`
-  color: #000;
+  color: #333;
   margin-bottom: 2rem;
   display: flex;
+  font-weight: 400;
+
 
   &:hover {
     text-decoration: none;
-    color: #000;
+    color: #222;
   }
 
   &.active {
-    color: #1769ff;
+    color: #222;
+    font-weight: 500;
   }
 `;
 

@@ -6,22 +6,28 @@ import EventDetailsAttendee from './EventDetailsAttendee';
 import EventDetailsMap from './EventDetailsMap';
 
 const EventDetailsInformationContainer = styled(Container)`
-  margin-top: 6rem;
+  border-top: 1px solid #ddd;
+  padding-top: 4rem;
 `;
 
 const EventDetailsInformationCard = styled.div`
   text-align: left;
   background: #fff;
-  box-shadow: 0 4px 2px -2px #e0e0e0;
-  border-radius: 4px;
-  padding: 1.5rem;
-  margin-bottom: 2rem;
+  margin-bottom: 4rem;
+`;
+
+const EventDetailsImage = styled.div`
+  background-image: ${props => `url(${props.background})`};
+  background-size: cover;
+  height: 30vh;
+  width: 90%;
+  margin: .5rem 0 2rem 0;
 `;
 
 const EventDetailsInformationCardHeading = styled.h3`
   font-weight: 600;
   font-size: 1.3rem;
-  margin-bottom: 1.4rem;
+  margin-bottom: 1rem;
   display: flex;
   align-items: center;
 `;
@@ -61,6 +67,7 @@ const EventDetailsInformation = (props) => {
       venue,
       cost,
       coordinates,
+      photo
     },
   } = props;
 
@@ -82,10 +89,11 @@ const EventDetailsInformation = (props) => {
       <Row>
         <Col>
           <EventDetailsInformationCard>
-            <div>
-              <EventDetailsInformationCardHeading>
+          <EventDetailsInformationCardHeading>
                 Details
               </EventDetailsInformationCardHeading>
+          <EventDetailsImage background={photo && photo} alt='event' />
+            <div>
               <p>{description}</p>
             </div>
           </EventDetailsInformationCard>

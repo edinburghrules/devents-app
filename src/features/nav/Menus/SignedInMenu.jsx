@@ -17,7 +17,7 @@ const NaviLink = styled(NavLink).attrs({ activeClassName })`
     color: #98b5ff;
   }
   &.${activeClassName} {
-    color: #98b5ff;
+    color: #222;
   }
 `;
 
@@ -29,7 +29,7 @@ const NavAvatar = styled(Image)`
 const NavDropdownLink = styled(NavLink)`
   font-size: 0.8rem;
   background: #fff !important;
-  color: #333 !important;
+  color: #222 !important;
   margin: 0 !important;
   margin-top: .5rem !important;
 

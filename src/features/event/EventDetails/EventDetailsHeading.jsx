@@ -11,7 +11,6 @@ import {
 
 const EventDetailsHeadingSection = styled.div`
   background: #fff;
-  border-bottom: 1px solid #eee;
   padding: 8rem 0rem 4rem 0rem;
   width: 100%;
   margin: 0 auto;
@@ -19,7 +18,7 @@ const EventDetailsHeadingSection = styled.div`
 
 const EventDetailsHeadingTitle = styled.h1`
   font-weight: 600;
-  padding-bottom: 1rem;
+  padding-bottom: .5rem;
   color: #222;
 `;
 
@@ -30,7 +29,7 @@ const EventDetailsCancelled = styled(EventDetailsHeadingTitle)`
 const EventDetailsHostSection = styled.div`
   display: flex;
   align-items: center;
-  margin-bottom: 4rem;
+  margin-bottom: 2em;
 `;
 
 const EventDetailsHostImage = styled.img`
@@ -40,8 +39,8 @@ const EventDetailsHostImage = styled.img`
 `;
 
 const EventDetailsHostedBy = styled.h6`
-  font-weight: 500;
-  color: #1769ff;
+  font-weight: 400;
+  color: #222;
 `;
 
 const EventDetailsHostName = styled.h5`
@@ -55,11 +54,15 @@ const EventDetailsAttendButton = styled(Button)`
   align-items: center;
   width: 12rem;
   height: 3rem;
+  background: #ff6f61 !important;
+  border: none;
 `;
 
 const EventDetailsUnattendButton = styled(EventDetailsAttendButton)`
   width: 12rem;
   height: 3rem;
+  background: #ff6f61 !important;
+  border: none;
 `;
 
 const EventDetailsEditButton = styled(Button)`
@@ -68,7 +71,8 @@ const EventDetailsEditButton = styled(Button)`
   align-items: center;
   width: 12rem;
   height: 3rem;
-  background: #17a2b8;
+  background: #ff6f61 !important;
+  border: none;
   color: #fff;
   border-radius: 4px;
 

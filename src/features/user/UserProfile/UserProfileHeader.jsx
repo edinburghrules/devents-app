@@ -24,7 +24,7 @@ const UserProfileHeaderImg = styled.img`
 `;
 
 const UserProfileHeaderJoinDate = styled.h6`
-  color: #1769FF;
+  color: #222;
   font-size: .9rem;
   margin-top: 1.1rem;
 `;

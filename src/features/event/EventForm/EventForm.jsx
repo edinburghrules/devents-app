@@ -278,8 +278,8 @@ const formikEventForm = withFormik({
         ),
       };
       let createdEventId = await createEvent(newEvent);
-      console.log(createdEventId)
       await eventPhotoUpload(values.photo, createdEventId)
+
       history.push(`/event/${createdEventId}`);
     } else {
       const editedEvent = {

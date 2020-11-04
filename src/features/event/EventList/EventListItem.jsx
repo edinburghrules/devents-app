@@ -10,11 +10,20 @@ const EventListItemCardLink = styled.a`
   text-decoration: none !important;
 `;
 
-const EventListItemCard = styled(Card)`
-  box-shadow: 0 4px 2px -2px #e0e0e0;
-  border-radius: 10px !important;
+const EventListItemCard = styled.div`
+  border-bottom: 1px solid #ddd;
   color: #222;
-  margin-bottom: 3rem;
+  margin-bottom: 1rem;
+`;
+
+const EventListItemContent = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+const EventListItemImage = styled.div`
+  margin-right: 2rem;
 `;
 
 const EventListItemCardTitle = styled(Card.Title)`
@@ -35,16 +44,18 @@ const EventListItemCardEventInfo = styled.div`
 
 const EventListCardPeopleGoingHeading = styled(Card.Body)`
   font-size: .8rem;
-  font-weight: 600;
+  font-weight: 400;
   padding: 0;
   margin-top: -1rem;
+  color: #555;
 `;
 
 const EventListItemCardPeopleGoing = styled(Card.Body)`
   font-size: 0.8rem;
-  font-weight: 600;
+  font-weight: 400;
   display: flex;
   align-items: flex-start;
+  color: #555;
 `;
 
 const EventListItemCardCancelledTextContainer = styled.div`
@@ -77,7 +88,7 @@ class EventListItem extends Component {
 
   render() {
     const {
-      event: { title, date, venue, snip, attendees, cancelled },
+      event: { title, date, venue, snip, attendees, cancelled, photo },
     } = this.props;
 
     const totalAttendees = Object.entries(attendees).length;
@@ -85,6 +96,11 @@ class EventListItem extends Component {
     return (
       <EventListItemCardLink onClick={this.handleClick} href='/#'>
         <EventListItemCard className='p-2' border='light'>
+        <EventListItemContent>
+        <EventListItemImage>
+          <img src={photo && photo} />
+        </EventListItemImage>
+        <div>
           <Card.Body>
             <EventListItemCardTitle className='card-title mt-5'>
               {title}
@@ -145,6 +161,8 @@ class EventListItem extends Component {
                 );
               })}
           </EventListItemCardPeopleGoing>
+          </div>
+          </EventListItemContent>
         </EventListItemCard>
       </EventListItemCardLink>
     );

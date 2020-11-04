@@ -14,7 +14,7 @@ import 'react-image-crop/dist/ReactCrop.css';
 
 const ImageContainer = styled(Container)`
   background: #fff;
-  width: 10%;
+  width: 50%;
   margin: 2rem 0 2rem 0;
   padding: 2rem;
   border-radius: 8px;
@@ -54,9 +54,7 @@ class PhotoPage extends React.Component {
     filename: null,
     src: null,
     crop: {
-      unit: '%',
-      width: 30,
-      aspect: 1,
+      aspect: 16 / 9,
     },
   };
 
@@ -156,9 +154,7 @@ class PhotoPage extends React.Component {
         filename: null,
         src: null,
         crop: {
-          unit: '%',
-          width: 30,
-          aspect: 1,
+          aspect: 16 / 9,
         }
     })
   }
@@ -180,6 +176,13 @@ class PhotoPage extends React.Component {
             {this.state.filename ? this.state.filename : 'Choose file'}
           </Form.Label>
         </InputGroup>
+        {src === null && (
+          <React.Fragment>
+            <ImageContainer>
+              <h1>Photo</h1>
+            </ImageContainer>
+          </React.Fragment>
+        )}
         {src !== null && (
           <React.Fragment>
             <ImageContainer>
@@ -187,8 +190,7 @@ class PhotoPage extends React.Component {
                   src={src}
                   crop={crop}
                   ruleOfThirds
-                  maxWidth='250'
-                  maxHeight='250'
+                  maxWidth='500'
                   onImageLoaded={this.onImageLoaded}
                   onComplete={this.onCropComplete}
                   onChange={this.onCropChange}

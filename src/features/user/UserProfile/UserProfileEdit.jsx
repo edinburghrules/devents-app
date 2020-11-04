@@ -13,7 +13,7 @@ const UserProfileEditButton = styled(Button)`
   align-items: center;
   width: 8rem;
   height: 3rem;
-  background: #17a2b8;
+  background: #ff6f61 !important;
   color: #fff;
   border-radius: 4px;
 

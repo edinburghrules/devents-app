@@ -9,7 +9,7 @@ export const CategoryCard = styled.div`
   display: flex;
   align-items: center;
   border-radius: 8px;
-  box-shadow: 0 4px 2px -2px #e0e0e0;
+  /* border: 1px solid #ddd; */
   overflow: hidden;
 `;
 

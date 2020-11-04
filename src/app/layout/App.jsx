@@ -23,7 +23,7 @@ const GlobalStyles = createGlobalStyle`
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: #000;
-  background: #fafafa !important;
+  background: #fff !important;
 }
 `;
 
@@ -40,7 +40,7 @@ function App(props) {
     <Fragment>
       <GlobalStyles/>
       <Navigation />
-      <div style={{marginBottom: '16rem'}}>
+      <div style={{marginBottom: '16rem', paddingTop: '5rem'}}>
       <ToastContainer />
       <Switch>
         <Route exact path='/' component={EventDashboard} />

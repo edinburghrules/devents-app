@@ -49,7 +49,7 @@ const EventDetailsAttendee = (props) => {
   return (
     <EventDetailsAttendeeCard as={Link} to={`/user-profile/${id}`}>
       <EventDetailsAttendeeCardImage
-        src={attendeePhoto || '/assets/profile.png'}
+        src={ attendeePhoto ? attendeePhoto : '/assets/profile.png'}
         alt='event attendee'
       />
       <EventDetailsAttendeeCardName>{name}</EventDetailsAttendeeCardName>

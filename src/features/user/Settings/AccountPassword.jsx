@@ -17,12 +17,13 @@ const ChangePasswordButton = styled(Button)`
 `;
 
 const GoogleButton = styled(Button)`
-  font-size: 0.9rem !important;
+  font-size: 1rem !important;
   font-weight: 600 !important;
   text-decoration: none;
-  border: 2px solid #f0f0f0;
+  border: 1px solid #f0f0f0;
   margin-top: 2rem;
   background: #ffffff;
+  padding: .5rem 1rem;
 `;
 
 const ChangePasswordPage = ({

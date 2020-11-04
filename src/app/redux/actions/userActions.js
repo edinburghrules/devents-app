@@ -29,6 +29,12 @@ const getUsers = () => {
   };
 };
 
+const supplyCoords = (coords) => {
+  return async (dispatch) => {
+    dispatch({ type: 'USER_COORDS', payload: coords });
+  };
+};
+
 const supplySearchLocation = (location) => {
   return async (dispatch) => {
     dispatch({ type: 'SEARCH_LOCATION', payload: location });
@@ -254,6 +260,7 @@ const handlePhotoUpload = (file) => {
 
 export {
   getUsers,
+  supplyCoords,
   supplySearchLocation,
   attendEvent,
   unattendEvent,

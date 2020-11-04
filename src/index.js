@@ -8,6 +8,7 @@ import configureStore from './app/redux/store/configureStore';
 import { getEvents } from './app/redux/actions/eventActions';
 import {
   getUsers,
+  supplyCoords,
   supplySearchLocation,
 } from './app/redux/actions/userActions';
 import firebase from './app/config/firebase';
@@ -39,8 +40,9 @@ firebase.auth().onAuthStateChanged((user) => {
         lng: Number(coords.longitude),
       });
       let formattedAddress = getFormattedAddress(address);
+      store.dispatch(supplyCoords(coords));
       store.dispatch(supplySearchLocation(formattedAddress));
-      await store.dispatch(getEvents());
+      await store.dispatch(getEvents(coords));
       await store.dispatch(getUsers());
       store.dispatch({ type: 'APP_LOADED' });
     } catch (err) {

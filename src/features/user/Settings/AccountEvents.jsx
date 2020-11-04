@@ -4,12 +4,7 @@ import AccountEventCard from './AccountEventCard';
 import { Tabs, Tab } from 'react-bootstrap';
 
 const EventsCard = styled.div`
-  box-shadow: 0px 2px 2px 2px #e0e0e0;
-  border-radius: 8px;
-  background: #ffffff;
   color: #222;
-  padding: 2.5rem 3rem;
-  margin-bottom: 2rem;
 `;
 
 const EventsHeading = styled.h3`
@@ -26,6 +21,7 @@ const EventsContainer = styled.div`
   margin: 3rem 0;
 `;
 
+
 class AccountEvents extends React.Component {
   state = {
     key: 'past',
@@ -39,12 +35,11 @@ class AccountEvents extends React.Component {
 
   render() {
     const { pastEvents, futureEvents, hosting } = this.props.events;
-    console.log(pastEvents);
     return (
       <EventsCard>
         <EventsHeading>Your Events</EventsHeading>
         <Tabs activeKey={this.state.key} onSelect={this.handleKey}>
-          <Tab eventKey='past' title='Past Events'>
+          <Tab eventKey='past' title='Past Events' style={{color: 'red !important'}}>
             <EventsContainer>
               {pastEvents && pastEvents.map((event) => <AccountEventCard key={event.id} event={event}/>)}
             </EventsContainer>

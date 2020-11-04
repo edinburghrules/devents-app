@@ -18,7 +18,7 @@ const NotificationIcon = styled.img`
 
 export { Notification, NotificationIcon };
 
-const getEvents = (coords = { latitude: 56.462018, longitude: -2.970721 }) => {
+const getEvents = (coords) => {
   return async (dispatch) => {
     dispatch(startSubmit());
     const geocollection = GeoFirestore.collection('events');

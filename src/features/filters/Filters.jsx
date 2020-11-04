@@ -8,13 +8,13 @@ import { geocodeByAddress, getLatLng } from 'react-places-autocomplete';
 import { getEvents } from '../../app/redux/actions/eventActions';
 import SearchTextInput from '../../app/form-inputs/SearchTextInput';
 import SearchAreaInput from '../../app/form-inputs/SearchLocationInput';
-import { supplySearchLocation } from '../../app/redux/actions/userActions';
+import { supplySearchLocation, supplyCoords } from '../../app/redux/actions/userActions';
 import getAddressDetails, {
   getFormattedAddress,
 } from '../../app/utils/locationHelper';
 
 const SearchFiltersCard = styled.div`
-  box-shadow: 0 4px 2px -2px #e0e0e0;
+  border: 1px solid #ddd;
   background: #fff;
   margin: 8rem 12rem 2rem 12rem;
   padding: 30px;
@@ -41,7 +41,7 @@ const SearchButton = styled(Button)`
   width: 10rem;
   height: 45px;
   background: #ff6f61 !important;
-  border-color: #fff !important;
+  border none !important;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -113,6 +113,7 @@ const eventFilters = withFormik({
           lng: Number(searchCoords.longitude),
         });
         let formattedAddress = getFormattedAddress(address);
+        props.supplyCoords(searchCoords);
         props.supplySearchLocation(formattedAddress);
         props.history.push(
           `/search-results/${
@@ -136,6 +137,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = {
   getEvents,
+  supplyCoords,
   supplySearchLocation
 };
 

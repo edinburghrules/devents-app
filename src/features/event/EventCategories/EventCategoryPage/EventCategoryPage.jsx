@@ -36,7 +36,7 @@ class EventCategoryPage extends React.Component {
 }
 
 let eventSelector = (state, category) => {
-  return state.events.localEvents.filter(event => {
+  return state.events.events.filter(event => {
     return event.category === category
   })
 }

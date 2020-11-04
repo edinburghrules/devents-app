@@ -1,16 +1,17 @@
 const initState = {
   userProfile: {},
   error: null,
-  usersCollection: []
+  userCoords: null,
+  usersCollection: [],
 };
 
 const profileReducer = (state = initState, action) => {
   switch (action.type) {
     case 'GET_USERS':
       return {
-        ...state, 
-        usersCollection: [...action.payload]
-      }
+        ...state,
+        usersCollection: [...action.payload],
+      };
     case 'LOAD_USER_PROFILE':
       return {
         ...state,
@@ -19,30 +20,40 @@ const profileReducer = (state = initState, action) => {
     case 'UPDATE_USER_PROFILE':
       return {
         ...state,
-        usersCollection: [...state.usersCollection.filter(user => user.id !== action.payload.uid), {...action.payload, id: action.payload.uid}],
+        usersCollection: [
+          ...state.usersCollection.filter(
+            (user) => user.id !== action.payload.uid
+          ),
+          { ...action.payload, id: action.payload.uid },
+        ],
         userProfile: { ...action.payload },
       };
     case 'PROFILE_UPDATE_ERROR':
       return {
         ...state,
-        error: {...action.payload}
-      }
+        error: { ...action.payload },
+      };
     case 'CLEAR_PROFILE_UPDATE_ERROR':
       return {
         ...state,
-        error: null
-      }
+        error: null,
+      };
     case 'LOGOUT':
       return {
         ...state,
         userProfile: {},
-        error: null, 
+        error: null,
+      };
+    case 'USER_COORDS':
+      return {
+        ...state,
+        userCoords: action.payload,
       };
     case 'SEARCH_LOCATION':
       return {
         ...state,
-        searchLocation: action.payload
-      }
+        searchLocation: action.payload,
+      };
     default:
       return state;
   }

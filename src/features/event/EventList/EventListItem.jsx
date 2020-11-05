@@ -13,13 +13,14 @@ const EventListItemCardLink = styled.a`
 const EventListItemCard = styled.div`
   border-bottom: 1px solid #ddd;
   color: #222;
-  margin-bottom: 1rem;
+  margin-bottom: 2rem;
 `;
 
 const EventListItemContent = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  padding-bottom: 2rem;
 `;
 
 const EventListItemImageContainer = styled.div`

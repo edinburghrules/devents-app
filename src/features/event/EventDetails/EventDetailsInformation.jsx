@@ -21,7 +21,7 @@ const EventDetailsImage = styled.div`
   background-size: cover;
   height: 30vh;
   width: 90%;
-  margin: .5rem 0 2rem 0;
+  margin: 2rem 0 2rem 0;
 `;
 
 const EventDetailsInformationCardHeading = styled.h3`

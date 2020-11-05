@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { Spinner } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import Filter from '../../filters/Filters';
@@ -16,6 +17,11 @@ const EventSearchResultsListTitle = styled.h1`
   font-weight: 600;
   font-size: 1.4rem;
   margin-bottom: 4rem;
+`;
+
+const Searching = styled.div`
+  width: 100%;
+  text-align: center;
 `;
 
 const NoResultsContainer = styled.div`
@@ -37,16 +43,24 @@ const NoResultsSubText = styled.h1`
 
 class EventSearchResultsList extends React.Component {
   render() {
-    let { results, searchLocation } = this.props;
+    let { results, searchLocation, searching } = this.props;
     if (results.length > 0) {
       return (
         <React.Fragment>
           <Filter />
           <EventResultsListContainer>
-            <EventSearchResultsListTitle>
-              Events near <span style={{fontStyle: 'italic'}}>"{searchLocation}"</span>
-            </EventSearchResultsListTitle>
-            <InfiniteScrollComponent events={results}/>
+          { searching ? (
+            <Searching>
+              <Spinner animation="border" variant="primary" />
+            </Searching>
+          ) : (
+            <React.Fragment>
+              <EventSearchResultsListTitle>
+                Events near <span style={{fontStyle: 'italic'}}>"{searchLocation}"</span>
+              </EventSearchResultsListTitle>
+              <InfiniteScrollComponent eventSearch={true} events={results}/>
+            </React.Fragment>
+          )}
           </EventResultsListContainer>
         </React.Fragment>
       );
@@ -81,7 +95,8 @@ let eventSearchSelector = (state, searchText) => {
 const mapStateToProps = (state, ownProps) => {
   return {
     results: eventSearchSelector(state, ownProps.match.params.id),
-    searchLocation: state.profile.searchLocation
+    searchLocation: state.profile.searchLocation,
+    searching: state.async.searching
   }
 };
 

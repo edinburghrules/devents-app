@@ -62,6 +62,16 @@ const asyncReducer = (state = initState, action) => {
         ...state,
         submitting: false,
       };
+    case 'START_SEARCH':
+      return {
+        ...state,
+        searching: true,
+      };
+    case 'STOP_SEARCH':
+      return {
+        ...state,
+        searching: false,
+      };
     default:
       return {
         ...state,

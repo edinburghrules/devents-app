@@ -47,6 +47,18 @@ const stopSubmit = () => {
   }
 }
 
+const startSearching = () => {
+  return {
+    type: 'START_SEARCH'
+  }
+}
+
+const stopSearching = () => {
+  return {
+    type: 'STOP_SEARCH'
+  }
+}
+
 export {
   startLoading,
   stopLoading,
@@ -55,5 +67,7 @@ export {
   startAuthorising,
   stopAuthorising,
   startSubmit,
-  stopSubmit
+  stopSubmit,
+  startSearching,
+  stopSearching
 };

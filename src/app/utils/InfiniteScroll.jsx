@@ -64,18 +64,25 @@ class InfiniteScrollComponent extends React.Component {
   };
 
   componentDidUpdate = (prevProps, prevState) => {
-    if(JSON.stringify(prevProps.events) !== JSON.stringify(this.props.events)) {
-      this.setState(prevState => {
-        return {
-          events: this.props.events,
-          slicedEvents: this.props.events.slice(this.state.start, this.state.end),
-          start: 0,
-          end: 2,
-          moreToLoad: this.props.events.length > 1
-        }
-      })
+    if (this.props.eventSearch) {
+      if (
+        JSON.stringify(prevProps.events) !== JSON.stringify(this.props.events)
+      ) {
+        this.setState((prevState) => {
+          return {
+            events: this.props.events,
+            slicedEvents: this.props.events.slice(
+              this.state.start,
+              this.state.end
+            ),
+            start: 0,
+            end: 2,
+            moreToLoad: this.props.events.length > 1,
+          };
+        });
+      }
     }
-  }
+  };
 
   incrementSlicePoints = (inc) => {
     this.setState((prevState) => {
@@ -108,7 +115,7 @@ class InfiniteScrollComponent extends React.Component {
   };
 
   render() {
-    const {moreToLoad, slicedEvents } = this.state;
+    const { moreToLoad, slicedEvents } = this.state;
     let loader = (
       <Loading>
         <Ball />

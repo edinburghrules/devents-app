@@ -8,6 +8,7 @@ import { geocodeByAddress, getLatLng } from 'react-places-autocomplete';
 import { getEvents } from '../../app/redux/actions/eventActions';
 import SearchTextInput from '../../app/form-inputs/SearchTextInput';
 import SearchAreaInput from '../../app/form-inputs/SearchLocationInput';
+import { startSearching, stopSearching } from '../../app/redux/actions/asyncActions';
 import { supplySearchLocation, supplyCoords } from '../../app/redux/actions/userActions';
 import getAddressDetails, {
   getFormattedAddress,
@@ -64,7 +65,7 @@ class Filters extends React.Component {
     }
   };
   render() {
-    const { handleSubmit, submitting } = this.props;
+    const { handleSubmit, searching } = this.props;
     return (
       <SearchFiltersCard>
         <SearchFiltersContainer>
@@ -83,7 +84,7 @@ class Filters extends React.Component {
               />
             </SearchFiltersInputs>
             <SearchButton type='submit'>
-              {submitting ? (
+              {searching ? (
                 <Spinner animation='border' size='sm' variant='light' />
               ) : (
                 'Search'
@@ -107,6 +108,7 @@ const eventFilters = withFormik({
     const { props } = formikBag;
     if (values.searchLocation !== '') {
       try {
+        props.startSearching();
         await props.getEvents(searchCoords);
         const address = await getAddressDetails({
           lat: Number(searchCoords.latitude),
@@ -120,6 +122,7 @@ const eventFilters = withFormik({
             values.searchText === '' ? 'no-search-string' : values.searchText
           }`
         );
+        props.stopSearching();
       } catch (err) {
         new Error(err);
       }
@@ -129,7 +132,7 @@ const eventFilters = withFormik({
 
 const mapStateToProps = (state) => {
   return {
-    submitting: state.async.submitting,
+    searching: state.async.searching,
     userCoords: state.profile.userCoords,
     searchLocation: state.profile.searchLocation,
   };
@@ -138,7 +141,9 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = {
   getEvents,
   supplyCoords,
-  supplySearchLocation
+  supplySearchLocation,
+  startSearching,
+  stopSearching
 };
 
 export default connect(

@@ -22,12 +22,23 @@ const EventListItemContent = styled.div`
   align-items: center;
 `;
 
-const EventListItemImage = styled.div`
+const EventListItemImageContainer = styled.div`
   margin-right: 2rem;
+  width: 50%;
+`;
+
+const EventListItemImage = styled.img`
+  width: 90%;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+`;
+
+const EventListItemInformation = styled.div`
+  width: 50%;
 `;
 
 const EventListItemCardTitle = styled(Card.Title)`
-  font-size: 1.6rem !important;
+  font-size: 1.4rem !important;
   font-weight: 600 !important;
   margin-top: 1.5rem !important;
 `;
@@ -97,10 +108,10 @@ class EventListItem extends Component {
       <EventListItemCardLink onClick={this.handleClick} href='/#'>
         <EventListItemCard className='p-2' border='light'>
         <EventListItemContent>
-        <EventListItemImage>
-          <img src={photo && photo} />
-        </EventListItemImage>
-        <div>
+        <EventListItemImageContainer>
+          <EventListItemImage src={photo && photo} />
+        </EventListItemImageContainer>
+        <EventListItemInformation>
           <Card.Body>
             <EventListItemCardTitle className='card-title mt-5'>
               {title}
@@ -161,7 +172,7 @@ class EventListItem extends Component {
                 );
               })}
           </EventListItemCardPeopleGoing>
-          </div>
+          </EventListItemInformation>
           </EventListItemContent>
         </EventListItemCard>
       </EventListItemCardLink>

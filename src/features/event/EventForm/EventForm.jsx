@@ -82,6 +82,8 @@ class EventForm extends Component {
       isSubmitting,
     } = this.props;
 
+    console.log(values)
+
     if (event !== undefined) {
       return (
         <EventFormContainer>

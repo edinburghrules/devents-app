@@ -123,8 +123,11 @@ const createEvent = (event) => {
 };
 
 const eventPhotoUpload = (file, eventId) => {
-  console.log(eventId)
-  return async (dispatch) => {
+  console.log(file, eventId)
+  return async (dispatch, getState) => {
+
+    const coords = getState().profile.userCoords;
+
     try {
       const path = `${eventId}/event_images/${file.name}`;
       const storageRef = firebase.storage().ref(path);
@@ -147,7 +150,7 @@ const eventPhotoUpload = (file, eventId) => {
         .doc(eventId)
         .get();
       
-      dispatch(getEvents());
+      dispatch(getEvents(coords));
 
       toast.success(
         <Notification>

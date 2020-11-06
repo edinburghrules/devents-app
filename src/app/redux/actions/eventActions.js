@@ -123,7 +123,7 @@ const createEvent = (event) => {
 };
 
 const eventPhotoUpload = (file, eventId) => {
-  console.log(file, eventId)
+  console.log(file)
   return async (dispatch, getState) => {
 
     const coords = getState().profile.userCoords;
@@ -131,7 +131,7 @@ const eventPhotoUpload = (file, eventId) => {
     try {
       const path = `${eventId}/event_images/${file.name}`;
       const storageRef = firebase.storage().ref(path);
-      await storageRef.put(file);
+      await storageRef.put(file.blob);
 
       const eventRef = firebase
         .firestore()
@@ -141,7 +141,11 @@ const eventPhotoUpload = (file, eventId) => {
       let imageUrl = await storageRef.getDownloadURL();
 
       await eventRef.update({
-        photo: imageUrl,
+        photo: {
+          photoURL: imageUrl,
+          filename: file.blob.name,
+          src: file.src
+        },
       });
 
       const eventData = await firebase

@@ -35,22 +35,25 @@ const EventFormHeading = styled.h2`
 const EventFormButtons = styled.div`
   display: flex;
   justify-content: flex-end;
-  margin-top: 4rem;
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  z-index: 1000;
 `;
 
 const EventFormSubmitBtn = styled(Button)`
-  height: 2.8rem;
-  width: 10rem;
-  margin-right: 1rem;
+  height: 4rem;
+  width: 4rem;
+  border-radius: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
+  background: #ff6f61 !important;
+  border: 1px solid #ff6f61 !important;
+  font-size: 2rem;
+  font-weight: 700;
 `;
 
-const EventFormCancelBtn = styled(Button)`
-  height: 2.8rem;
-  width: 10rem;
-`;
 
 const coords = {
   city: {},
@@ -81,8 +84,6 @@ class EventForm extends Component {
       dirty,
       isSubmitting,
     } = this.props;
-
-    console.log(values)
 
     if (event !== undefined) {
       return (
@@ -185,31 +186,17 @@ class EventForm extends Component {
           )}
           <EventFormButtons>
             <EventFormSubmitBtn
-              disabled={!dirty}
               form='eventForm'
               type='submit'
-              variant='success'
             >
               {isSubmitting ? (
                 <Spinner animation='border' size='sm' variant='light' />
               ) : event && event.id ? (
-                'Edit Event'
+                '＋'
               ) : (
-                'Create event'
+                '＋'
               )}
             </EventFormSubmitBtn>
-            <EventFormCancelBtn
-              onClick={() => {
-                if (event.id) {
-                  history.push(`/event/${event.id}`);
-                } else {
-                  history.push('/');
-                }
-              }}
-              variant='danger'
-            >
-              Cancel
-            </EventFormCancelBtn>
           </EventFormButtons>
         </EventFormContainer>
       );
@@ -226,6 +213,7 @@ const formikEventForm = withFormik({
     if (event.hasOwnProperty('title')) {
       return {
         ...event,
+        photo: event.photo,
         date: fromUnixTime(event.date.seconds),
       };
     } else {
@@ -270,7 +258,6 @@ const formikEventForm = withFormik({
       editEvent,
       eventPhotoUpload
     } = formikBag.props;
-
     if (location.pathname === '/createEvent') {
       const newEvent = {
         ...values,
@@ -281,7 +268,6 @@ const formikEventForm = withFormik({
       };
       let createdEventId = await createEvent(newEvent);
       await eventPhotoUpload(values.photo, createdEventId)
-
       history.push(`/event/${createdEventId}`);
     } else {
       const editedEvent = {

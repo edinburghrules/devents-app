@@ -55,7 +55,7 @@ const EventListItemCardEventInfo = styled.div`
 `;
 
 const EventListCardPeopleGoingHeading = styled(Card.Body)`
-  font-size: .8rem;
+  font-size: 0.8rem;
   font-weight: 400;
   padding: 0;
   margin-top: -1rem;
@@ -91,7 +91,6 @@ const EventListItemCardDate = styled.span`
   `}
 `;
 
-
 class EventListItem extends Component {
   handleClick = (e) => {
     e.preventDefault();
@@ -100,7 +99,15 @@ class EventListItem extends Component {
 
   render() {
     const {
-      event: { title, date, venue, snip, attendees, cancelled, photo },
+      event: {
+        title,
+        date,
+        venue,
+        snip,
+        attendees,
+        cancelled,
+        photo: { photoURL },
+      },
     } = this.props;
 
     const totalAttendees = Object.entries(attendees).length;
@@ -108,72 +115,74 @@ class EventListItem extends Component {
     return (
       <EventListItemCardLink onClick={this.handleClick} href='/#'>
         <EventListItemCard className='p-2' border='light'>
-        <EventListItemContent>
-        <EventListItemImageContainer>
-          <EventListItemImage src={photo && photo} />
-        </EventListItemImageContainer>
-        <EventListItemInformation>
-          <Card.Body>
-            <EventListItemCardTitle className='card-title mt-5'>
-              {title}
-            </EventListItemCardTitle>
-            <Card.Subtitle>
-              {cancelled && (
-                <EventListItemCardCancelledTextContainer>
-                  <EventListItemCardCancelledIcon>
-                    {/* eslint-disable-next-line */}❌
-                  </EventListItemCardCancelledIcon>
-                  <span> Event Cancelled</span>
-                </EventListItemCardCancelledTextContainer>
-              )}
-            </Card.Subtitle>
-            <Card.Text className='mt-4'>{snip}</Card.Text>
-          </Card.Body>
-          <Card.Body>
-            <EventListItemCardEventInfo>
-              <div className='mr-2'>
-                {
-                  <React.Fragment>
-                    <span role='img' aria-label='compass icon'>
-                      🧭
-                    </span>
-                    <span> {venue}</span>
-                  </React.Fragment>
-                }
-                <br />
-              </div>
-              <div>
-                {date.seconds && (
-                  <React.Fragment>
-                    <span role='img' aria-label='date icon'>
-                      🗓
-                    </span>
-                    <EventListItemCardDate isCancelled={cancelled}>
-                      {format(
-                        fromUnixTime(date.seconds),
-                        ' EEEE, do MMMM yyyy'
-                      )}
-                    </EventListItemCardDate>
-                  </React.Fragment>
-                )}
-              </div>
-            </EventListItemCardEventInfo>
-          </Card.Body>
-          <Card.Body>
-            <EventListCardPeopleGoingHeading>People going: {totalAttendees}</EventListCardPeopleGoingHeading>
-          </Card.Body>
-          <EventListItemCardPeopleGoing>
-            {attendees &&
-              Object.keys(attendees).map((attendee, index) => {
-                return (
-                  <EventListAttendee
-                    key={attendee}
-                    attendee={attendees[attendee]}
-                  />
-                );
-              })}
-          </EventListItemCardPeopleGoing>
-          </EventListItemInformation>
+          <EventListItemContent>
+            <EventListItemImageContainer>
+              <EventListItemImage src={photoURL && photoURL} />
+            </EventListItemImageContainer>
+            <EventListItemInformation>
+              <Card.Body>
+                <EventListItemCardTitle className='card-title mt-5'>
+                  {title}
+                </EventListItemCardTitle>
+                <Card.Subtitle>
+                  {cancelled && (
+                    <EventListItemCardCancelledTextContainer>
+                      <EventListItemCardCancelledIcon>
+                        {/* eslint-disable-next-line */}❌
+                      </EventListItemCardCancelledIcon>
+                      <span> Event Cancelled</span>
+                    </EventListItemCardCancelledTextContainer>
+                  )}
+                </Card.Subtitle>
+                <Card.Text className='mt-4'>{snip}</Card.Text>
+              </Card.Body>
+              <Card.Body>
+                <EventListItemCardEventInfo>
+                  <div className='mr-2'>
+                    {
+                      <React.Fragment>
+                        <span role='img' aria-label='compass icon'>
+                          🧭
+                        </span>
+                        <span> {venue}</span>
+                      </React.Fragment>
+                    }
+                    <br />
+                  </div>
+                  <div>
+                    {date.seconds && (
+                      <React.Fragment>
+                        <span role='img' aria-label='date icon'>
+                          🗓
+                        </span>
+                        <EventListItemCardDate isCancelled={cancelled}>
+                          {format(
+                            fromUnixTime(date.seconds),
+                            ' EEEE, do MMMM yyyy'
+                          )}
+                        </EventListItemCardDate>
+                      </React.Fragment>
+                    )}
+                  </div>
+                </EventListItemCardEventInfo>
+              </Card.Body>
+              <Card.Body>
+                <EventListCardPeopleGoingHeading>
+                  People going: {totalAttendees}
+                </EventListCardPeopleGoingHeading>
+              </Card.Body>
+              <EventListItemCardPeopleGoing>
+                {attendees &&
+                  Object.keys(attendees).map((attendee, index) => {
+                    return (
+                      <EventListAttendee
+                        key={attendee}
+                        attendee={attendees[attendee]}
+                      />
+                    );
+                  })}
+              </EventListItemCardPeopleGoing>
+            </EventListItemInformation>
           </EventListItemContent>
         </EventListItemCard>
       </EventListItemCardLink>

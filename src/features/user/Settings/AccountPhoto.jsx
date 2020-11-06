@@ -26,7 +26,7 @@ const ImageContainer = styled(Container)`
   justify-content: center;
   padding: 2rem;
   border-radius: 8px;
-  margin: 5rem auto;
+  margin: 15rem auto;
   border: 2px solid #eee;
 `;
 
@@ -169,6 +169,18 @@ class PhotoPage extends React.Component {
     const { profilePhoto, upLoading } = this.props;
     return (
       <div>
+        <InputGroup className='custom-file'>
+          <FormControl
+            as='input'
+            type='file'
+            className='custom-file-input'
+            id='customFile'
+            onChange={this.onSelectFile}
+          />
+          <Form.Label className='custom-file-label' htmlFor='customFile'>
+            {this.state.filename ? this.state.filename : 'Choose file'}
+          </Form.Label>
+        </InputGroup>
         {src && (
           <React.Fragment>
             <h4>Profile Photo</h4>
@@ -206,18 +218,6 @@ class PhotoPage extends React.Component {
             </ImageContainer>
           </React.Fragment>
         )}
-        <InputGroup className='custom-file'>
-          <FormControl
-            as='input'
-            type='file'
-            className='custom-file-input'
-            id='customFile'
-            onChange={this.onSelectFile}
-          />
-          <Form.Label className='custom-file-label' htmlFor='customFile'>
-            {this.state.filename ? this.state.filename : 'Choose file'}
-          </Form.Label>
-        </InputGroup>
         {src && (
           <UpdatePhotoBtnContainer>
             <UpdatePhotoBtn onClick={this.handleClick}>

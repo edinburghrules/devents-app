@@ -28,29 +28,35 @@ const EventTitle = styled.h3`
 `;
 
 const EventDate = styled.p`
-  font-size: .8rem;
+  font-size: 0.8rem;
   font-weight: 400;
   color: #777;
 `;
 
 const EventCity = styled.p`
-  font-size: .8rem;
+  font-size: 0.8rem;
   font-weight: 400;
   color: #777;
   margin-top: -1rem;
 `;
 
 const AccountEventCard = (props) => {
-  const {title, date, city, id, photo } = props.event;
+  const {
+    title,
+    date,
+    city,
+    id,
+    photo: { photoURL },
+  } = props.event;
   const formattedDate = format(fromUnixTime(date.seconds), 'do MMMM yyyy');
   return (
     <EventCard to={`/event/${id}`}>
-      <EventPhoto src={photo} alt='event' />
+      <EventPhoto src={photoURL} alt='event' />
       <EventTitle>{title}</EventTitle>
       <EventDate>{formattedDate}</EventDate>
       <EventCity>{city}</EventCity>
     </EventCard>
-  )
-}
+  );
+};
 
 export default AccountEventCard;

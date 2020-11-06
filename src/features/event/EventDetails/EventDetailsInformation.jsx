@@ -67,7 +67,7 @@ const EventDetailsInformation = (props) => {
       venue,
       cost,
       coordinates,
-      photo
+      photo: { photoURL }
     },
   } = props;
 
@@ -92,7 +92,7 @@ const EventDetailsInformation = (props) => {
           <EventDetailsInformationCardHeading>
                 Details
               </EventDetailsInformationCardHeading>
-          <EventDetailsImage background={photo && photo} alt='event' />
+          <EventDetailsImage background={photoURL && photoURL} alt='event' />
             <div>
               <p>{description}</p>
             </div>

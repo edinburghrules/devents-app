@@ -14,7 +14,8 @@ import 'react-image-crop/dist/ReactCrop.css';
 
 const ImageContainer = styled(Container)`
   background: #fff;
-  width: 50%;
+  max-height: 20rem;
+  width: 30%;
   margin: 2rem 0 2rem 0;
   padding: 2rem;
   border-radius: 8px;
@@ -58,12 +59,22 @@ class PhotoPage extends React.Component {
     },
   };
 
+  componentDidMount = () => {
+    console.log('Component Mounted', this.props.field.value);
+    if(JSON.stringify(this.props.value) !== '') {
+      this.setState(prevState => ({
+        src: this.props.field.value.src,
+        filename: this.props.field.value.filename
+      }))
+    }
+  }
+
   onSelectFile = (e) => {
     if (e.target.files && e.target.files.length > 0) {
       const reader = new FileReader();
-      reader.addEventListener('load', () =>
+      reader.addEventListener('load', () => {
         this.setState({ src: reader.result })
-      );
+      });
       reader.readAsDataURL(e.target.files[0]);
       this.setState({
         filename: e.target.files[0].name,
@@ -76,8 +87,9 @@ class PhotoPage extends React.Component {
     this.imageRef = image;
   };
 
-  onCropComplete = (crop) => {
-    this.makeClientCrop(crop);
+  onCropComplete = async (crop) => {
+    await this.makeClientCrop(crop);
+    this.props.form.setFieldValue(this.props.field.name, { blob: this.state.blob, src: this.state.src});
   };
 
   onCropChange = (crop, percentCrop) => {
@@ -91,7 +103,7 @@ class PhotoPage extends React.Component {
       const croppedImageUrl = await this.getCroppedImg(
         this.imageRef,
         crop,
-        'newFile.jpeg'
+        this.state.filename
       );
       this.setState({ croppedImageUrl });
     }
@@ -130,24 +142,9 @@ class PhotoPage extends React.Component {
         resolve(this.fileUrl);
         this.setState({ blob: blob });
       }, 'image/jpeg');
-      this.props.form.setFieldValue(this.props.field.name, this.state.blob);
     });
   }
 
-  handleClick = async () => {
-    this.props.startUpLoading();
-    try {
-      await this.props.handlePhotoUpload(this.state.blob);
-      this.setState((prevState) => ({
-        ...prevState,
-        src: null,
-        filename: null,
-      }));
-      this.props.stopUpLoading();
-    } catch (err) {
-      console.log(err);
-    }
-  };
 
   cancelPhoto = () => {
     this.setState({
@@ -176,14 +173,7 @@ class PhotoPage extends React.Component {
             {this.state.filename ? this.state.filename : 'Choose file'}
           </Form.Label>
         </InputGroup>
-        {src === null && (
-          <React.Fragment>
-            <ImageContainer>
-              <h1>Photo</h1>
-            </ImageContainer>
-          </React.Fragment>
-        )}
-        {src !== null && (
+        {src && (
           <React.Fragment>
             <ImageContainer>
                 <CroppingImage

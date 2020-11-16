@@ -18,7 +18,7 @@ import EventFormPhoto from '../../../app/form-inputs/EventFormPhoto';
 import {
   createEvent,
   editEvent,
-  eventPhotoUpload
+  eventPhotoUpload,
 } from '../../../app/redux/actions/eventActions';
 import firebase from '../../../app/config/firebase';
 
@@ -54,6 +54,10 @@ const EventFormSubmitBtn = styled(Button)`
   font-weight: 700;
 `;
 
+const EventFormImage = styled.img`
+  width: 20%;
+  margin-top: 2rem;
+`;
 
 const coords = {
   city: {},
@@ -84,6 +88,7 @@ class EventForm extends Component {
       dirty,
       isSubmitting,
     } = this.props;
+
 
     if (event !== undefined) {
       return (
@@ -164,14 +169,16 @@ class EventForm extends Component {
                 <Alert variant='danger'>{errors.venue}</Alert>
               )}
 
-              <Field 
-                component={EventFormPhoto}
-                name='photo'
-              />
+              <Field component={EventFormPhoto} name='photo' />
+              {(event.photo !== undefined && values.photo.src === undefined) && (<EventFormImage src={event.photo.photoURL}/>)}
+              {touched.photo && errors.hasOwnProperty('photo') && (
+                <Alert className='mt-3' variant='danger'>
+                  {errors.photo}
+                </Alert>
+              )}
             </Form>
-
           </fieldset>
-          {event && event.id && <Form.Label>Cancel Event</Form.Label>}
+          {event && event.id && <Form.Label style={{marginTop: '2rem'}}>Cancel Event</Form.Label>}
           {location.pathname !== '/createEvent' && (
             <Form.Check
               name='cancelled'
@@ -185,10 +192,7 @@ class EventForm extends Component {
             />
           )}
           <EventFormButtons>
-            <EventFormSubmitBtn
-              form='eventForm'
-              type='submit'
-            >
+            <EventFormSubmitBtn form='eventForm' type='submit'>
               {isSubmitting ? (
                 <Spinner animation='border' size='sm' variant='light' />
               ) : event && event.id ? (
@@ -213,7 +217,6 @@ const formikEventForm = withFormik({
     if (event.hasOwnProperty('title')) {
       return {
         ...event,
-        photo: event.photo,
         date: fromUnixTime(event.date.seconds),
       };
     } else {
@@ -227,7 +230,7 @@ const formikEventForm = withFormik({
         category: '',
         cost: 0,
         cancelled: false,
-        photo: ''
+        photo: '',
       };
     }
   },
@@ -248,6 +251,7 @@ const formikEventForm = withFormik({
     ),
     venue: Yup.string().required('You must provide an event venue.'),
     date: Yup.date().required('Please provide and event date.').nullable(),
+    photo: Yup.string().required('Please add a photo for your event.'),
   }),
   handleSubmit: async (values, formikBag) => {
     const {
@@ -256,8 +260,9 @@ const formikEventForm = withFormik({
       history,
       createEvent,
       editEvent,
-      eventPhotoUpload
+      eventPhotoUpload,
     } = formikBag.props;
+
     if (location.pathname === '/createEvent') {
       const newEvent = {
         ...values,
@@ -267,7 +272,7 @@ const formikEventForm = withFormik({
         ),
       };
       let createdEventId = await createEvent(newEvent);
-      await eventPhotoUpload(values.photo, createdEventId)
+      await eventPhotoUpload(values.photo, createdEventId, true);
       history.push(`/event/${createdEventId}`);
     } else {
       const editedEvent = {
@@ -276,7 +281,12 @@ const formikEventForm = withFormik({
       };
       try {
         let editedEventId = await editEvent(editedEvent);
-        history.push(`/event/${editedEventId}`);
+        if(values.photo.src) {
+          await eventPhotoUpload(values.photo, editedEventId, false);
+          history.push(`/event/${editedEvent.id}`)
+        } else {
+          history.push(`/event/${editedEvent.id}`)
+        }
       } catch (err) {
         console.log(err);
       }
@@ -302,7 +312,7 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = {
   createEvent,
   editEvent,
-  eventPhotoUpload
+  eventPhotoUpload,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(formikEventForm);

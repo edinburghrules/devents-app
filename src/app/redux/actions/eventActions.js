@@ -114,7 +114,6 @@ const createEvent = (event) => {
       dispatch(stopSubmit());
 
       return docRef.id;
-
     } catch (err) {
       dispatch(stopSubmit());
       console.log(err);
@@ -122,10 +121,8 @@ const createEvent = (event) => {
   };
 };
 
-const eventPhotoUpload = (file, eventId) => {
-  console.log(file)
+const eventPhotoUpload = (file, eventId, isNewEvent) => {
   return async (dispatch, getState) => {
-
     const coords = getState().profile.userCoords;
 
     try {
@@ -133,18 +130,14 @@ const eventPhotoUpload = (file, eventId) => {
       const storageRef = firebase.storage().ref(path);
       await storageRef.put(file.blob);
 
-      const eventRef = firebase
-        .firestore()
-        .collection('events')
-        .doc(eventId);
+      const eventRef = firebase.firestore().collection('events').doc(eventId);
 
       let imageUrl = await storageRef.getDownloadURL();
 
       await eventRef.update({
         photo: {
           photoURL: imageUrl,
-          filename: file.blob.name,
-          src: file.src
+          filename: file.blob.name
         },
       });
 
@@ -153,25 +146,41 @@ const eventPhotoUpload = (file, eventId) => {
         .collection('events')
         .doc(eventId)
         .get();
-      
+
       dispatch(getEvents(coords));
 
-      toast.success(
-        <Notification>
-          <NotificationIcon src='/assets/notification.png' />
-          Your event has been successfully submitted.
-        </Notification>,
-        {
-          position: 'bottom-right',
-          autoClose: 5000,
-          hideProgressBar: true,
-        }
-      );
+      if (isNewEvent) {
+        toast.success(
+          <Notification>
+            <NotificationIcon src='/assets/notification.png' />
+            Your event has been successfully submitted.
+          </Notification>,
+          {
+            position: 'bottom-right',
+            autoClose: 5000,
+            hideProgressBar: true,
+          }
+        );
+      } else {
+        toast.success(
+          <Notification>
+            <NotificationIcon src='/assets/notification.png' />
+            Your event has been amended.
+          </Notification>,
+          {
+            position: 'bottom-right',
+            autoClose: 5000,
+            hideProgressBar: true,
+          }
+        );
+      }
 
       return eventData.id;
-
     } catch (err) {
-      console.log('Error getting document.', err);
+      return {
+        error: err,
+        msg: 'There has been an error'
+      }
     }
   };
 };
@@ -180,22 +189,27 @@ const editEvent = (event) => {
   return async (dispatch, getState) => {
     let userCoords = getState().profile.userCoords;
     dispatch(startSubmit());
+    let editedEvent;
+    if(event.photo.blob) {
+      editedEvent = {
+        ...event,
+        photo: '',
+      };
+    } else  {
+      editedEvent = {
+        ...event
+      }
+    }
+
     try {
-      await firebase.firestore().collection('events').doc(event.id).set(event);
+      await firebase
+        .firestore()
+        .collection('events')
+        .doc(editedEvent.id)
+        .set(editedEvent);
       await dispatch(getEvents(userCoords));
-      toast.success(
-        <Notification>
-          <NotificationIcon src='/assets/notification.png' />
-          Your event has been amended.
-        </Notification>,
-        {
-          position: 'bottom-right',
-          autoClose: 5000,
-          hideProgressBar: true,
-        }
-      );
       dispatch(stopSubmit());
-      return event.id;
+      return editedEvent.id;
     } catch (err) {
       dispatch(stopSubmit());
       console.log(err);

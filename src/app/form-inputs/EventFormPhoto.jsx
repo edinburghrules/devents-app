@@ -12,14 +12,14 @@ import ReactCrop from 'react-image-crop';
 import 'react-image-crop/dist/ReactCrop.css';
 
 
-const ImageContainer = styled(Container)`
+const ImageContainer = styled.div`
   background: #fff;
-  max-height: 20rem;
-  width: 30%;
-  margin: 2rem 0 2rem 0;
+  margin: 2rem auto;
   padding: 2rem;
   border-radius: 8px;
-  border: 2px solid #eee;
+  border: 1px solid #ddd;
+  display: flex;
+  justify-content: center;
 `;
 
 const EventPhotoLabel = styled.p`
@@ -30,19 +30,17 @@ const EventPhotoLabel = styled.p`
 `;
 
 const CroppingImage = styled(ReactCrop)`
-  height: 100%;
-  width: 100%;
+  max-width: 100%;
 `;
 
 const UpdatePhotoBtnContainer = styled.div`
-  height: 4rem;
   margin: 0 auto;
   display: flex;
   justify-content: flex-start;
 `;
 
 const CancelPhotoBtn = styled(Button)`
-  margin-top: 0.5rem;
+  margin-top: 1rem;
   height: 3rem;
   width: 10rem;
   display: flex;
@@ -55,12 +53,13 @@ class PhotoPage extends React.Component {
     filename: null,
     src: null,
     crop: {
-      aspect: 16 / 9,
+      unit: '%',
+      width: 100,
+      height: 100
     },
   };
 
   componentDidMount = () => {
-    console.log('Component Mounted', this.props.field.value);
     if(JSON.stringify(this.props.value) !== '') {
       this.setState(prevState => ({
         src: this.props.field.value.src,
@@ -83,8 +82,13 @@ class PhotoPage extends React.Component {
   };
 
   // If you setState the crop in here you should return false.
-  onImageLoaded = (image) => {
+  onImageLoaded = async (image) => {
     this.imageRef = image;
+    if(this.imageRef) {
+      const imageUrl = await this.getCroppedImg(this.imageRef, this.state.crop, this.state.filename);
+      this.setState({ imageUrl })
+      this.props.form.setFieldValue(this.props.field.name, { blob: this.state.blob, src: this.state.src});
+    }
   };
 
   onCropComplete = async (crop) => {
@@ -179,8 +183,6 @@ class PhotoPage extends React.Component {
                 <CroppingImage
                   src={src}
                   crop={crop}
-                  ruleOfThirds
-                  maxWidth='500'
                   onImageLoaded={this.onImageLoaded}
                   onComplete={this.onCropComplete}
                   onChange={this.onCropChange}

@@ -16,8 +16,6 @@ const NotificationIcon = styled.img`
   margin-right: 1rem;
 `;
 
-export { Notification, NotificationIcon };
-
 const getEvents = (coords) => {
   return async (dispatch) => {
     dispatch(startSubmit());
@@ -177,10 +175,7 @@ const eventPhotoUpload = (file, eventId, isNewEvent) => {
 
       return eventData.id;
     } catch (err) {
-      return {
-        error: err,
-        msg: 'There has been an error'
-      }
+      return err;
     }
   };
 };

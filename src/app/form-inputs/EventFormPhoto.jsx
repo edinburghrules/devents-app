@@ -5,8 +5,7 @@ import {
   InputGroup,
   FormControl,
   Form,
-  Button,
-  Container,
+  Button
 } from 'react-bootstrap';
 import ReactCrop from 'react-image-crop';
 import 'react-image-crop/dist/ReactCrop.css';
@@ -59,12 +58,13 @@ class PhotoPage extends React.Component {
     },
   };
 
+  // if editing event and photo already exists in event obj.
   componentDidMount = () => {
     if(JSON.stringify(this.props.value) !== '') {
-      this.setState(prevState => ({
+      this.setState({
         src: this.props.field.value.src,
         filename: this.props.field.value.filename
-      }))
+      })
     }
   }
 
@@ -81,19 +81,18 @@ class PhotoPage extends React.Component {
     }
   };
 
-  // If you setState the crop in here you should return false.
   onImageLoaded = async (image) => {
     this.imageRef = image;
     if(this.imageRef) {
       const imageUrl = await this.getCroppedImg(this.imageRef, this.state.crop, this.state.filename);
       this.setState({ imageUrl })
-      this.props.form.setFieldValue(this.props.field.name, { blob: this.state.blob, src: this.state.src});
+      this.props.form.setFieldValue(this.props.field.name, { blob: this.state.blob, src: this.state.src, filename: this.state.filename});
     }
   };
 
   onCropComplete = async (crop) => {
     await this.makeClientCrop(crop);
-    this.props.form.setFieldValue(this.props.field.name, { blob: this.state.blob, src: this.state.src});
+    this.props.form.setFieldValue(this.props.field.name, { blob: this.state.blob, src: this.state.src, filename: this.state.filename});
   };
 
   onCropChange = (crop, percentCrop) => {
@@ -162,6 +161,8 @@ class PhotoPage extends React.Component {
 
   render() {
     const { crop, src } = this.state;
+    const { field } = this.props;
+
     return (
       <div>
       <EventPhotoLabel>Event photo</EventPhotoLabel>
@@ -174,7 +175,7 @@ class PhotoPage extends React.Component {
             onChange={this.onSelectFile}
           />
           <Form.Label className='custom-file-label' htmlFor='customFile'>
-            {this.state.filename ? this.state.filename : 'Choose file'}
+            {this.state.filename ? this.state.filename : field.value.filename? field.value.filename : 'Choose file'}
           </Form.Label>
         </InputGroup>
         {src && (

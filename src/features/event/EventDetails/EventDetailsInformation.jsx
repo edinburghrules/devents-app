@@ -19,6 +19,7 @@ const EventDetailsInformationCard = styled.div`
 const EventDetailsImage = styled.div`
   background-image: ${props => `url(${props.background})`};
   background-size: cover;
+  background-position: center;
   height: 30vh;
   width: 90%;
   margin: 2rem 0 2rem 0;

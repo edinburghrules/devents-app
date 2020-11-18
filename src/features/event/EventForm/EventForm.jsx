@@ -21,6 +21,7 @@ import {
   eventPhotoUpload,
 } from '../../../app/redux/actions/eventActions';
 import firebase from '../../../app/config/firebase';
+import { toast } from 'react-toastify';
 
 const EventFormContainer = styled(Container)`
   margin: 10rem auto;
@@ -51,7 +52,6 @@ const EventFormSubmitBtn = styled(Button)`
   background: #ff6f61 !important;
   border: 1px solid #ff6f61 !important;
   font-size: 2rem;
-  font-weight: 700;
 `;
 
 const EventFormImage = styled.img`
@@ -59,10 +59,30 @@ const EventFormImage = styled.img`
   margin-top: 2rem;
 `;
 
-const coords = {
-  city: {},
-  venue: {},
-};
+const Notification = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 1rem;
+`;
+
+const NotificationIcon = styled.img`
+  height: 25px;
+  margin-right: 1rem;
+`;
+
+let coords;
+
+const coordsFromLS = localStorage.getItem('coords');
+
+if (coordsFromLS) {
+  coords = JSON.parse(coordsFromLS);
+} else {
+  coords = {
+    city: {},
+    venue: {},
+  };
+}
 
 class EventForm extends Component {
   getCoords = async (name, city) => {
@@ -70,9 +90,15 @@ class EventForm extends Component {
       const geoCodeFetch = await geocodeByAddress(city);
       const results = await getLatLng(geoCodeFetch[0]);
       coords[name] = results;
+      localStorage.setItem('coords', JSON.stringify(coords));
     } catch (err) {
       console.log(err);
     }
+  };
+
+  saveToLocalStorage = () => {
+    if (this.props.values)
+      localStorage.setItem('fieldValues', JSON.stringify(this.props.values));
   };
 
   render() {
@@ -82,13 +108,12 @@ class EventForm extends Component {
       errors,
       touched,
       location,
-      history,
       values,
       setFieldValue,
-      dirty,
       isSubmitting,
     } = this.props;
 
+    this.saveToLocalStorage();
 
     if (event !== undefined) {
       return (
@@ -170,16 +195,20 @@ class EventForm extends Component {
               )}
 
               <Field component={EventFormPhoto} name='photo' />
-              {(event.photo !== undefined && values.photo.src === undefined) && (<EventFormImage src={event.photo.photoURL}/>)}
               {touched.photo && errors.hasOwnProperty('photo') && (
                 <Alert className='mt-3' variant='danger'>
                   {errors.photo}
                 </Alert>
               )}
+              {event.photo !== undefined && values.photo.src === undefined && (
+                <EventFormImage src={event.photo.photoURL} />
+              )}
             </Form>
           </fieldset>
-          {event && event.id && <Form.Label style={{marginTop: '2rem'}}>Cancel Event</Form.Label>}
-          {location.pathname !== '/createEvent' && (
+          {event && event.id && (
+            <Form.Label style={{ marginTop: '2rem' }}>Cancel Event</Form.Label>
+          )}
+          {location.pathname !== '/create-event' && (
             <Form.Check
               name='cancelled'
               onChange={() => {
@@ -212,6 +241,9 @@ class EventForm extends Component {
 
 const formikEventForm = withFormik({
   mapPropsToValues: (props) => {
+    const fieldValuesJSON = localStorage.getItem('fieldValues');
+    const fieldValuesParsed = JSON.parse(fieldValuesJSON);
+
     const { event } = props;
 
     if (event.hasOwnProperty('title')) {
@@ -221,14 +253,16 @@ const formikEventForm = withFormik({
       };
     } else {
       return {
-        title: '',
-        summary: '',
-        description: '',
-        date: addDays(new Date(), 1),
-        city: '',
-        venue: '',
-        category: '',
-        cost: 0,
+        title: (fieldValuesParsed && fieldValuesParsed.title) || '',
+        summary: (fieldValuesParsed && fieldValuesParsed.summary) || '',
+        description: (fieldValuesParsed && fieldValuesParsed.description) || '',
+        date:
+          (fieldValuesParsed && new Date(fieldValuesParsed.date)) ||
+          addDays(new Date(), 1),
+        city: (fieldValuesParsed && fieldValuesParsed.city) || '',
+        venue: (fieldValuesParsed && fieldValuesParsed.venue) || '',
+        category: (fieldValuesParsed && fieldValuesParsed.category) || '',
+        cost: (fieldValuesParsed && fieldValuesParsed.cost) || 0,
         cancelled: false,
         photo: '',
       };
@@ -263,17 +297,31 @@ const formikEventForm = withFormik({
       eventPhotoUpload,
     } = formikBag.props;
 
-    if (location.pathname === '/createEvent') {
-      const newEvent = {
-        ...values,
-        coordinates: new firebase.firestore.GeoPoint(
-          coords.venue.lat,
-          coords.venue.lng
-        ),
-      };
-      let createdEventId = await createEvent(newEvent);
-      await eventPhotoUpload(values.photo, createdEventId, true);
-      history.push(`/event/${createdEventId}`);
+    if (location.pathname === '/create-event') {
+      const clearLocalStorage = (items) => {
+        if(typeof items === Array) {
+          items.forEach(item => {
+            localStorage.removeItem(item);
+          })
+        } else {
+          localStorage.removeItem(items);
+        }
+      }
+      try {
+        const newEvent = {
+          ...values,
+          coordinates: new firebase.firestore.GeoPoint(
+            coords.venue.lat,
+            coords.venue.lng
+          ),
+        };
+        let createdEventId = await createEvent(newEvent);
+        await eventPhotoUpload(values.photo, createdEventId, true);
+        clearLocalStorage(['fieldValues', 'coords']);
+        history.push(`/event/${createdEventId}`);
+      } catch (err) {
+        console.log(err);
+      }
     } else {
       const editedEvent = {
         ...event,
@@ -281,14 +329,26 @@ const formikEventForm = withFormik({
       };
       try {
         let editedEventId = await editEvent(editedEvent);
-        if(values.photo.src) {
+        if (values.photo.src) {
           await eventPhotoUpload(values.photo, editedEventId, false);
-          history.push(`/event/${editedEvent.id}`)
+          history.push(`/event/${editedEvent.id}`);
         } else {
-          history.push(`/event/${editedEvent.id}`)
+          history.push(`/event/${editedEvent.id}`);
         }
       } catch (err) {
         console.log(err);
+        history.push(`/manage-event/${editedEvent.id}`);
+        toast.error(
+          <Notification>
+            <NotificationIcon src='/assets/notification.png' />
+            There has been an error uploading event photo. Please try again.
+          </Notification>,
+          {
+            position: 'bottom-right',
+            autoClose: 5000,
+            hideProgressBar: true,
+          }
+        );
       }
     }
   },

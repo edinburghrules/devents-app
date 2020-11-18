@@ -49,7 +49,7 @@ function App(props) {
         <Route
           key={props.location.key}
           exact
-          path={['/createEvent', '/manageEvent/:id']}
+          path={['/create-event', '/manage-event/:id']}
           component={EventForm}
         />
         <Route exact path='/event/:id' component={EventDetails} />

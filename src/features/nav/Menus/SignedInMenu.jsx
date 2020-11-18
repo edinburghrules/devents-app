@@ -72,7 +72,7 @@ class SignedInMenu extends React.Component {
             }
             id='basic-nav-dropdown'
           >
-            <NavDropdownLink className='dropdown-item' to='/createEvent'>
+            <NavDropdownLink className='dropdown-item' to='/create-event'>
               Create Event
             </NavDropdownLink>
             <NavDropdownLink

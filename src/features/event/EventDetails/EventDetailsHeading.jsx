@@ -160,7 +160,7 @@ class EventDetailsHeading extends Component {
             return (
               <EventDetailsEditButton
                 as={Link}
-                to={`/manageEvent/${id}`}
+                to={`/manage-event/${id}`}
               >
                 Edit
               </EventDetailsEditButton>

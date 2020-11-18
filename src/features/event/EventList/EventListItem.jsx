@@ -30,6 +30,9 @@ const EventListItemImageContainer = styled.div`
 
 const EventListItemImage = styled.img`
   width: 90%;
+  height: 250px;
+  object-fit: cover;
+  object-position: top;
   border-radius: 8px;
   border: 1px solid #ddd;
 `;

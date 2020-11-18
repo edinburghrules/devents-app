@@ -16,13 +16,12 @@ const EventDetailsInformationCard = styled.div`
   margin-bottom: 4rem;
 `;
 
-const EventDetailsImage = styled.div`
-  background-image: ${props => `url(${props.background})`};
-  background-size: cover;
-  background-position: center;
-  height: 30vh;
+const EventDetailsImage = styled.img`
   width: 90%;
-  margin: 2rem 0 2rem 0;
+  height: 250px;
+  object-fit: cover;
+  object-position: top;
+  margin-bottom: 2rem;
 `;
 
 const EventDetailsInformationCardHeading = styled.h3`
@@ -93,7 +92,7 @@ const EventDetailsInformation = (props) => {
           <EventDetailsInformationCardHeading>
                 Details
               </EventDetailsInformationCardHeading>
-          <EventDetailsImage background={photoURL && photoURL} alt='event' />
+          <EventDetailsImage src={photoURL && photoURL} alt='event' />
             <div>
               <p>{description}</p>
             </div>

@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { fromUnixTime } from 'date-fns';
 import { Spinner } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
@@ -9,7 +10,6 @@ import InfiniteScrollComponent from '../../../app/utils/InfiniteScroll';
 const EventResultsListContainer = styled.div`
   margin: 8rem auto;
   max-width: 960px;
-  /* overflow: hidden; */
   height: 50vh;
 `;
 
@@ -82,10 +82,12 @@ class EventSearchResultsList extends React.Component {
 
 let eventSearchSelector = (state, searchText) => {
   if(searchText === 'no-search-string') {
-    return state.events.events;
+    return state.events.events.filter(event => {
+      return fromUnixTime(event.date.seconds) >= new Date();
+    })
   } else {
     return state.events.events.filter((event) => {
-      return event.title.toLowerCase().includes(searchText.toLowerCase());
+      return fromUnixTime(event.date.seconds) >= new Date() && event.title.toLowerCase().includes(searchText.toLowerCase());
     });
   }
 };

@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { fromUnixTime } from 'date-fns'
 import { connect } from 'react-redux';
 import { categoryOptions } from '../../../../app/form-inputs/CategoryInput';
 import Filter from '../../../filters/Filters';
@@ -15,8 +16,6 @@ const EventCategoryPageTitle = styled.h1`
   font-size: 1.4rem;
   margin-bottom: 4rem;
 `;
-
-
 
 class EventCategoryPage extends React.Component {
   render() {
@@ -37,7 +36,7 @@ class EventCategoryPage extends React.Component {
 
 let eventSelector = (state, category) => {
   return state.events.events.filter(event => {
-    return event.category === category
+    return fromUnixTime(event.date.seconds) >= new Date() && event.category === category;
   })
 }
 

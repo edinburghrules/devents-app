@@ -26,7 +26,7 @@ const ImageContainer = styled(Container)`
   justify-content: center;
   padding: 2rem;
   border-radius: 8px;
-  margin: 15rem auto;
+  margin: 2rem auto;
   border: 2px solid #eee;
 `;
 
@@ -169,6 +169,7 @@ class PhotoPage extends React.Component {
     const { profilePhoto, upLoading } = this.props;
     return (
       <div>
+        <h4 className='mb-4'>Profile Photo</h4>
         <InputGroup className='custom-file'>
           <FormControl
             as='input'
@@ -183,7 +184,6 @@ class PhotoPage extends React.Component {
         </InputGroup>
         {src && (
           <React.Fragment>
-            <h4>Profile Photo</h4>
             <ImageContainer>
               {upLoading ? (
                 <UpLoading>
@@ -212,7 +212,7 @@ class PhotoPage extends React.Component {
         )}
         {src === null && (
           <React.Fragment>
-            <h4>Profile Photo</h4>
+            {/* <h4>Profile Photo</h4> */}
             <ImageContainer>
               <ProfileImage src={profilePhoto || '/assets/profile.png'} fluid />
             </ImageContainer>

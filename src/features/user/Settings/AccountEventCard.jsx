@@ -16,6 +16,9 @@ const EventCard = styled(Link)`
 
 const EventPhoto = styled.img`
   width: 100%;
+  height: 7rem;
+  object-fit: cover;
+  object-position: center;
   text-align: center;
   border-radius: 8px;
 `;

@@ -85,6 +85,14 @@ if (coordsFromLS) {
 }
 
 class EventForm extends Component {
+
+  componentWillUnmount = () => {
+    if(this.props.location.pathname === `/manage-event/${this.props.event.id}`) {
+      console.log('Unmounting edit event form');
+      localStorage.removeItem('editEventFieldValues');
+    }
+  }
+
   getCoords = async (name, city) => {
     try {
       const geoCodeFetch = await geocodeByAddress(city);
@@ -98,7 +106,11 @@ class EventForm extends Component {
 
   saveToLocalStorage = () => {
     if (this.props.values)
-      localStorage.setItem('fieldValues', JSON.stringify(this.props.values));
+    if(this.props.location.pathname === '/create-event') {
+      localStorage.setItem('createEventFieldValues', JSON.stringify(this.props.values));
+    } else if (this.props.location.pathname === `/manage-event/${this.props.event.id}`) {
+      localStorage.setItem('editEventFieldValues', JSON.stringify(this.props.values));
+    }
   };
 
   render() {
@@ -113,6 +125,7 @@ class EventForm extends Component {
       isSubmitting,
     } = this.props;
 
+    
     this.saveToLocalStorage();
 
     if (event !== undefined) {
@@ -241,15 +254,36 @@ class EventForm extends Component {
 
 const formikEventForm = withFormik({
   mapPropsToValues: (props) => {
-    const fieldValuesJSON = localStorage.getItem('fieldValues');
-    const fieldValuesParsed = JSON.parse(fieldValuesJSON);
+    const { event, location } = props;
 
-    const { event } = props;
+    let fieldValuesJSON;
+    let fieldValuesParsed;
+
+    if(location.pathname === '/create-event') {
+      fieldValuesJSON = localStorage.getItem('createEventFieldValues');
+      if(fieldValuesJSON) {
+        fieldValuesParsed = JSON.parse(fieldValuesJSON);
+      }
+    } else if(location.pathname === `/manage-event/${event.id}`) {
+      fieldValuesJSON = localStorage.getItem('editEventFieldValues');
+      fieldValuesParsed = JSON.parse(fieldValuesJSON);
+    }
+
+    console.log(fieldValuesParsed);
 
     if (event.hasOwnProperty('title')) {
       return {
-        ...event,
-        date: fromUnixTime(event.date.seconds),
+        title: (fieldValuesParsed && fieldValuesParsed.title) || event.title,
+        summary: (fieldValuesParsed && fieldValuesParsed.summary) || event.summary,
+        description: (fieldValuesParsed && fieldValuesParsed.description) || event.description,
+        date:
+          (fieldValuesParsed && new Date(fieldValuesParsed.date)) || fromUnixTime(event.date.seconds),
+        city: (fieldValuesParsed && fieldValuesParsed.city) || event.city,
+        venue: (fieldValuesParsed && fieldValuesParsed.venue) || event.venue,
+        category: (fieldValuesParsed && fieldValuesParsed.category) || event.category,
+        cost: (fieldValuesParsed && fieldValuesParsed.cost) ||event.cost,
+        cancelled: (fieldValuesParsed && fieldValuesParsed.cancelled) || event.cancelled,
+        photo: event.photo,
       };
     } else {
       return {
@@ -297,16 +331,17 @@ const formikEventForm = withFormik({
       eventPhotoUpload,
     } = formikBag.props;
 
-    if (location.pathname === '/create-event') {
-      const clearLocalStorage = (items) => {
-        if(typeof items === Array) {
-          items.forEach(item => {
-            localStorage.removeItem(item);
-          })
-        } else {
-          localStorage.removeItem(items);
-        }
+    const clearLocalStorage = (items) => {
+      if(typeof items === Array) {
+        items.forEach(item => {
+          localStorage.removeItem(item);
+        })
+      } else {
+        localStorage.removeItem(items);
       }
+    }
+
+    if (location.pathname === '/create-event') {
       try {
         const newEvent = {
           ...values,
@@ -317,7 +352,7 @@ const formikEventForm = withFormik({
         };
         let createdEventId = await createEvent(newEvent);
         await eventPhotoUpload(values.photo, createdEventId, true);
-        clearLocalStorage(['fieldValues', 'coords']);
+        clearLocalStorage(['createEventFieldValues', 'coords']);
         history.push(`/event/${createdEventId}`);
       } catch (err) {
         console.log(err);
@@ -331,6 +366,7 @@ const formikEventForm = withFormik({
         let editedEventId = await editEvent(editedEvent);
         if (values.photo.src) {
           await eventPhotoUpload(values.photo, editedEventId, false);
+          clearLocalStorage(['editEventFieldValues']);
           history.push(`/event/${editedEvent.id}`);
         } else {
           history.push(`/event/${editedEvent.id}`);

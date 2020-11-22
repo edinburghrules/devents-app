@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import EventDashboard from '../EventDashboard/EventDashboard';
 import EventDetailsHeading from './EventDetailsHeading';
 import EventDetailsInformation from './EventDetailsInformation';
+import EventDetailsChat from './EventDetailsChat';
 
 class EventDetails extends Component {
 
@@ -12,7 +13,8 @@ class EventDetails extends Component {
     const {
       event,
       isHost,
-      isGoing
+      isGoing,
+      user
     } = this.props;
 
     return (
@@ -23,6 +25,7 @@ class EventDetails extends Component {
           event={event}
         />
         <EventDetailsInformation isHost={isHost} event={event} />
+        {user && (<EventDetailsChat eventId={event.id}/>)}
       </Fragment>
     );
   }

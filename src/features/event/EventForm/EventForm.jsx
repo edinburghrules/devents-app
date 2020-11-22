@@ -6,7 +6,6 @@ import { addDays, fromUnixTime } from 'date-fns';
 import { withFormik, Field } from 'formik';
 import { connect } from 'react-redux';
 import * as Yup from 'yup';
-import { Redirect } from 'react-router-dom';
 import { geocodeByAddress, getLatLng } from 'react-places-autocomplete';
 import TextInput from '../../../app/form-inputs/TextInput';
 import TextAreaInput from '../../../app/form-inputs/TextAreaInput';
@@ -87,8 +86,7 @@ if (coordsFromLS) {
 class EventForm extends Component {
 
   componentWillUnmount = () => {
-    if(this.props.location.pathname === `/manage-event/${this.props.event.id}`) {
-      console.log('Unmounting edit event form');
+    if(this.props.event && this.props.location.pathname === `/manage-event/${this.props.event.id}`) {
       localStorage.removeItem('editEventFieldValues');
     }
   }
@@ -128,7 +126,6 @@ class EventForm extends Component {
     
     this.saveToLocalStorage();
 
-    if (event !== undefined) {
       return (
         <EventFormContainer>
           <EventFormHeading>
@@ -160,7 +157,7 @@ class EventForm extends Component {
               )}
 
               <Field
-                defaultValue={event.cost}
+                defaultValue={event && event.cost}
                 component={CostInput}
                 name='cost'
               />
@@ -213,7 +210,7 @@ class EventForm extends Component {
                   {errors.photo}
                 </Alert>
               )}
-              {event.photo !== undefined && values.photo.src === undefined && (
+              {event && event.photo !== undefined && values.photo.src === undefined && (
                 <EventFormImage src={event.photo.photoURL} />
               )}
             </Form>
@@ -246,9 +243,6 @@ class EventForm extends Component {
           </EventFormButtons>
         </EventFormContainer>
       );
-    }
-
-    return <Redirect to='/' />;
   }
 }
 
@@ -269,9 +263,7 @@ const formikEventForm = withFormik({
       fieldValuesParsed = JSON.parse(fieldValuesJSON);
     }
 
-    console.log(fieldValuesParsed);
-
-    if (event.hasOwnProperty('title')) {
+    if (event !== null) {
       return {
         title: (fieldValuesParsed && fieldValuesParsed.title) || event.title,
         summary: (fieldValuesParsed && fieldValuesParsed.summary) || event.summary,
@@ -392,7 +384,7 @@ const formikEventForm = withFormik({
 
 const eventSelector = (state, data) => {
   if (data === undefined) {
-    return {};
+    return null;
   } else {
     return state.events.events.find((event) => event.id === data);
   }

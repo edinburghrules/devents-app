@@ -1,15 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
-import {
-  InputGroup,
-  FormControl,
-  Form,
-  Button
-} from 'react-bootstrap';
+import { InputGroup, FormControl, Form, Button } from 'react-bootstrap';
 import ReactCrop from 'react-image-crop';
 import 'react-image-crop/dist/ReactCrop.css';
-
 
 const ImageContainer = styled.div`
   background: #fff;
@@ -23,9 +17,9 @@ const ImageContainer = styled.div`
 
 const EventPhotoLabel = styled.p`
   font-weight: 600;
-  font-size: .8rem;
+  font-size: 0.8rem;
   color: #222;
-  margin-bottom: .5rem;
+  margin-bottom: 0.5rem;
 `;
 
 const CroppingImage = styled(ReactCrop)`
@@ -54,25 +48,25 @@ class PhotoPage extends React.Component {
     crop: {
       unit: '%',
       width: 100,
-      height: 100
+      height: 100,
     },
   };
 
   // if editing event and photo already exists in event obj.
   componentDidMount = () => {
-    if(JSON.stringify(this.props.value) !== '') {
+    if (JSON.stringify(this.props.value) !== '') {
       this.setState({
         src: this.props.field.value.src,
-        filename: this.props.field.value.filename
-      })
+        filename: this.props.field.value.filename,
+      });
     }
-  }
+  };
 
   onSelectFile = (e) => {
     if (e.target.files && e.target.files.length > 0) {
       const reader = new FileReader();
       reader.addEventListener('load', () => {
-        this.setState({ src: reader.result })
+        this.setState({ src: reader.result });
       });
       reader.readAsDataURL(e.target.files[0]);
       this.setState({
@@ -83,16 +77,28 @@ class PhotoPage extends React.Component {
 
   onImageLoaded = async (image) => {
     this.imageRef = image;
-    if(this.imageRef) {
-      const imageUrl = await this.getCroppedImg(this.imageRef, this.state.crop, this.state.filename);
-      this.setState({ imageUrl })
-      this.props.form.setFieldValue(this.props.field.name, { blob: this.state.blob, src: this.state.src, filename: this.state.filename});
+    if (this.imageRef) {
+      const imageUrl = await this.getCroppedImg(
+        this.imageRef,
+        this.state.crop,
+        this.state.filename
+      );
+      this.setState({ imageUrl });
+      this.props.form.setFieldValue(this.props.field.name, {
+        blob: this.state.blob,
+        src: this.state.src,
+        filename: this.state.filename,
+      });
     }
   };
 
   onCropComplete = async (crop) => {
     await this.makeClientCrop(crop);
-    this.props.form.setFieldValue(this.props.field.name, { blob: this.state.blob, src: this.state.src, filename: this.state.filename});
+    this.props.form.setFieldValue(this.props.field.name, {
+      blob: this.state.blob,
+      src: this.state.src,
+      filename: this.state.filename,
+    });
   };
 
   onCropChange = (crop, percentCrop) => {
@@ -148,16 +154,15 @@ class PhotoPage extends React.Component {
     });
   }
 
-
   cancelPhoto = () => {
     this.setState({
-        filename: null,
-        src: null,
-        crop: {
-          aspect: 16 / 9,
-        }
-    })
-  }
+      filename: null,
+      src: null,
+      crop: {
+        aspect: 16 / 9,
+      },
+    });
+  };
 
   render() {
     const { crop, src } = this.state;
@@ -165,8 +170,8 @@ class PhotoPage extends React.Component {
 
     return (
       <div>
-      <EventPhotoLabel>Event photo</EventPhotoLabel>
-        <InputGroup className='custom-file'>
+        <EventPhotoLabel>Event photo</EventPhotoLabel>
+        <InputGroup className='custom-file' style={{zIndex: '-1'}}>
           <FormControl
             as='input'
             type='file'
@@ -175,25 +180,27 @@ class PhotoPage extends React.Component {
             onChange={this.onSelectFile}
           />
           <Form.Label className='custom-file-label' htmlFor='customFile'>
-            {this.state.filename ? this.state.filename : field.value.filename? field.value.filename : 'Choose file'}
+            {this.state.filename
+              ? this.state.filename
+              : field.value.filename
+              ? field.value.filename
+              : 'Choose file'}
           </Form.Label>
         </InputGroup>
         {src && (
           <React.Fragment>
             <ImageContainer>
-                <CroppingImage
-                  src={src}
-                  crop={crop}
-                  onImageLoaded={this.onImageLoaded}
-                  onComplete={this.onCropComplete}
-                  onChange={this.onCropChange}
-                />
+              <CroppingImage
+                src={src}
+                crop={crop}
+                onImageLoaded={this.onImageLoaded}
+                onComplete={this.onCropComplete}
+                onChange={this.onCropChange}
+              />
             </ImageContainer>
             <UpdatePhotoBtnContainer>
-            <CancelPhotoBtn onClick={this.cancelPhoto}>
-              Remove
-            </CancelPhotoBtn>
-          </UpdatePhotoBtnContainer>
+              <CancelPhotoBtn onClick={this.cancelPhoto}>Remove</CancelPhotoBtn>
+            </UpdatePhotoBtnContainer>
           </React.Fragment>
         )}
       </div>
@@ -204,6 +211,5 @@ class PhotoPage extends React.Component {
 const mapStateToProps = (state) => ({
   upLoading: state.async.upLoading,
 });
-
 
 export default connect(mapStateToProps)(PhotoPage);

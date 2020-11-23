@@ -171,7 +171,7 @@ class PhotoPage extends React.Component {
     return (
       <div>
         <EventPhotoLabel>Event photo</EventPhotoLabel>
-        <InputGroup className='custom-file' style={{zIndex: '-1'}}>
+        <InputGroup className='custom-file' style={{zIndex: '0'}}>
           <FormControl
             as='input'
             type='file'

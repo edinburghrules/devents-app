@@ -25,7 +25,7 @@ class EventDetails extends Component {
           event={event}
         />
         <EventDetailsInformation isHost={isHost} event={event} />
-        {user && (<EventDetailsChat eventId={event.id}/>)}
+        {user && (<EventDetailsChat eventId={event.id} user={user}/>)}
       </Fragment>
     );
   }
@@ -53,7 +53,7 @@ const mapStateToProps = (state, ownProps) => {
   return {
     event,
     isHost: state.profile.userProfile.uid === event.hostedBy.hostId,
-    user: state.profile.userProfile.uid,
+    user: state.profile.userProfile,
     isGoing
   };
 };

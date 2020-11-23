@@ -1,15 +1,18 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Row, Col, Container, Form, InputGroup, Button } from 'react-bootstrap';
+import { Row, Col, Container, Form, Button } from 'react-bootstrap';
 import EventDetailsChatMessage from './EventDetailsChatMessage';
 import firebase from '../../../app/config/firebase';
 
 const ChatContainer = styled.div`
   width: 100%;
   height: 25rem;
-  background: #eee;
-  padding: 1rem;
+  background: #efefef;
+  padding: 1rem 2rem;
   overflow: scroll;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
 `;
 
 const EventChatHeading = styled.h3`
@@ -21,66 +24,113 @@ const EventChatHeading = styled.h3`
 `;
 
 const EventChatForm = styled(Form)`
-  display: flex`
-;
+  margin-top: 0.5rem;
+  display: flex;
+`;
 
 const EventChatSendButton = styled(Button)`
   background: #ff6f61 !important;
   border: #ff6f61 !important;
   border-radius: 5px !important;
   width: 6rem;
+  margin-left: 1rem;
 `;
 
 class EventDetailsChat extends React.Component {
   state = {
     messages: [],
-    newMessage: null
+    newMessage: '',
   };
-  componentDidMount = () => {
-    firebase
+
+  runListener = () => {
+    let initMessages = [];
+    return firebase
       .firestore()
       .collection('event_chats')
       .doc(this.props.eventId)
       .collection(this.props.eventId)
-      .doc('molAZFhDS98p6RRhnE6z')
+      .orderBy('date')
       .onSnapshot((querySnapshot) => {
-        this.setState((prevState) => {
-          return {
-            ...prevState,
-            messages: [querySnapshot.data()],
-          };
+        querySnapshot.docChanges().forEach((change) => {
+          if (change.type === 'added') {
+            initMessages.push(change.doc.data());
+          }
+        });
+        this.setState({
+          messages: [...initMessages],
         });
       });
+  }
+
+  componentDidMount = () => {
+    this._isMounted = true;
+    this.runListener();
+  };
+
+  componentWillUnmount = () => {
+    this._isMounted = false;
+    let unsubscribe = this.runListener();
+    unsubscribe();
+  };
+
+  handleScroll = (e) => {
+    const scrollContainer = document.querySelector('#chat');
+    scrollContainer.scrollTop = scrollContainer.scrollHeight;
   };
 
   handleChange = (e) => {
     this.setState({
-      [e.target.id]: e.target.value
-    })
-  }
+      [e.target.id]: e.target.value,
+    });
+  };
 
   handleSubmit = (e) => {
     e.preventDefault();
-    
-  }
+    if (this.state.newMessage.length > 0) {
+      firebase
+        .firestore()
+        .collection('event_chats')
+        .doc(this.props.eventId)
+        .collection(this.props.eventId)
+        .add({
+          displayName: this.props.user.displayName,
+          message: this.state.newMessage,
+          photoURL: this.props.user.photoURL,
+          date: new Date(),
+          userId: this.props.user.uid
+        });
+
+      this.setState((prevState) => ({
+        prevState,
+        newMessage: '',
+      }));
+    }
+  };
 
   render() {
-    const { messages } = this.state;
+    const { messages, newMessage } = this.state;
+    const { user } = this.props;
     return (
       <Container>
         <Row>
           <Col>
             <EventChatHeading>Event Chat</EventChatHeading>
-            <ChatContainer>
+            <ChatContainer id='chat' onLoad={this.handleScroll}>
               {messages &&
                 messages.map((message, index) => {
                   return (
-                    <EventDetailsChatMessage index={index} message={message} />
+                    <EventDetailsChatMessage key={index} message={message} user={user} />
                   );
                 })}
+                <div style={{height: '2rem'}}/>
             </ChatContainer>
             <EventChatForm onSubmit={this.handleSubmit}>
-              <Form.Control id='newMessage' onChange={this.handleChange} placeholder='Type a message' />
+              <Form.Control
+                id='newMessage'
+                onChange={this.handleChange}
+                placeholder='Type a message'
+                value={newMessage}
+              />
               <EventChatSendButton type='submit'>Send</EventChatSendButton>
             </EventChatForm>
           </Col>

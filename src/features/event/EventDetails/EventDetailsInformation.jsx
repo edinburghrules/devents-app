@@ -20,7 +20,7 @@ const EventDetailsImage = styled.img`
   width: 90%;
   height: 250px;
   object-fit: cover;
-  object-position: top;
+  object-position:center;
   margin-bottom: 2rem;
 `;
 

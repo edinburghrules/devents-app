@@ -1,19 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Row, Col, Container, Form, Button } from 'react-bootstrap';
+import { Row, Container, Form, Button, Col } from 'react-bootstrap';
 import EventDetailsChatMessage from './EventDetailsChatMessage';
 import firebase from '../../../app/config/firebase';
-
-const ChatContainer = styled.div`
-  width: 100%;
-  height: 25rem;
-  background: #efefef;
-  padding: 1rem 2rem;
-  overflow: scroll;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-`;
 
 const EventChatHeading = styled.h3`
   font-weight: 600;
@@ -24,7 +13,7 @@ const EventChatHeading = styled.h3`
 `;
 
 const EventChatForm = styled(Form)`
-  margin-top: 0.5rem;
+  margin-top: 4rem;
   display: flex;
 `;
 
@@ -32,7 +21,7 @@ const EventChatSendButton = styled(Button)`
   background: #ff6f61 !important;
   border: #ff6f61 !important;
   border-radius: 5px !important;
-  width: 6rem;
+  /* width: 6rem; */
   margin-left: 1rem;
 `;
 
@@ -53,29 +42,22 @@ class EventDetailsChat extends React.Component {
       .onSnapshot((querySnapshot) => {
         querySnapshot.docChanges().forEach((change) => {
           if (change.type === 'added') {
-            initMessages.push(change.doc.data());
+            initMessages.push({ id: change.doc.id, data: change.doc.data() });
           }
         });
         this.setState({
           messages: [...initMessages],
         });
       });
-  }
+  };
 
   componentDidMount = () => {
-    this._isMounted = true;
     this.runListener();
   };
 
   componentWillUnmount = () => {
-    this._isMounted = false;
     let unsubscribe = this.runListener();
     unsubscribe();
-  };
-
-  handleScroll = (e) => {
-    const scrollContainer = document.querySelector('#chat');
-    scrollContainer.scrollTop = scrollContainer.scrollHeight;
   };
 
   handleChange = (e) => {
@@ -85,6 +67,8 @@ class EventDetailsChat extends React.Component {
   };
 
   handleSubmit = (e) => {
+    e.stopPropagation();
+    e.nativeEvent.stopImmediatePropagation();
     e.preventDefault();
     if (this.state.newMessage.length > 0) {
       firebase
@@ -97,7 +81,8 @@ class EventDetailsChat extends React.Component {
           message: this.state.newMessage,
           photoURL: this.props.user.photoURL,
           date: new Date(),
-          userId: this.props.user.uid
+          userId: this.props.user.uid,
+          replies: [],
         });
 
       this.setState((prevState) => ({
@@ -109,21 +94,24 @@ class EventDetailsChat extends React.Component {
 
   render() {
     const { messages, newMessage } = this.state;
-    const { user } = this.props;
+    const { user, eventId } = this.props;
     return (
       <Container>
         <Row>
           <Col>
             <EventChatHeading>Event Chat</EventChatHeading>
-            <ChatContainer id='chat' onLoad={this.handleScroll}>
-              {messages &&
-                messages.map((message, index) => {
-                  return (
-                    <EventDetailsChatMessage key={index} message={message} user={user} />
-                  );
-                })}
-                <div style={{height: '2rem'}}/>
-            </ChatContainer>
+            {messages &&
+              messages.map((message, index) => {
+                return (
+                  <EventDetailsChatMessage
+                    eventId={eventId}
+                    key={index}
+                    message={message.data}
+                    messageId={message.id}
+                    user={user}
+                  />
+                );
+              })}
             <EventChatForm onSubmit={this.handleSubmit}>
               <Form.Control
                 id='newMessage'
@@ -134,7 +122,7 @@ class EventDetailsChat extends React.Component {
               <EventChatSendButton type='submit'>Send</EventChatSendButton>
             </EventChatForm>
           </Col>
-          <Col />
+          <Col/>
         </Row>
       </Container>
     );

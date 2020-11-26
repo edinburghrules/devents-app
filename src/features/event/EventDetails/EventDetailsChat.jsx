@@ -21,8 +21,18 @@ const EventChatSendButton = styled(Button)`
   background: #ff6f61 !important;
   border: #ff6f61 !important;
   border-radius: 5px !important;
-  /* width: 6rem; */
   margin-left: 1rem;
+  width: 6rem;
+  & img {
+    width: 20px;
+  }
+`;
+
+const NoPosts = styled.div`
+  display: flex;
+  justify-content: center;
+  font-weight: 500;
+  margin-top: 4rem;
 `;
 
 class EventDetailsChat extends React.Component {
@@ -77,11 +87,11 @@ class EventDetailsChat extends React.Component {
         .doc(this.props.eventId)
         .collection(this.props.eventId)
         .add({
-          displayName: this.props.user.displayName,
+          displayName: this.props.currentUser.displayName,
           message: this.state.newMessage,
-          photoURL: this.props.user.photoURL,
+          photoURL: this.props.currentUser.photoURL,
           date: new Date(),
-          userId: this.props.user.uid,
+          userId: this.props.currentUser.uid,
           replies: [],
         });
 
@@ -94,21 +104,22 @@ class EventDetailsChat extends React.Component {
 
   render() {
     const { messages, newMessage } = this.state;
-    const { user, eventId } = this.props;
+    const { currentUser, eventId } = this.props;
+
     return (
       <Container>
         <Row>
           <Col>
-            <EventChatHeading>Event Chat</EventChatHeading>
+            <EventChatHeading>Discussion</EventChatHeading>
+            {messages.length === 0 && <NoPosts>No posts to show</NoPosts>}
             {messages &&
               messages.map((message, index) => {
                 return (
                   <EventDetailsChatMessage
                     eventId={eventId}
                     key={index}
-                    message={message.data}
-                    messageId={message.id}
-                    user={user}
+                    message={message}
+                    currentUser={currentUser}
                   />
                 );
               })}
@@ -119,10 +130,12 @@ class EventDetailsChat extends React.Component {
                 placeholder='Type a message'
                 value={newMessage}
               />
-              <EventChatSendButton type='submit'>Send</EventChatSendButton>
+              <EventChatSendButton type='submit'>
+                <img src='/assets/send.png' alt='submit'/>
+              </EventChatSendButton>
             </EventChatForm>
           </Col>
-          <Col/>
+          <Col />
         </Row>
       </Container>
     );

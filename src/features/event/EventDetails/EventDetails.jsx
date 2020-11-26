@@ -14,7 +14,7 @@ class EventDetails extends Component {
       event,
       isHost,
       isGoing,
-      user
+      currentUser
     } = this.props;
 
     return (
@@ -25,7 +25,7 @@ class EventDetails extends Component {
           event={event}
         />
         <EventDetailsInformation isHost={isHost} event={event} />
-        {user && (<EventDetailsChat eventId={event.id} user={user}/>)}
+        {currentUser.hasOwnProperty('uid') && (<EventDetailsChat eventId={event.id} currentUser={currentUser}/>)}
       </Fragment>
     );
   }
@@ -53,7 +53,7 @@ const mapStateToProps = (state, ownProps) => {
   return {
     event,
     isHost: state.profile.userProfile.uid === event.hostedBy.hostId,
-    user: state.profile.userProfile,
+    currentUser: {...state.auth.currentUser, photoURL: state.profile.userProfile.photoURL, displayName: state.profile.userProfile.displayName},
     isGoing
   };
 };

@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
-import { format, fromUnixTime, formatDistance } from 'date-fns';
+import { fromUnixTime, formatDistance } from 'date-fns';
 
 const MessageReply = styled.div`
   margin-left: 3rem;
   margin-bottom: 1rem;
-  padding: 0.9rem;
+  padding: 0.2rem;
   border: 1px solid #eee;
   border-radius: 8px;
 `;
@@ -52,7 +52,7 @@ const MessageReplyDate = styled.div`
 
 class EventDetailsChatReply extends Component {
   render() {
-    const { photoURL, displayName, replyText, date } = this.props.reply;
+    const { reply: {photoURL, displayName, replyText, date} } = this.props;
     return (
       <MessageReply>
         <MessageReplyUser>

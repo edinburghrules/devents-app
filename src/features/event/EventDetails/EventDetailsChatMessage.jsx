@@ -1,8 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 import firebase from '../../../app/config/firebase';
-import { Form } from 'react-bootstrap';
-import { format, fromUnixTime, formatDistance } from 'date-fns';
+import { Form, Button } from 'react-bootstrap';
+import { fromUnixTime, formatDistance } from 'date-fns';
 import EventDetailsChatReply from './EventDetailsChatReply';
 
 const ChatMessage = styled.li`
@@ -57,30 +57,70 @@ const ChatMessageDate = styled.div`
   margin-right: 0.5rem;
 `;
 
+const ChatMessageButtons = styled.div`
+  display: flex;
+`;
+
 const ReplyButton = styled.button`
   all: unset;
   font-size: 0.8rem;
   color: #777;
   outline: none;
+
+  & img {
+    margin-left: .2rem; 
+    width: 8px;
+  }
+`;
+
+const ShowReplies = styled(ReplyButton)`
+  margin-left: 1rem;
+
+  & img {
+    width: 10px;
+    margin-left: .2rem;
+  }
+  
+`;
+
+const ReplyForm = styled(Form)`
+  display: flex;
+  width: 90%;
 `;
 
 const ReplyFormInput = styled(Form.Control)`
   font-size: 0.9rem;
   color: #333;
   margin-left: 0.4rem;
-  width: 90%;
+  margin-right: 0.4rem;
+`;
+
+const ReplySendButton = styled(Button)`
+  background: #ff6f61 !important;
+  border: none;
+  & img {
+    width: 20px;
+  }
 `;
 
 class EventDetailsChatMessage extends React.Component {
   state = {
-    isOpen: false,
-    [`reply_${this.props.messageId}`]: '',
+    showForm: false,
+    [`reply_${this.props.message.id}`]: '',
     messageReplies: [],
+    showReplies: false,
   };
 
-  handleClick = () => {
+  showReplies = () => {
     this.setState((prevState) => ({
-      isOpen: !prevState.isOpen,
+      prevState,
+      showReplies: !prevState.showReplies,
+    }));
+  };
+
+  showForm = () => {
+    this.setState((prevState) => ({
+      showForm: !prevState.showForm,
     }));
   };
 
@@ -97,18 +137,20 @@ class EventDetailsChatMessage extends React.Component {
       .collection('event_chats')
       .doc(this.props.eventId)
       .collection(this.props.eventId)
-      .doc(`${this.props.messageId}`)
+      .doc(`${this.props.message.id}`)
       .update({
         replies: firebase.firestore.FieldValue.arrayUnion({
-          replyText: this.state[`reply_${this.props.messageId}`],
-          displayName: this.props.user.displayName,
-          photoURL: this.props.user.photoURL,
+          replyText: this.state[`reply_${this.props.message.id}`],
+          displayName: this.props.currentUser.displayName,
+          photoURL: this.props.currentUser.photoURL,
           date: new Date(),
-          userId: this.props.user.uid,
+          userId: this.props.currentUser.uid,
         }),
       });
     this.setState({
-      isOpen: false,
+      showForm: false,
+      showReplies: true,
+      [`reply_${this.props.message.id}`]: '',
     });
   };
 
@@ -118,7 +160,7 @@ class EventDetailsChatMessage extends React.Component {
       .collection('event_chats')
       .doc(this.props.eventId)
       .collection(this.props.eventId)
-      .doc(`${this.props.messageId}`)
+      .doc(`${this.props.message.id}`)
       .onSnapshot((querySnapshot) => {
         this.setState({
           messageReplies: querySnapshot.data(),
@@ -132,48 +174,69 @@ class EventDetailsChatMessage extends React.Component {
 
   render(props) {
     const {
-      message: { photoURL, message, displayName, date, userId },
-      messageId,
-      user,
+      message: { data: {photoURL, message, displayName, date, userId }, id },
+      currentUser,
     } = this.props;
 
-    const { replies } = this.state.messageReplies;
+    const {
+      showReplies,
+      messageReplies: {replies}
+    } = this.state;
 
     return (
       <React.Fragment>
-        <ChatMessage isUser={userId === user.uid}>
+        <ChatMessage>
           <ChatMessageUser>
             <ChatMessageUserPhoto src={photoURL && photoURL} />
             <div>
-            <ChatMessageUserName
-              color={userId === user.uid ? '#51cf66' : '#4dabf7'}
-            >
-              {displayName && displayName}
-            </ChatMessageUserName>
-            <ChatMessageDate>
-            <span>
-              {formatDistance(fromUnixTime(date.seconds), Date.now())} ago
-            </span>
-          </ChatMessageDate>
-          </div>
+              <ChatMessageUserName
+                color={userId === currentUser.uid ? '#51cf66' : '#4dabf7'}
+              >
+                {displayName && displayName}
+              </ChatMessageUserName>
+              <ChatMessageDate>
+                <span>
+                  {formatDistance(fromUnixTime(date.seconds), Date.now())} ago
+                </span>
+              </ChatMessageDate>
+            </div>
           </ChatMessageUser>
           <Message>{message}</Message>
           <ChatMessageDateContainer>
-            <ReplyButton onClick={this.handleClick}>reply</ReplyButton>
+            <ChatMessageButtons>
+              <ReplyButton onClick={this.showForm}>
+                <span>reply</span>
+                <img
+                  src='/assets/chat.png'
+                  alt='reply'
+                />
+              </ReplyButton>
+              {replies && replies.length > 0 &&
+                <ShowReplies onClick={this.showReplies}> 
+                  <span>{showReplies ? `hide replies (${replies.length})` : `show replies (${replies.length})`}</span>
+                  <img
+                    src={showReplies ? '/assets/up-arrow.png' : '/assets/down-arrow.png' }
+                    alt='showreplies'
+                  />
+                </ShowReplies>
+              }
+            </ChatMessageButtons>
           </ChatMessageDateContainer>
-          {this.state.isOpen && (
-            <Form onSubmit={this.handleSubmit}>
+          {this.state.showForm && (
+            <ReplyForm onSubmit={this.handleSubmit}>
               <ReplyFormInput
-                id={`reply_${messageId}`}
+                id={`reply_${id}`}
                 onChange={this.handleChange}
-                value={this.state[`reply_${this.props.messageId}`]}
+                value={this.state[`reply_${this.props.message.id}`]}
                 type='text'
               />
-            </Form>
+              <ReplySendButton type='submit'><img src='/assets/send.png' alt='send'/></ReplySendButton>
+            </ReplyForm>
           )}
         </ChatMessage>
-        {replies &&
-          replies.map((reply) => <EventDetailsChatReply reply={reply} />)}
+        {(showReplies &&
+          replies) &&
+          replies.map((reply, index) => <EventDetailsChatReply key={`${id}_${index}`} reply={reply} />)}
       </React.Fragment>
     );
   }

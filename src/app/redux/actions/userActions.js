@@ -208,7 +208,9 @@ const updateProfile = (updatedInfo) => {
 
 const handlePhotoUpload = (file) => {
   let currentUser = firebase.auth().currentUser;
-  return async (dispatch) => {
+  let batch = firebase.firestore().batch();
+  return async (dispatch, getState) => {
+    let userCoords = getState().profile.userCoords;
     try {
       const path = `${currentUser.uid}/images/${file.name}`;
       const storageRef = firebase.storage().ref(path);
@@ -224,6 +226,39 @@ const handlePhotoUpload = (file) => {
       await userRef.update({
         photoURL: imageUrl,
       });
+
+      await firebase
+      .firestore()
+      .collection('events')
+      .get()
+      .then(querySnapshot => {
+        querySnapshot.forEach(doc => {
+          if(doc.data().attendees.hasOwnProperty(currentUser.uid)) {
+            console.log(doc.data().attendees);
+            const docRef = firebase.firestore().collection('events').doc(doc.id);
+            batch.update(docRef, {[`attendees.${currentUser.uid}`]: {...doc.data().attendees[currentUser.uid], attendeePhoto: imageUrl}})
+          }
+        })
+      })
+      .catch(err => {
+        console.log(err);
+      })
+
+      await firebase
+      .firestore()
+      .collection('events')
+      .where(`hostedBy.hostId`, '==', currentUser.uid)
+      .get()
+      .then(querySnapshot => {
+        querySnapshot.forEach(doc => {
+          const docRef = firebase.firestore().collection('events').doc(doc.id)
+          batch.update(docRef, {hostedBy: {...doc.data().hostedBy, hostPhoto: imageUrl}})
+        })
+      })
+
+      await batch.commit();
+
+      await dispatch(getEvents(userCoords));
 
       const userProfileData = await firebase
         .firestore()

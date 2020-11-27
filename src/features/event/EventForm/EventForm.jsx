@@ -299,11 +299,11 @@ const formikEventForm = withFormik({
       .min(4, 'Your event must have a title of at least 4 characters.')
       .required('You must provide the title of your event.'),
     summary: Yup.string()
-      .min(10, 'Your event must have a summary of at least 10 characters.')
+      .min(6, 'Your event must have a summary of at least 10 characters.')
       .required('You must provide a summary of your event.'),
     description: Yup.string()
       .max(500, 'Too long!')
-      .min(8, 'Too short!')
+      .min(6, 'Too short!')
       .required('You must provide a description of your event.'),
     category: Yup.string().required('Event description is required.'),
     city: Yup.string().required(

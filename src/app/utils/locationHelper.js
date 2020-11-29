@@ -15,13 +15,9 @@ const getAddressDetails = (coords) => {
 };
 
 const getFormattedAddress = (addresses) => {
-
   const formattedAddressArr = addresses.filter((address) => {
-    if (address.types[0] === 'locality' && address.types[1] === 'political') {
-      return true;
-    }
+    return (address.types[0] === 'locality' || address.types[0] === 'administrative_area_level_4') && address.types[1] === 'political';
   });
-
   return formattedAddressArr[0].formatted_address;
 };
 

@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { fromUnixTime, format } from 'date-fns';
+import renderHTML from 'react-render-html';
 import { Row, Col, Container } from 'react-bootstrap';
 import EventDetailsAttendee from './EventDetailsAttendee';
 import EventDetailsMap from './EventDetailsMap';
@@ -22,6 +23,10 @@ const EventDetailsImage = styled.img`
   object-fit: cover;
   object-position:center;
   margin-bottom: 2rem;
+`;
+
+const EventInformationInfo = styled.div`
+  display: flex;
 `;
 
 const EventDetailsInformationCardHeading = styled.h3`
@@ -49,7 +54,8 @@ const EventDetailsInformationMap = styled.div`
 `;
 
 const EventDetailsInformationDate = styled.span`
-  margin-left: 0.7rem;
+  margin-left: 1rem;
+  margin-bottom: .4rem;
   ${({ isCancelled }) =>
     isCancelled &&
     `
@@ -94,7 +100,7 @@ const EventDetailsInformation = (props) => {
               </EventDetailsInformationCardHeading>
           <EventDetailsImage src={photoURL && photoURL} alt='event' />
             <div>
-              <p>{description}</p>
+              {renderHTML(description)}
             </div>
           </EventDetailsInformationCard>
           <EventDetailsInformationCard>
@@ -124,27 +130,27 @@ const EventDetailsInformation = (props) => {
             <EventDetailsInformationCardHeading>
               Information
             </EventDetailsInformationCardHeading>
-            <div>
+            <EventInformationInfo>
               <span role='img' aria-label='date icon'>
-                🗓
+                🗓 
               </span>
               <EventDetailsInformationDate isCancelled={cancelled}>
                 {date && format(parsedDate, ' EEEE, do MMMM yyyy')} at{' '}
                 {format(parsedDate, 'h:mm a')}
               </EventDetailsInformationDate>
-            </div>
-            <div>
+            </EventInformationInfo>
+            <EventInformationInfo>
               <span role='img' aria-label='location icon'>
                 🧭
               </span>
-              <span className='ml-3 '>{venue && venue}</span>
-            </div>
-            <div>
+              <span className='ml-3 mb-1 '>{venue && venue}</span>
+            </EventInformationInfo>
+            <EventInformationInfo>
               <span role='img' aria-label='cost icon'>
                 💰
               </span>
-              <span className='ml-3 '>{cost ? `£ ${cost}` : 'Free entry'}</span>
-            </div>
+              <span className='ml-3 mb-1 '>{cost ? `£ ${cost}` : 'Free entry'}</span>
+            </EventInformationInfo>
             <EventDetailsInformationMap>
               <EventDetailsMap latlng={coordinates && coordinates} />
             </EventDetailsInformationMap>

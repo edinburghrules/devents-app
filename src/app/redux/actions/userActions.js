@@ -208,7 +208,7 @@ const updateProfile = (updatedInfo) => {
 
 const handlePhotoUpload = (file) => {
   let currentUser = firebase.auth().currentUser;
-  let batch = firebase.firestore().batch();
+  let eventBatch = firebase.firestore().batch();
   return async (dispatch, getState) => {
     let userCoords = getState().profile.userCoords;
     try {
@@ -228,35 +228,90 @@ const handlePhotoUpload = (file) => {
       });
 
       await firebase
-      .firestore()
-      .collection('events')
-      .get()
-      .then(querySnapshot => {
-        querySnapshot.forEach(doc => {
-          if(doc.data().attendees.hasOwnProperty(currentUser.uid)) {
-            console.log(doc.data().attendees);
-            const docRef = firebase.firestore().collection('events').doc(doc.id);
-            batch.update(docRef, {[`attendees.${currentUser.uid}`]: {...doc.data().attendees[currentUser.uid], attendeePhoto: imageUrl}})
-          }
+        .firestore()
+        .collection('events')
+        .get()
+        .then((querySnapshot) => {
+          querySnapshot.forEach((doc) => {
+            if (doc.data().attendees.hasOwnProperty(currentUser.uid)) {
+              const docRef = firebase
+                .firestore()
+                .collection('events')
+                .doc(doc.id);
+              eventBatch.update(docRef, {
+                [`attendees.${currentUser.uid}`]: {
+                  ...doc.data().attendees[currentUser.uid],
+                  attendeePhoto: imageUrl,
+                },
+              });
+            }
+            if (doc.data().hostedBy.hostId === currentUser.uid) {
+              const docRef = firebase
+                .firestore()
+                .collection('events')
+                .doc(doc.id);
+              eventBatch.update(docRef, {
+                hostedBy: { ...doc.data().hostedBy, hostPhoto: imageUrl },
+              });
+            }
+          });
         })
-      })
-      .catch(err => {
-        console.log(err);
-      })
+        .catch((err) => {
+          console.log(err);
+        });
+
+      await eventBatch.commit();
+
+      let eventChatBatch = firebase.firestore().batch();
 
       await firebase
-      .firestore()
-      .collection('events')
-      .where(`hostedBy.hostId`, '==', currentUser.uid)
-      .get()
-      .then(querySnapshot => {
-        querySnapshot.forEach(doc => {
-          const docRef = firebase.firestore().collection('events').doc(doc.id)
-          batch.update(docRef, {hostedBy: {...doc.data().hostedBy, hostPhoto: imageUrl}})
-        })
-      })
+        .firestore()
+        .collection('event_chats')
+        .get()
+        .then((querySnapshot) => {
+          querySnapshot.forEach((doc) => {
+            if (doc.data().userId === currentUser.uid) {
+              const docRef = firebase
+                .firestore()
+                .collection('event_chats')
+                .doc(doc.id);
+              if (doc.exists) {
+                eventChatBatch.update(docRef, { photoURL: imageUrl });
+              }
+            }
+            const docRef = firebase
+              .firestore()
+              .collection('event_chats')
+              .doc(doc.id);
 
-      await batch.commit();
+            // remove replies with user id equal to current user.
+            let repliesNotCurrentUser = doc
+              .data()
+              .replies.filter((reply) => reply.userId !== currentUser.uid);
+
+            // Create array of items where user id is equal to current user
+            // and map over each reply to update the photoURL field.
+            let repliesCurrentUser = doc
+              .data()
+              .replies.filter((reply) => reply.userId === currentUser.uid);
+              
+            let repliesCurrentUserUpdated = repliesCurrentUser.map((reply) => {
+              return {
+                ...reply,
+                photoURL: imageUrl,
+              };
+            });
+
+            eventChatBatch.update(docRef, {
+              replies: [...repliesNotCurrentUser, ...repliesCurrentUserUpdated],
+            });
+          });
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+
+      await eventChatBatch.commit();
 
       await dispatch(getEvents(userCoords));
 

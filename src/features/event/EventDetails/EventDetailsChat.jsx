@@ -46,15 +46,13 @@ class EventDetailsChat extends React.Component {
     return firebase
       .firestore()
       .collection('event_chats')
-      .doc(this.props.eventId)
-      .collection(this.props.eventId)
-      .orderBy('date')
+      .where('eventId', '==', this.props.eventId)
       .onSnapshot((querySnapshot) => {
-        querySnapshot.docChanges().forEach((change) => {
+        querySnapshot.docChanges().forEach(change => {
           if (change.type === 'added') {
-            initMessages.push({ id: change.doc.id, data: change.doc.data() });
+            initMessages.push({messageData: change.doc.data(), id: change.doc.id});
           }
-        });
+        })
         this.setState({
           messages: [...initMessages],
         });
@@ -77,16 +75,13 @@ class EventDetailsChat extends React.Component {
   };
 
   handleSubmit = (e) => {
-    e.stopPropagation();
-    e.nativeEvent.stopImmediatePropagation();
     e.preventDefault();
     if (this.state.newMessage.length > 0) {
       firebase
         .firestore()
         .collection('event_chats')
-        .doc(this.props.eventId)
-        .collection(this.props.eventId)
         .add({
+          eventId: this.props.eventId,
           displayName: this.props.currentUser.displayName,
           message: this.state.newMessage,
           photoURL: this.props.currentUser.photoURL,

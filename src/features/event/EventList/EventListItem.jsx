@@ -32,7 +32,7 @@ const EventListItemImage = styled.img`
   width: 90%;
   height: 250px;
   object-fit: cover;
-  object-position: top;
+  object-position: center;
   border-radius: 8px;
   border: 1px solid #ddd;
 `;

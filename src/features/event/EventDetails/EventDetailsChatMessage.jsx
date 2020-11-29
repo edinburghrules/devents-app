@@ -5,9 +5,8 @@ import { Form, Button } from 'react-bootstrap';
 import { fromUnixTime, formatDistance } from 'date-fns';
 import EventDetailsChatReply from './EventDetailsChatReply';
 
-const ChatMessage = styled.li`
-  padding: 0.4rem;
-  list-style: none;
+const ChatMessage = styled.div`
+  padding: 0.4rem 1rem;
   margin-bottom: 1rem;
   word-wrap: break-word;
   border: 1px solid #eee;
@@ -36,18 +35,10 @@ const ChatMessageUserName = styled.p`
 `;
 
 const Message = styled.p`
-  margin: 1rem 0 0.5rem 0.5rem !important;
+  margin: 1rem 0 0.5rem 0 !important;
   color: #333;
   font-weight: 500;
   font-size: 0.9rem;
-`;
-
-const ChatMessageDateContainer = styled.div`
-  margin: 0.4rem 0 0.5rem 0.5rem !important;
-  display: flex;
-  width: 100%;
-  justify-content: space-between;
-  align-items: center;
 `;
 
 const ChatMessageDate = styled.div`
@@ -58,7 +49,11 @@ const ChatMessageDate = styled.div`
 `;
 
 const ChatMessageButtons = styled.div`
+  margin: 0.4rem 0.5rem 0.5rem 0 !important;
   display: flex;
+  width: 100%;
+  justify-content: flex-start;
+  align-items: center;
 `;
 
 const ReplyButton = styled.button`
@@ -68,7 +63,7 @@ const ReplyButton = styled.button`
   outline: none;
 
   & img {
-    margin-left: .2rem; 
+    margin-left: 0.2rem;
     width: 8px;
   }
 `;
@@ -78,9 +73,8 @@ const ShowReplies = styled(ReplyButton)`
 
   & img {
     width: 10px;
-    margin-left: .2rem;
+    margin-left: 0.2rem;
   }
-  
 `;
 
 const ReplyForm = styled(Form)`
@@ -135,9 +129,7 @@ class EventDetailsChatMessage extends React.Component {
     firebase
       .firestore()
       .collection('event_chats')
-      .doc(this.props.eventId)
-      .collection(this.props.eventId)
-      .doc(`${this.props.message.id}`)
+      .doc(this.props.message.id)
       .update({
         replies: firebase.firestore.FieldValue.arrayUnion({
           replyText: this.state[`reply_${this.props.message.id}`],
@@ -158,9 +150,7 @@ class EventDetailsChatMessage extends React.Component {
     return firebase
       .firestore()
       .collection('event_chats')
-      .doc(this.props.eventId)
-      .collection(this.props.eventId)
-      .doc(`${this.props.message.id}`)
+      .doc(this.props.message.id)
       .onSnapshot((querySnapshot) => {
         this.setState({
           messageReplies: querySnapshot.data(),
@@ -174,13 +164,16 @@ class EventDetailsChatMessage extends React.Component {
 
   render(props) {
     const {
-      message: { data: {photoURL, message, displayName, date, userId }, id },
+      message: {
+        messageData: { photoURL, message, displayName, date, userId },
+        id,
+      },
       currentUser,
     } = this.props;
 
     const {
       showReplies,
-      messageReplies: {replies}
+      messageReplies: { replies },
     } = this.state;
 
     return (
@@ -202,41 +195,48 @@ class EventDetailsChatMessage extends React.Component {
             </div>
           </ChatMessageUser>
           <Message>{message}</Message>
-          <ChatMessageDateContainer>
-            <ChatMessageButtons>
-              <ReplyButton onClick={this.showForm}>
-                <span>reply</span>
+          <ChatMessageButtons>
+            <ReplyButton onClick={this.showForm}>
+              <span>reply</span>
+              <img src='/assets/chat.png' alt='reply' />
+            </ReplyButton>
+            {replies && replies.length > 0 && (
+              <ShowReplies onClick={this.showReplies}>
+                <span>
+                  {showReplies
+                    ? `hide replies (${replies.length})`
+                    : `show replies (${replies.length})`}
+                </span>
                 <img
-                  src='/assets/chat.png'
-                  alt='reply'
+                  src={
+                    showReplies
+                      ? '/assets/up-arrow.png'
+                      : '/assets/down-arrow.png'
+                  }
+                  alt='showreplies'
                 />
-              </ReplyButton>
-              {replies && replies.length > 0 &&
-                <ShowReplies onClick={this.showReplies}> 
-                  <span>{showReplies ? `hide replies (${replies.length})` : `show replies (${replies.length})`}</span>
-                  <img
-                    src={showReplies ? '/assets/up-arrow.png' : '/assets/down-arrow.png' }
-                    alt='showreplies'
-                  />
-                </ShowReplies>
-              }
-            </ChatMessageButtons>
-          </ChatMessageDateContainer>
+              </ShowReplies>
+            )}
+          </ChatMessageButtons>
           {this.state.showForm && (
             <ReplyForm onSubmit={this.handleSubmit}>
               <ReplyFormInput
                 id={`reply_${id}`}
                 onChange={this.handleChange}
-                value={this.state[`reply_${this.props.message.id}`]}
+                value={this.state[`reply_${id}`]}
                 type='text'
               />
-              <ReplySendButton type='submit'><img src='/assets/send.png' alt='send'/></ReplySendButton>
+              <ReplySendButton type='submit'>
+                <img src='/assets/send.png' alt='send' />
+              </ReplySendButton>
             </ReplyForm>
           )}
         </ChatMessage>
-        {(showReplies &&
-          replies) &&
-          replies.map((reply, index) => <EventDetailsChatReply key={`${id}_${index}`} reply={reply} />)}
+        {showReplies &&
+          replies &&
+          replies.map((reply, index) => (
+            <EventDetailsChatReply key={`${id}_${index}`} reply={reply} />
+          ))}
       </React.Fragment>
     );
   }

@@ -10,8 +10,9 @@ const EventCard = styled(Link)`
   border: 1px solid #eee;
   width: 30%;
   border-radius: 8px;
-  padding: 1rem 1.2rem 1rem 1.2rem;
+  padding: 1rem 1rem 1rem 1rem;
   margin-right: 3%;
+  margin-bottom: .8rem;
 `;
 
 const EventPhoto = styled.img`

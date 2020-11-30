@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import AccountEventCard from './AccountEventCard';
 import { Tabs, Tab } from 'react-bootstrap';
+import EventPagination from '../../../app/utils/Pagination';
 
 const EventsCard = styled.div`
   color: #222;
@@ -21,11 +22,24 @@ const EventsContainer = styled.div`
   margin: 3rem 0;
 `;
 
+const EventPaginationContainer = styled.div`
+  display: flex;
+  justify-content: center;
+`;
+
 
 class AccountEvents extends React.Component {
   state = {
     key: 'past',
+    eventsPerPage: 3,
+    currentPage: 1
   };
+
+  paginate = (page) => {
+    this.setState({
+      currentPage: page
+    })
+  }
 
   handleKey = (k) => {
     this.setState({
@@ -33,8 +47,18 @@ class AccountEvents extends React.Component {
     });
   };
 
+
+
   render() {
+    const {eventsPerPage, currentPage}= this.state;
     const { pastEvents, futureEvents, hosting } = this.props.events;
+
+    const indexLastPost = currentPage * eventsPerPage;
+    const indexFirstPost = indexLastPost - eventsPerPage;
+    const futureEventsSliced = futureEvents.slice(indexFirstPost, indexLastPost);
+
+
+
     return (
       <EventsCard>
         <EventsHeading>Your Events</EventsHeading>
@@ -45,10 +69,15 @@ class AccountEvents extends React.Component {
             </EventsContainer>
           </Tab>
           <Tab eventKey='future' title='Future Events'>
-            <EventsContainer>
-              {pastEvents &&
-                futureEvents.map((event) => <AccountEventCard key={event.id} event={event}/>)}
-            </EventsContainer>
+          <React.Fragment>
+              <EventsContainer>
+                {pastEvents &&
+                  futureEventsSliced.map((event) => <AccountEventCard key={event.id} event={event}/>)}
+              </EventsContainer>
+              <EventPaginationContainer>
+                <EventPagination paginate={this.paginate} totalEvents={futureEvents.length} eventsPerPage={eventsPerPage}/>
+              </EventPaginationContainer>
+            </React.Fragment>
           </Tab>
           <Tab eventKey='hosting' title='Hosting Events'>
             <EventsContainer>

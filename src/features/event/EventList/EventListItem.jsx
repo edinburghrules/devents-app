@@ -61,7 +61,6 @@ const EventListCardPeopleGoingHeading = styled(Card.Body)`
   font-size: 0.8rem;
   font-weight: 400;
   padding: 0;
-  margin-top: -1rem;
   color: #555;
 `;
 
@@ -76,6 +75,11 @@ const EventListItemCardPeopleGoing = styled(Card.Body)`
 const EventListItemCardCancelledTextContainer = styled.div`
   display: flex;
   align-items: center;
+`;
+
+const EventInformationInfo = styled.div`
+  display: flex;
+  margin-bottom: -.5rem;
 `;
 
 const EventListItemCardCancelledIcon = styled.span.attrs({
@@ -143,19 +147,19 @@ class EventListItem extends Component {
                 <EventListItemCardEventInfo>
                   <div className='mr-2'>
                     {
-                      <React.Fragment>
+                      <EventInformationInfo>
                         <span role='img' aria-label='compass icon'>
                           🧭
                         </span>
-                        <span> {venue}</span>
-                      </React.Fragment>
+                        <span className='ml-2'> {venue}</span>
+                      </EventInformationInfo>
                     }
                     <br />
                   </div>
                   <div>
                     {date.seconds && (
-                      <React.Fragment>
-                        <span role='img' aria-label='date icon'>
+                      <EventInformationInfo>
+                        <span className='mr-2' role='img' aria-label='date icon'>
                           🗓
                         </span>
                         <EventListItemCardDate isCancelled={cancelled}>
@@ -164,7 +168,7 @@ class EventListItem extends Component {
                             ' EEEE, do MMMM yyyy'
                           )}
                         </EventListItemCardDate>
-                      </React.Fragment>
+                      </EventInformationInfo>
                     )}
                   </div>
                 </EventListItemCardEventInfo>

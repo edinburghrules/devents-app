@@ -7,9 +7,11 @@ import { fromUnixTime } from 'date-fns';
 import TextInput from '../../../app/form-inputs/TextInput';
 import DatePickerInput from '../../../app/form-inputs/DatePickerInput';
 import PlaceInput from '../../../app/form-inputs/PlaceInput';
+import RichText from '../../../app/form-inputs/RichText';
 import TextAreaInput from '../../../app/form-inputs/TextAreaInput';
 import CheckboxInput from '../../../app/form-inputs/CheckboxInput';
 import { updateProfile } from '../../../app/redux/actions/userActions';
+
 
 const UpdateProfileBtn = styled(Button)`
   height: 3rem;
@@ -26,7 +28,7 @@ const EditProfile = ({ handleSubmit, submitting }) => {
       <p>Add information about yourself</p>
       <Form onSubmit={handleSubmit}>
         <Field name='name' as={TextInput} placeholder='Enter your name' />
-        <Field name='occupation' as={TextInput} placeholder='Enter your name' />
+        <Field name='occupation' as={TextInput} placeholder='Enter your occupation' />
         <Field
           component={DatePickerInput}
           name='dob'
@@ -37,7 +39,7 @@ const EditProfile = ({ handleSubmit, submitting }) => {
           name='homeCity'
           searchOptions={{ types: ['(cities)'] }}
         />
-        <Field as={TextAreaInput} name='about' />
+        <Field component={RichText} name='about' />
         <FieldArray component={CheckboxInput} name='interests' />
         <UpdateProfileBtn className='mt-5' type='submit'>
           {submitting ? (<Spinner animation='border' size='sm' variant='light' />) : 'Update profile'}

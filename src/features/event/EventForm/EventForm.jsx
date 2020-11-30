@@ -8,7 +8,6 @@ import { connect } from 'react-redux';
 import * as Yup from 'yup';
 import { geocodeByAddress, getLatLng } from 'react-places-autocomplete';
 import TextInput from '../../../app/form-inputs/TextInput';
-import TextAreaInput from '../../../app/form-inputs/TextAreaInput';
 import CategoryInput from '../../../app/form-inputs/CategoryInput';
 import DatePickerInput from '../../../app/form-inputs/DatePickerInput';
 import PlaceInput from '../../../app/form-inputs/PlaceInput';
@@ -51,7 +50,10 @@ const EventFormSubmitBtn = styled(Button)`
   justify-content: center;
   background: #ff6f61 !important;
   border: 1px solid #ff6f61 !important;
-  font-size: 2rem;
+
+  & img {
+    height: 2rem;
+  }
 `;
 
 const EventFormImage = styled.img`
@@ -245,11 +247,11 @@ class EventForm extends Component {
         <EventFormButtons>
           <EventFormSubmitBtn form='eventForm' type='submit'>
             {isSubmitting ? (
-              <Spinner animation='border' size='sm' variant='light' />
+              <Spinner animation='border' variant='light' />
             ) : event && event.id ? (
-              '＋'
+              <img src='/assets/plus.png'/>
             ) : (
-              '＋'
+              <img src='/assets/plus.png'/>
             )}
           </EventFormSubmitBtn>
         </EventFormButtons>

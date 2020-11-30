@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import renderHTML from 'react-render-html';
 
 const UserProfileAboutContainer = styled.div`
   margin-top: 2rem;
@@ -37,7 +38,7 @@ const UserProfileAbout = (props) => {
       {about && (
         <React.Fragment>
           <Heading>About</Heading>
-          <p>{about}</p>
+          {renderHTML(about)}
         </React.Fragment>
       )}
       {interests && (

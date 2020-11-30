@@ -25,6 +25,10 @@ const GlobalStyles = createGlobalStyle`
   color: #000;
   background: #fff !important;
 }
+h2 {
+  font-size: 1.1rem;
+  font-weight: 500;
+}
 `;
 
 function App(props) {

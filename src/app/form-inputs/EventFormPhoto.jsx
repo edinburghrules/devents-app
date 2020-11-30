@@ -46,9 +46,9 @@ class PhotoPage extends React.Component {
     filename: null,
     src: null,
     crop: {
+      aspect: 16/9,
       unit: '%',
       width: 100,
-      height: 100,
     },
   };
 

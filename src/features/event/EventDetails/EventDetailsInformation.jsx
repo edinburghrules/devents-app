@@ -99,7 +99,7 @@ const EventDetailsInformation = (props) => {
                 Details
               </EventDetailsInformationCardHeading>
           <EventDetailsImage src={photoURL && photoURL} alt='event' />
-            <div>
+            <div style={{width: '90%'}}>
               {renderHTML(description)}
             </div>
           </EventDetailsInformationCard>

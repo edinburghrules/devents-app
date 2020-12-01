@@ -50,6 +50,9 @@ class PlaceInput extends React.Component {
       field: { name, value },
       form: { setFieldTouched },
     } = this.props;
+
+    const placeholderText = name === 'homeCity' ? 'Enter hometown' : name === 'venue' ? 'Enter event venue' : 'Enter event city'
+
     return (
       <PlacesAutocomplete
         {...this.props}
@@ -63,8 +66,8 @@ class PlaceInput extends React.Component {
             </FormLabel>
             <Form.Control
               {...getInputProps({
-                placeholder: 'Enter event city or town',
-                className: 'location-search-input',
+                placeholder: placeholderText,
+                className: 'location-search-input'
               })}
               onBlur={(e) => {
                 setFieldTouched(name, 'true');

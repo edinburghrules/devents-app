@@ -55,7 +55,9 @@ class AccountEvents extends React.Component {
 
     const indexLastPost = currentPage * eventsPerPage;
     const indexFirstPost = indexLastPost - eventsPerPage;
+    const pastEventsSliced = pastEvents.slice(indexFirstPost, indexLastPost);
     const futureEventsSliced = futureEvents.slice(indexFirstPost, indexLastPost);
+    const hostingSliced = hosting.slice(indexFirstPost, indexLastPost);
 
 
 
@@ -65,8 +67,11 @@ class AccountEvents extends React.Component {
         <Tabs activeKey={this.state.key} onSelect={this.handleKey}>
           <Tab eventKey='past' title='Past Events' style={{color: 'red !important'}}>
             <EventsContainer>
-              {pastEvents && pastEvents.map((event) => <AccountEventCard key={event.id} event={event}/>)}
+              {pastEvents && pastEventsSliced.map((event) => <AccountEventCard key={event.id} event={event}/>)}
             </EventsContainer>
+            <EventPaginationContainer>
+                <EventPagination paginate={this.paginate} totalEvents={pastEvents.length} eventsPerPage={eventsPerPage}/>
+              </EventPaginationContainer>
           </Tab>
           <Tab eventKey='future' title='Future Events'>
           <React.Fragment>
@@ -81,8 +86,11 @@ class AccountEvents extends React.Component {
           </Tab>
           <Tab eventKey='hosting' title='Hosting Events'>
             <EventsContainer>
-              {hosting && hosting.map((event) => <AccountEventCard key={event.id} event={event}/>)}
+              {hosting && hostingSliced.map((event) => <AccountEventCard key={event.id} event={event}/>)}
             </EventsContainer>
+            <EventPaginationContainer>
+                <EventPagination paginate={this.paginate} totalEvents={hosting.length} eventsPerPage={eventsPerPage}/>
+              </EventPaginationContainer>
           </Tab>
         </Tabs>
       </EventsCard>

@@ -10,13 +10,19 @@ const EventPagination = (props) => {
   for(let i = 1; i <= Math.ceil(totalEvents / eventsPerPage); i++) {
     pages.push(i)
   }
-  return (
-    <Pagination>
-      {pages.map(page => (
-        <Pagination.Item onClick={() => paginate(page)}>{page}</Pagination.Item>
-      ))}
-    </Pagination> 
-  )
+
+  if(pages.length > 1) {
+    return (
+      <Pagination>
+        {pages.map(page => (
+          <Pagination.Item onClick={() => paginate(page)}>{page}</Pagination.Item>
+        ))}
+      </Pagination> 
+    )
+  } 
+
+  return null;
+
 }
 
 export default EventPagination;

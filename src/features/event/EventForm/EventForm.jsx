@@ -249,9 +249,9 @@ class EventForm extends Component {
             {isSubmitting ? (
               <Spinner animation='border' variant='light' />
             ) : event && event.id ? (
-              <img src='/assets/plus.png'/>
+              <img alt='plus' src='/assets/plus.png'/>
             ) : (
-              <img src='/assets/plus.png'/>
+              <img alt='plus' src='/assets/plus.png'/>
             )}
           </EventFormSubmitBtn>
         </EventFormButtons>
@@ -322,7 +322,7 @@ const formikEventForm = withFormik({
       .min(6, 'Your event must have a summary of at least 10 characters.')
       .required('You must provide a summary of your event.'),
     description: Yup.string()
-      .max(500, 'Too long!')
+      .max(2000, 'Too long!')
       .min(6, 'Too short!')
       .required('You must provide a description of your event.'),
     category: Yup.string().required('Event description is required.'),

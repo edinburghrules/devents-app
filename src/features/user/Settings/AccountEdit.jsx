@@ -8,7 +8,6 @@ import TextInput from '../../../app/form-inputs/TextInput';
 import DatePickerInput from '../../../app/form-inputs/DatePickerInput';
 import PlaceInput from '../../../app/form-inputs/PlaceInput';
 import RichText from '../../../app/form-inputs/RichText';
-import TextAreaInput from '../../../app/form-inputs/TextAreaInput';
 import CheckboxInput from '../../../app/form-inputs/CheckboxInput';
 import { updateProfile } from '../../../app/redux/actions/userActions';
 

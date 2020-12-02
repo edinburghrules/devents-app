@@ -137,7 +137,7 @@ class EventForm extends Component {
     } = this.props;
 
     this.saveToLocalStorage();
-    console.log(values)
+
     return (
       <EventFormContainer>
         <EventFormHeading>

@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
-import EventDashboard from '../EventDashboard/EventDashboard';
+import {Redirect} from 'react-router-dom';
 import EventDetailsHeading from './EventDetailsHeading';
 import EventDetailsInformation from './EventDetailsInformation';
 import EventDetailsChat from './EventDetailsChat';
@@ -8,7 +8,7 @@ import EventDetailsChat from './EventDetailsChat';
 class EventDetails extends Component {
 
   render() {
-    if (this.props.event === undefined) return <EventDashboard />;
+    if (this.props.event === undefined) return <Redirect to='/' />;
 
     const {
       event,
@@ -17,6 +17,8 @@ class EventDetails extends Component {
       currentUser
     } = this.props;
 
+    let user = currentUser.hasOwnProperty('uid') ? true : false;
+
     return (
       <Fragment>
         <EventDetailsHeading
@@ -24,7 +26,7 @@ class EventDetails extends Component {
           isGoing={isGoing}
           event={event}
         />
-        <EventDetailsInformation isHost={isHost} event={event} />
+        <EventDetailsInformation user={user} isHost={isHost} event={event} />
         {currentUser.hasOwnProperty('uid') && (<EventDetailsChat eventId={event.id} currentUser={currentUser}/>)}
       </Fragment>
     );

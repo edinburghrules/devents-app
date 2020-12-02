@@ -35,13 +35,13 @@ const UserProfileAbout = (props) => {
   const { about, interests } = props.userDetails;
   return (
     <UserProfileAboutContainer>
-      {about && (
+      {about !== '<p><br></p>' && (
         <React.Fragment>
           <Heading>About</Heading>
           {renderHTML(about)}
         </React.Fragment>
       )}
-      {interests && (
+      {interests.length > 0 && (
         <UserProfileInterests>
           <Heading>Interests</Heading>
           <UserProfileAboutList>

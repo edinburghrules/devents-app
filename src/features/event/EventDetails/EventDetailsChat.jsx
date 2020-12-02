@@ -43,7 +43,7 @@ class EventDetailsChat extends React.Component {
 
   runListener = () => {
     let initMessages = [];
-    return firebase
+    this.unsubscribe = firebase
       .firestore()
       .collection('event_chats')
       .where('eventId', '==', this.props.eventId)
@@ -64,8 +64,7 @@ class EventDetailsChat extends React.Component {
   };
 
   componentWillUnmount = () => {
-    let unsubscribe = this.runListener();
-    unsubscribe();
+    this.unsubscribe();
   };
 
   handleChange = (e) => {

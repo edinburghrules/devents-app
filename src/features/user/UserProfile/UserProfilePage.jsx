@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { Redirect } from 'react-router-dom';
 import { Container } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import UserProfileHeader from './UserProfileHeader';
@@ -20,6 +21,7 @@ const UserProfileCard = styled.div`
 class UserProfilePage extends React.Component {
   render() {
     const { userProfileDetails, currentUser } = this.props;
+    if(userProfileDetails === undefined) return <Redirect to='/'/>
     return (
       <UserProfileContainer>
         <UserProfileCard>

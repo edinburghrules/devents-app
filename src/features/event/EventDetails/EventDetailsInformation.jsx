@@ -75,6 +75,7 @@ const EventDetailsInformation = (props) => {
       coordinates,
       photo: { photoURL }
     },
+    user
   } = props;
 
   let parsedDate = fromUnixTime(date.seconds);
@@ -116,6 +117,7 @@ const EventDetailsInformation = (props) => {
                   filteredAttendeesArr.map((attendee, index) => {
                     return (
                       <EventDetailsAttendee
+                        user={user}
                         key={index}
                         attendee={attendee}
                       />

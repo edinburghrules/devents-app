@@ -5,6 +5,7 @@ import { startSubmit, stopSubmit } from './asyncActions';
 import { getEvents } from './eventActions';
 import { Notification, NotificationIcon } from '../../styles/toastNotification';
 
+
 const getUsers = () => {
   return async (dispatch) => {
     try {

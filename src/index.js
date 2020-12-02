@@ -29,7 +29,7 @@ let render = () => {
   );
 };
 
-firebase.auth().onAuthStateChanged((user) => {
+export let authUnsubscribe = firebase.auth().onAuthStateChanged((user) => {
   // Actions for app initialisation
   const dispatchActions = async (
     coords = { latitude: 56.462018, longitude: -2.970721 }
@@ -61,6 +61,10 @@ firebase.auth().onAuthStateChanged((user) => {
           reject(error);
         }
       );
+      // If user has location services turned off in os system
+      setTimeout(() => {
+        resolve({ latitude: 56.462018, longitude: -2.970721 })
+      }, 5000)
     });
   };
 
@@ -75,6 +79,7 @@ firebase.auth().onAuthStateChanged((user) => {
     } else {
       try {
         const result = await getUserLocation();
+        console.log(result);
         const userCoordsObj = {
           latitude: result.latitude,
           longitude: result.longitude,
@@ -113,7 +118,6 @@ firebase.auth().onAuthStateChanged((user) => {
 });
 
 render();
-
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
 // Learn more about service workers: https://bit.ly/CRA-PWA

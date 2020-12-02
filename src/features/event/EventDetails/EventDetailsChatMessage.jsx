@@ -147,7 +147,7 @@ class EventDetailsChatMessage extends React.Component {
   };
 
   runListener = () => {
-    return firebase
+   this.unsubscribe = firebase
       .firestore()
       .collection('event_chats')
       .doc(this.props.message.id)
@@ -161,6 +161,10 @@ class EventDetailsChatMessage extends React.Component {
   componentDidMount = () => {
     this.runListener();
   };
+
+  componentWillUnmount() {
+    this.unsubscribe();
+  }
 
   render(props) {
     const {

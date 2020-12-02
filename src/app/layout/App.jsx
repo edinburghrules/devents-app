@@ -16,6 +16,7 @@ import DetailedUserPage from '../../features/user/UserProfile/UserProfilePage';
 import EventCategoryPage from '../../features/event/EventCategories/EventCategoryPage/EventCategoryPage';
 import EventSearchResultsList from '../../features/event/EventSearch/EventSearchResultsList';
 import LoadingPage from './LoadingPage';
+import PageNotFound from './PageNotFound';
 
 const GlobalStyles = createGlobalStyle`
   body {
@@ -61,6 +62,7 @@ function App(props) {
         <Route path='/user-profile/:id' component={DetailedUserPage} />
         <Route path='/event-category/:id' component={EventCategoryPage} />
         <Route exact path='/search-results/:id' component={EventSearchResultsList}/>
+        <Route component={PageNotFound} />
       </Switch>
       </div>
     </Fragment>

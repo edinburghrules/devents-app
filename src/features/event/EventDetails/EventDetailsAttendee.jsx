@@ -44,10 +44,11 @@ const Guest = styled.p`
 const EventDetailsAttendee = (props) => {
   const {
     attendee: { attendeePhoto, name, host, id },
+    user
   } = props;
 
   return (
-    <EventDetailsAttendeeCard as={Link} to={`/user-profile/${id}`}>
+    <EventDetailsAttendeeCard as={user ? Link : null} to={`/user-profile/${id}`}>
       <EventDetailsAttendeeCardImage
         src={ attendeePhoto ? attendeePhoto : '/assets/profile.png'}
         alt='event attendee'

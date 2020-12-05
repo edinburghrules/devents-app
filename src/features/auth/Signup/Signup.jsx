@@ -147,7 +147,7 @@ const formikLogin = withFormik({
       email: values.email,
       password: values.password,
     });
-    history.push(`/user/${getUserIdAfterSignUp}`);
+    history.push(`/user/edit-profile/${getUserIdAfterSignUp}`);
   },
 })(Login);
 

@@ -15,11 +15,10 @@ const SignupContainer = styled(Container)`
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
 `;
 
 const SignupForm = styled(Form)`
-  margin-top: 4rem;
+  transform: translateY(8rem);
   width: 24rem;
 `;
 

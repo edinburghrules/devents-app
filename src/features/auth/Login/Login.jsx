@@ -17,11 +17,10 @@ const LoginContainer = styled(Container)`
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
 `;
 
 const LoginForm = styled(Form)`
-  margin-top: 4rem;
+  transform: translateY(8rem);
   width: 24rem;
 `;
 

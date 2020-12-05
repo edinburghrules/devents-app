@@ -1,18 +1,13 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Button } from 'react-bootstrap';
+import { Button, Container } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 const EventDashboardHeaderContainer = styled.div`
   height: 60vh;
-  margin-top: 1rem;
+  margin-top: 10rem;
   margin-bottom: -12rem;
-  background: url(./assets/headerimg.jpg);
-  background-size: 40%;
-  background-position-y: 1rem;
-  background-position-x: 45rem;
-  background-repeat: no-repeat;
   display: flex;
   justify-content: flex-start;
   align-items: center;
@@ -20,16 +15,16 @@ const EventDashboardHeaderContainer = styled.div`
 
 const EventDashboardHeaderContent = styled.div`
   display: flex;
-  flex-direction: column;
-  margin-left: 18rem;
-  align-items: flex-start;
+  align-items: center;
+  justify-content: space-between;
   margin-top: -4rem;
 `;
 
 const EventDashboardHeaderText = styled.h1`
-  font-size: 2.5rem;
+  font-size: 3rem;
   color: #000;
   font-weight: 700;
+  margin-top: -10rem;
 `;
 
 const EventDashboardHeaderSubText = styled.p`
@@ -41,34 +36,46 @@ const EventDashboardHeaderSubText = styled.p`
 
 const EventDashboardHeaderBtn = styled(Button)`
   margin-top: 1rem;
-  padding: .5rem .9rem;
-  font-size: .9rem;
+  padding: 0.5rem 0.9rem;
+  font-size: 0.9rem;
   font-weight: 400;
-  background: #FF6F61 !important;
+  background: #ff6f61 !important;
   color: #fff !important;
   border-radius: 4px;
 `;
 
+const HeaderImg = styled.img`
+  height: 35rem;
+`;
 
 const EventDashboardHeader = (props) => {
   return (
     <EventDashboardHeaderContainer>
+    <Container>
       <EventDashboardHeaderContent>
-        <EventDashboardHeaderText>Find your interests <br/> and the people <br/> that share them.</EventDashboardHeaderText>
-        <EventDashboardHeaderSubText>Devents helps developers network and grow.</EventDashboardHeaderSubText>
+        <div>
+          <EventDashboardHeaderText>
+            Find your interests <br /> and the people <br /> that share them.
+          </EventDashboardHeaderText>
+          <EventDashboardHeaderSubText>
+            Devents helps developers network and grow.
+          </EventDashboardHeaderSubText>
+        </div>
         {!props.authenticated && (
           <EventDashboardHeaderBtn as={Link} to={'/signup'}>
             Join us - it's free
           </EventDashboardHeaderBtn>
         )}
+        <HeaderImg src='./assets/headerimg.jpg' />
       </EventDashboardHeaderContent>
+      </Container>
     </EventDashboardHeaderContainer>
   );
 };
 
 const mapStateToProps = (state) => {
   return {
-    authenticated: Boolean(state.auth.currentUser)
+    authenticated: Boolean(state.auth.currentUser),
   };
 };
 

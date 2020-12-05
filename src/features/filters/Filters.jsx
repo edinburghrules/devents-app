@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Form, Button, Spinner } from 'react-bootstrap';
+import { Form, Button, Spinner, Container } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import { withFormik, Field } from 'formik';
@@ -14,10 +14,10 @@ import getAddressDetails, {
   getFormattedAddress,
 } from '../../app/utils/locationHelper';
 
-const SearchFiltersCard = styled.div`
+const SearchFiltersCard = styled(Container)`
   border: 1px solid #ddd;
   background: #fff;
-  margin: 8rem 12rem 2rem 12rem;
+  margin-top: 12rem;
   padding: 30px;
   border-radius: 8px;
 `;

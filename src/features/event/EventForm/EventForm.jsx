@@ -86,6 +86,8 @@ if (coordsFromLS) {
   };
 }
 
+
+
 class EventForm extends Component {
   componentWillUnmount = () => {
     if (
@@ -344,7 +346,7 @@ const formikEventForm = withFormik({
     } = formikBag.props;
 
     const clearLocalStorage = (items) => {
-      if (typeof items === Array) {
+      if (Array.isArray(items)) {
         items.forEach((item) => {
           localStorage.removeItem(item);
         });
@@ -373,6 +375,10 @@ const formikEventForm = withFormik({
       const editedEvent = {
         ...event,
         ...values,
+        coordinates: new firebase.firestore.GeoPoint(
+          coords.venue.lat,
+          coords.venue.lng
+        ),
       };
       try {
         let editedEventId = await editEvent(editedEvent);

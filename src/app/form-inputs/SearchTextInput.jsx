@@ -12,6 +12,11 @@ width: 40rem;
   & > * {
     height: 45px;
   }
+
+  @media (max-width: 992px) {
+    width: 100%;
+    margin-bottom: 1rem;
+  }
 `;
 
 const SearchTextInput = (props) => {

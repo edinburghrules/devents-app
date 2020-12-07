@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import {Container} from 'react-bootstrap'
 import { categoryOptions } from '../../../../app/form-inputs/CategoryInput';
 import EventCategoryMenuItem from './EventCategoriesMenuItem';
 
@@ -16,7 +17,7 @@ export const CategoriesHeading = styled.h6`
 
 const EventCategoriesMenu = () => {
   return (
-    <React.Fragment>
+    <Container>
       <CategoriesHeading>Browse events by category</CategoriesHeading>
       <CategoriesContainer>
         {categoryOptions.map((option, index) => {
@@ -24,7 +25,7 @@ const EventCategoriesMenu = () => {
           return null;
         })}
       </CategoriesContainer>
-    </React.Fragment>
+    </Container>
   );
 };
 

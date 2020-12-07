@@ -5,7 +5,12 @@ import { Form, InputGroup, Spinner } from 'react-bootstrap';
 
 const SearchLocationContainer = styled.div`
   position: relative;
-  width: 20rem !important;
+  width: 40rem !important;
+
+  @media (max-width: 992px) {
+    width: 100% !important;
+    margin-bottom: 1rem;
+  }
 `;
 
 const SearchLocationField = styled(Form.Control)`

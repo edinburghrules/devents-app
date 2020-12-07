@@ -20,6 +20,16 @@ const SearchFiltersCard = styled(Container)`
   margin-top: 12rem;
   padding: 30px;
   border-radius: 8px;
+
+  @media(max-width: 992px) {
+    padding: 30px 0;
+    max-width: 80%;
+  }
+
+  @media (max-width: 595px) {
+    margin-top: 20rem;
+  }
+
 `;
 
 const SearchFiltersContainer = styled(Form.Group)`
@@ -31,15 +41,25 @@ const SearchFiltersForm = styled(Form)`
   display: flex;
   justify-content: space-around;
   align-items: center;
+
+  @media(max-width: 992px) {
+    flex-direction: column;
+    width: 100%;
+  }
 `;
 
 const SearchFiltersInputs = styled.div`
   width: 80%;
   display: flex;
+
+  @media(max-width: 992px) {
+    flex-direction: column;
+    margin-bottom: 1rem;
+  }
 `;
 
 const SearchButton = styled(Button)`
-  width: 10rem;
+  width: 8rem;
   height: 45px;
   background: #ff6f61 !important;
   border none !important;
@@ -87,7 +107,10 @@ class Filters extends React.Component {
               {searching ? (
                 <Spinner animation='border' size='sm' variant='light' />
               ) : (
-                'Search'
+                <span>
+                  <img style={{height: '1rem', marginRight: '.5rem'}} src='/assets/search.png'/>
+                  Search
+                </span>
               )}
             </SearchButton>
           </SearchFiltersForm>

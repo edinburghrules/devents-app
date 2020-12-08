@@ -23,7 +23,7 @@ const EventDashboardHeaderContainer = styled.div`
 
   @media(max-width: 595px) {
     margin-top: 12rem;
-    margin-bottom: 2rem;
+    margin-bottom: -2rem;
   }
 `;
 

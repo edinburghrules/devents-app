@@ -7,16 +7,23 @@ import { withRouter } from 'react-router-dom';
 import Filter from '../../filters/Filters';
 import InfiniteScrollComponent from '../../../app/utils/InfiniteScroll';
 
-const EventResultsListContainer = styled.div`
-  margin: 8rem auto;
-  max-width: 960px;
-  height: 50vh;
+const EventResultsListContainer = styled(Container)`
+  margin-top: 4rem;
+
+  @media(max-width: 595px) {
+    margin-top: 1rem;
+  }
 `;
 
 const EventSearchResultsListTitle = styled.h1`
   font-weight: 600;
   font-size: 1.4rem;
   margin-bottom: 4rem;
+  margin-top: 4rem;
+
+  @media(max-width: 595px) {
+    margin-bottom: 2rem;
+  }
 `;
 
 const Searching = styled.div`
@@ -36,7 +43,7 @@ const NoResultsText = styled.h1`
 `;
 
 const NoResultsSubText = styled.h1`
-  margin-top: .5rem;
+  margin-top: 0.5rem;
   font-weight: 500;
   font-size: 1rem;
 `;
@@ -46,23 +53,22 @@ class EventSearchResultsList extends React.Component {
     let { results, searchLocation, searching } = this.props;
     if (results.length > 0) {
       return (
-        <Container>
+        <EventResultsListContainer>
           <Filter />
-          <EventResultsListContainer>
-          { searching ? (
+          {searching ? (
             <Searching>
-              <Spinner animation="border" variant="primary" />
+              <Spinner animation='border' variant='primary' />
             </Searching>
           ) : (
             <React.Fragment>
               <EventSearchResultsListTitle>
-                Events near <span style={{fontStyle: 'italic'}}>"{searchLocation}"</span>
+                Events near{' '}
+                <span style={{ fontStyle: 'italic' }}>"{searchLocation}"</span>
               </EventSearchResultsListTitle>
-              <InfiniteScrollComponent eventSearch={true} events={results}/>
+              <InfiniteScrollComponent eventSearch={true} events={results} />
             </React.Fragment>
           )}
-          </EventResultsListContainer>
-        </Container>
+        </EventResultsListContainer>
       );
     } else {
       return (
@@ -70,8 +76,12 @@ class EventSearchResultsList extends React.Component {
           <Filter />
           <EventResultsListContainer>
             <NoResultsContainer>
-              <NoResultsText>Sorry, there are no results for events near you.</NoResultsText>
-              <NoResultsSubText>Try searching for something else.</NoResultsSubText>
+              <NoResultsText>
+                Sorry, there are no results for events near you.
+              </NoResultsText>
+              <NoResultsSubText>
+                Try searching for something else.
+              </NoResultsSubText>
             </NoResultsContainer>
           </EventResultsListContainer>
         </React.Fragment>
@@ -81,25 +91,26 @@ class EventSearchResultsList extends React.Component {
 }
 
 let eventSearchSelector = (state, searchText) => {
-  if(searchText === 'no-search-string') {
-    return state.events.events.filter(event => {
+  if (searchText === 'no-search-string') {
+    return state.events.events.filter((event) => {
       return fromUnixTime(event.date.seconds) >= new Date();
-    })
+    });
   } else {
     return state.events.events.filter((event) => {
-      return fromUnixTime(event.date.seconds) >= new Date() && event.title.toLowerCase().includes(searchText.toLowerCase());
+      return (
+        fromUnixTime(event.date.seconds) >= new Date() &&
+        event.title.toLowerCase().includes(searchText.toLowerCase())
+      );
     });
   }
 };
-
-
 
 const mapStateToProps = (state, ownProps) => {
   return {
     results: eventSearchSelector(state, ownProps.match.params.id),
     searchLocation: state.profile.searchLocation,
-    searching: state.async.searching
-  }
+    searching: state.async.searching,
+  };
 };
 
 export default connect(mapStateToProps)(withRouter(EventSearchResultsList));

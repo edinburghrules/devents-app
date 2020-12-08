@@ -5,23 +5,87 @@ import renderHTML from 'react-render-html';
 import { Row, Col, Container } from 'react-bootstrap';
 import EventDetailsAttendee from './EventDetailsAttendee';
 import EventDetailsMap from './EventDetailsMap';
+import EventDetailsChat from './EventDetailsChat';
 
 const EventDetailsInformationContainer = styled(Container)`
   border-top: 1px solid #ddd;
   padding-top: 4rem;
 `;
 
+const EventDetailsInformationGrid = styled.div`
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: 30rem 15rem 15rem 15rem;
+
+  @media(max-width: 992px) {
+    grid-template-rows: repeat(5, auto);
+  }
+`;
+
 const EventDetailsInformationCard = styled.div`
   text-align: left;
   background: #fff;
   margin-bottom: 4rem;
+
+  @media(max-width: 992px) {
+    margin-bottom: 1rem;
+  }
+
+  &#details {
+    grid-column: 1/3
+  }
+
+  @media (max-width: 992px) {
+    &#details {
+      grid-column: 1/5;
+    }
+  }
+
+  &#info {
+    grid-column: 3/5;
+  }
+
+  @media (max-width: 992px) {
+    &#info {
+      margin-top: 3rem;
+      grid-column: 1/5;
+      grid-row: 3/4;
+    }
+  }
+
+  &#attendees {
+    margin-top: 3rem;
+    grid-column: 3/5;
+    grid-row: 2/3;
+  }
+
+  @media (max-width: 992px) {
+    &#attendees {
+      grid-column: 1/5;
+      grid-row: 5/6;
+    }
+  }
+
+  &#chat {
+    margin-top: 3rem;
+    grid-column: 3/5;
+    grid-row: 3/4;
+  }
+
+  @media (max-width: 992px) {
+    &#chat {
+      margin-top: 0;
+      grid-column: 1/5;
+      grid-row: 2/3;
+    }
+  }
 `;
 
 const EventDetailsImage = styled.img`
   width: 90%;
   height: 250px;
   object-fit: cover;
-  object-position:center;
+  object-position: center;
   margin-bottom: 2rem;
 `;
 
@@ -55,7 +119,7 @@ const EventDetailsInformationMap = styled.div`
 
 const EventDetailsInformationDate = styled.span`
   margin-left: 1rem;
-  margin-bottom: .4rem;
+  margin-bottom: 0.4rem;
   ${({ isCancelled }) =>
     isCancelled &&
     `
@@ -66,6 +130,7 @@ const EventDetailsInformationDate = styled.span`
 const EventDetailsInformation = (props) => {
   const {
     event: {
+      id,
       description,
       attendees,
       date,
@@ -73,9 +138,10 @@ const EventDetailsInformation = (props) => {
       venue,
       cost,
       coordinates,
-      photo: { photoURL }
+      photo: { photoURL },
     },
-    user
+    user,
+    currentUser
   } = props;
 
   let parsedDate = fromUnixTime(date.seconds);
@@ -85,80 +151,79 @@ const EventDetailsInformation = (props) => {
 
   attendeesArr.forEach((attendee) => {
     if (attendees[attendee].hasOwnProperty('host')) {
-      filteredAttendeesArr.unshift({...attendees[attendee], id: attendee});
+      filteredAttendeesArr.unshift({ ...attendees[attendee], id: attendee });
     } else {
-      filteredAttendeesArr.push({...attendees[attendee], id: attendee});
+      filteredAttendeesArr.push({ ...attendees[attendee], id: attendee });
     }
   });
 
   return (
     <EventDetailsInformationContainer>
-      <Row>
-        <Col>
-          <EventDetailsInformationCard>
+      <EventDetailsInformationGrid>
+        <EventDetailsInformationCard id='details'>
           <EventDetailsInformationCardHeading>
-                Details
-              </EventDetailsInformationCardHeading>
+            Details
+          </EventDetailsInformationCardHeading>
           <EventDetailsImage src={photoURL && photoURL} alt='event' />
-            <div style={{width: '90%'}}>
-              {renderHTML(description)}
-            </div>
-          </EventDetailsInformationCard>
-          <EventDetailsInformationCard>
-            <div>
-              <EventDetailsInformationCardHeading>
-                {attendees && attendees.length} People going{' '}
-                <EventDetailsInformationTotalAttendees>
-                  ({numberOfAttendees})
-                </EventDetailsInformationTotalAttendees>
-              </EventDetailsInformationCardHeading>
-              <EventDetailsInformationAttendeesSection>
-                {attendees &&
-                  filteredAttendeesArr.map((attendee, index) => {
-                    return (
-                      <EventDetailsAttendee
-                        user={user}
-                        key={index}
-                        attendee={attendee}
-                      />
-                    );
-                  })}
-              </EventDetailsInformationAttendeesSection>
-            </div>
-          </EventDetailsInformationCard>
-        </Col>
-        <Col>
-          <EventDetailsInformationCard>
+          <div style={{ width: '90%' }}>{renderHTML(description)}</div>
+        </EventDetailsInformationCard>
+        <EventDetailsInformationCard id='attendees'>
+          <div>
             <EventDetailsInformationCardHeading>
-              Information
+              {attendees && attendees.length} People going{' '}
+              <EventDetailsInformationTotalAttendees>
+                ({numberOfAttendees})
+              </EventDetailsInformationTotalAttendees>
             </EventDetailsInformationCardHeading>
-            <EventInformationInfo>
-              <span role='img' aria-label='date icon'>
-                🗓 
-              </span>
-              <EventDetailsInformationDate isCancelled={cancelled}>
-                {date && format(parsedDate, ' EEEE, do MMMM yyyy')} at{' '}
-                {format(parsedDate, 'h:mm a')}
-              </EventDetailsInformationDate>
-            </EventInformationInfo>
-            <EventInformationInfo>
-              <span role='img' aria-label='location icon'>
-                🧭
-              </span>
-              <span className='ml-3 mb-1 '>{venue && venue}</span>
-            </EventInformationInfo>
-            <EventInformationInfo>
-              <span role='img' aria-label='cost icon'>
-                💰
-              </span>
-              <span className='ml-3 mb-1 '>{cost ? `£ ${cost}` : 'Free entry'}</span>
-            </EventInformationInfo>
-            <EventDetailsInformationMap>
-              <EventDetailsMap latlng={coordinates && coordinates} />
-            </EventDetailsInformationMap>
-          </EventDetailsInformationCard>
-        </Col>
-      </Row>
+            <EventDetailsInformationAttendeesSection>
+              {attendees &&
+                filteredAttendeesArr.map((attendee, index) => {
+                  return (
+                    <EventDetailsAttendee
+                      user={user}
+                      key={index}
+                      attendee={attendee}
+                    />
+                  );
+                })}
+            </EventDetailsInformationAttendeesSection>
+          </div>
+        </EventDetailsInformationCard>
+        <EventDetailsInformationCard id='info'>
+          <EventDetailsInformationCardHeading>
+            Information
+          </EventDetailsInformationCardHeading>
+          <EventInformationInfo>
+            <span role='img' aria-label='date icon'>
+              🗓
+            </span>
+            <EventDetailsInformationDate isCancelled={cancelled}>
+              {date && format(parsedDate, ' EEEE, do MMMM yyyy')} at{' '}
+              {format(parsedDate, 'h:mm a')}
+            </EventDetailsInformationDate>
+          </EventInformationInfo>
+          <EventInformationInfo>
+            <span role='img' aria-label='location icon'>
+              🧭
+            </span>
+            <span className='ml-3 mb-1 '>{venue && venue}</span>
+          </EventInformationInfo>
+          <EventInformationInfo>
+            <span role='img' aria-label='cost icon'>
+              💰
+            </span>
+            <span className='ml-3 mb-1 '>
+              {cost ? `£ ${cost}` : 'Free entry'}
+            </span>
+          </EventInformationInfo>
+          <EventDetailsInformationMap>
+            <EventDetailsMap latlng={coordinates && coordinates} />
+          </EventDetailsInformationMap>
+        </EventDetailsInformationCard>
+        <EventDetailsInformationCard id='chat'>
+          {user && (<EventDetailsChat eventId={id} currentUser={currentUser}/>)}
+        </EventDetailsInformationCard>
+      </EventDetailsInformationGrid>
     </EventDetailsInformationContainer>
   );
 };

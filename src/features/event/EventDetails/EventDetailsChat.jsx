@@ -18,6 +18,7 @@ const EventChatForm = styled(Form)`
 `;
 
 const EventChatSendButton = styled(Button)`
+  z-index: 1000 !important;
   background: #ff6f61 !important;
   border: #ff6f61 !important;
   border-radius: 5px !important;
@@ -102,8 +103,6 @@ class EventDetailsChat extends React.Component {
 
     return (
       <Container>
-        <Row>
-          <Col>
             <EventChatHeading>Discussion</EventChatHeading>
             {messages.length === 0 && <NoPosts>No posts to show</NoPosts>}
             {messages &&
@@ -128,9 +127,6 @@ class EventDetailsChat extends React.Component {
                 <img src='/assets/send.png' alt='submit'/>
               </EventChatSendButton>
             </EventChatForm>
-          </Col>
-          <Col />
-        </Row>
       </Container>
     );
   }

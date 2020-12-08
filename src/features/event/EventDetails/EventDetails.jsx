@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import {Redirect} from 'react-router-dom';
 import EventDetailsHeading from './EventDetailsHeading';
 import EventDetailsInformation from './EventDetailsInformation';
-import EventDetailsChat from './EventDetailsChat';
 
 class EventDetails extends Component {
 
@@ -26,8 +25,7 @@ class EventDetails extends Component {
           isGoing={isGoing}
           event={event}
         />
-        <EventDetailsInformation user={user} isHost={isHost} event={event} />
-        {currentUser.hasOwnProperty('uid') && (<EventDetailsChat eventId={event.id} currentUser={currentUser}/>)}
+        <EventDetailsInformation user={user} currentUser={currentUser} isHost={isHost} event={event} />
       </Fragment>
     );
   }

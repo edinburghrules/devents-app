@@ -14,12 +14,21 @@ const EventDetailsHeadingSection = styled.div`
   padding: 8rem 0rem 4rem 0rem;
   width: 100%;
   margin: 0 auto;
+
+  @media(max-width: 595px) {
+    padding-top: 4em;
+  }
 `;
 
 const EventDetailsHeadingTitle = styled.h1`
   font-weight: 600;
   padding-bottom: .5rem;
   color: #222;
+
+  @media(max-width: 595px) {
+    font-size: 2rem;
+
+  }
 `;
 
 const EventDetailsCancelled = styled(EventDetailsHeadingTitle)`

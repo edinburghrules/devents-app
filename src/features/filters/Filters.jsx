@@ -17,17 +17,12 @@ import getAddressDetails, {
 const SearchFiltersCard = styled(Container)`
   border: 1px solid #ddd;
   background: #fff;
-  margin-top: 12rem;
   padding: 30px;
   border-radius: 8px;
 
-  @media(max-width: 992px) {
-    padding: 30px 0;
-    max-width: 80%;
-  }
-
   @media (max-width: 595px) {
-    margin-top: 20rem;
+    padding: 30px 0;
+    max-width: 90%;
   }
 
 `;

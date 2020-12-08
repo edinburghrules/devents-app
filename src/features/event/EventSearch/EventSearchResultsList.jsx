@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { fromUnixTime } from 'date-fns';
-import { Spinner } from 'react-bootstrap';
+import { Spinner, Container } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import Filter from '../../filters/Filters';
@@ -46,7 +46,7 @@ class EventSearchResultsList extends React.Component {
     let { results, searchLocation, searching } = this.props;
     if (results.length > 0) {
       return (
-        <React.Fragment>
+        <Container>
           <Filter />
           <EventResultsListContainer>
           { searching ? (
@@ -62,7 +62,7 @@ class EventSearchResultsList extends React.Component {
             </React.Fragment>
           )}
           </EventResultsListContainer>
-        </React.Fragment>
+        </Container>
       );
     } else {
       return (

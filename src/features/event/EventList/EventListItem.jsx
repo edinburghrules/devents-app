@@ -14,6 +14,10 @@ const EventListItemCard = styled.div`
   border-bottom: 1px solid #ddd;
   color: #222;
   margin-bottom: 2rem;
+
+  @media(max-width: 767px) {
+    margin-bottom: .5rem;
+  }
 `;
 
 const EventListItemContent = styled.div`
@@ -21,30 +25,60 @@ const EventListItemContent = styled.div`
   justify-content: center;
   align-items: center;
   padding-bottom: 2rem;
+
+  @media(max-width: 992px) {
+    align-items: flex-start;
+  }
+
+  @media(max-width: 767px) {
+    flex-direction: column;
+    align-items: center;
+    padding-bottom: 0rem;
+  }
 `;
 
 const EventListItemImageContainer = styled.div`
   margin-right: 2rem;
   width: 50%;
+
+  @media(max-width: 992px) {
+    margin-right: 0rem;
+  }
+
+  @media(max-width: 767px) {
+    width: 100%;
+  }
+
 `;
 
 const EventListItemImage = styled.img`
   width: 90%;
   height: 250px;
-  object-fit: cover;
+  object-fit: contain;
   object-position: center;
   border-radius: 8px;
-  border: 1px solid #ddd;
+
+  @media(max-width: 992px) {
+    width: 100%;
+  }
 `;
 
 const EventListItemInformation = styled.div`
   width: 50%;
+
+  @media(max-width: 767px) {
+    width: 98%;
+  }
 `;
 
 const EventListItemCardTitle = styled(Card.Title)`
   font-size: 1.4rem !important;
   font-weight: 600 !important;
   margin-top: 1.5rem !important;
+
+  @media(max-width: 992px) {
+    margin-top: .5rem !important;
+  }
 `;
 
 const EventListItemCardEventInfo = styled.div`

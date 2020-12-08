@@ -7,7 +7,7 @@ import { connect } from 'react-redux';
 const EventDashboardHeaderContainer = styled.div`
   height: 60vh;
   margin-top: 6rem;
-  margin-bottom: -12rem;
+  margin-bottom: 1rem;
   display: flex;
   justify-content: flex-start;
   align-items: center;
@@ -18,11 +18,12 @@ const EventDashboardHeaderContainer = styled.div`
 
   @media (max-width: 992px) {
     margin-top: 1rem;
-    margin-bottom: -20rem;
+    margin-bottom: -8rem;
   }
 
   @media(max-width: 595px) {
     margin-top: 12rem;
+    margin-bottom: 2rem;
   }
 `;
 

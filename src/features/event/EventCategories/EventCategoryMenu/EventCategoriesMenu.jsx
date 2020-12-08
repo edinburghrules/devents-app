@@ -6,7 +6,7 @@ import EventCategoryMenuItem from './EventCategoriesMenuItem';
 
 export const CategoriesContainer = styled.div`
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
   grid-gap: 1.5rem;
   margin-bottom: 5rem;
 `;

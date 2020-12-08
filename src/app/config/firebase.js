@@ -5,7 +5,7 @@ import 'firebase/firestore';
 import 'firebase/storage';
 
 var firebaseConfig = {
-  apiKey: "AIzaSyC6yxjrp-kXWHMbc3X5YORqRqAYJWjV8RM",
+  apiKey: process.env.REACT_APP_API_KEY,
   authDomain: "devents-e8874.firebaseapp.com",
   databaseURL: "https://devents-e8874.firebaseio.com",
   projectId: "devents-e8874",

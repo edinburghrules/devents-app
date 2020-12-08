@@ -13,6 +13,16 @@ const EventCard = styled(Link)`
   padding: 1rem 1rem 1rem 1rem;
   margin-right: 3%;
   margin-bottom: .8rem;
+
+  @media(max-width: 767px) {
+    width: 44%;
+    margin-right: 3%;
+  }
+
+  @media(max-width: 540px) {
+    width: 100%;
+    margin-right: 0;
+  }
 `;
 
 const EventPhoto = styled.img`
@@ -22,6 +32,10 @@ const EventPhoto = styled.img`
   object-position: center;
   text-align: center;
   border-radius: 8px;
+
+  @media(max-width: 540px) {
+    height: 14rem
+  }
 `;
 
 const EventTitle = styled.h3`

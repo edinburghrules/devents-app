@@ -8,6 +8,11 @@ const UserProfileHeaderContainer = styled.div`
   display: flex;
   margin-bottom: 2rem;
   align-items: flex-start;
+
+  @media (max-width: 767px) {
+    flex-direction: column;
+    align-items: center;
+  }
 `;
 
 const UsersName = styled.h3`
@@ -23,9 +28,18 @@ const UserProfileHeaderImg = styled.img`
   height: 7.5rem;
 `;
 
+const UserProfileHeaderInfo = styled.div`
+  @media (max-width: 767px) {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 1rem;
+  }
+`;
+
 const UserProfileHeaderJoinDate = styled.h6`
   color: #222;
-  font-size: .9rem;
+  font-size: 0.9rem;
   margin-top: 1.1rem;
 `;
 
@@ -40,7 +54,7 @@ const UserProfileHeader = ({ userDetails, currentUser }) => {
           alt='user'
         />
       </div>
-      <div>
+      <UserProfileHeaderInfo>
         <UsersName>{userDetails && userDetails.name}</UsersName>
         {userDetails.occupation && <h6>{userDetails.occupation}</h6>}
         {userDetails.homeCity && <h6>{userDetails.homeCity}</h6>}
@@ -49,8 +63,14 @@ const UserProfileHeader = ({ userDetails, currentUser }) => {
             Member since: {parsedJoinDate}
           </UserProfileHeaderJoinDate>
         )}
-      </div>
-      {currentUser === null ? '' : currentUser === userDetails.uid ? (<UserProfileEdit/>) : (<UserProfileFollow/>)}
+      </UserProfileHeaderInfo>
+      {currentUser === null ? (
+        ''
+      ) : currentUser === userDetails.uid ? (
+        <UserProfileEdit />
+      ) : (
+        <UserProfileFollow />
+      )}
     </UserProfileHeaderContainer>
   );
 };

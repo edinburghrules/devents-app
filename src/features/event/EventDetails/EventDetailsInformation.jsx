@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { fromUnixTime, format } from 'date-fns';
 import renderHTML from 'react-render-html';
-import { Row, Col, Container } from 'react-bootstrap';
+import { Container } from 'react-bootstrap';
 import EventDetailsAttendee from './EventDetailsAttendee';
 import EventDetailsMap from './EventDetailsMap';
 import EventDetailsChat from './EventDetailsChat';
@@ -17,7 +17,7 @@ const EventDetailsInformationGrid = styled.div`
   grid-template-columns: repeat(4, 1fr);
   grid-template-rows: 30rem 15rem 15rem 15rem;
 
-  @media(max-width: 992px) {
+  @media (max-width: 992px) {
     grid-template-rows: repeat(5, auto);
   }
 `;
@@ -27,12 +27,12 @@ const EventDetailsInformationCard = styled.div`
   background: #fff;
   margin-bottom: 4rem;
 
-  @media(max-width: 992px) {
+  @media (max-width: 992px) {
     margin-bottom: 1rem;
   }
 
   &#details {
-    grid-column: 1/3
+    grid-column: 1/3;
   }
 
   @media (max-width: 992px) {
@@ -141,7 +141,7 @@ const EventDetailsInformation = (props) => {
       photo: { photoURL },
     },
     user,
-    currentUser
+    currentUser,
   } = props;
 
   let parsedDate = fromUnixTime(date.seconds);
@@ -221,7 +221,7 @@ const EventDetailsInformation = (props) => {
           </EventDetailsInformationMap>
         </EventDetailsInformationCard>
         <EventDetailsInformationCard id='chat'>
-          {user && (<EventDetailsChat eventId={id} currentUser={currentUser}/>)}
+          {user && <EventDetailsChat eventId={id} currentUser={currentUser} />}
         </EventDetailsInformationCard>
       </EventDetailsInformationGrid>
     </EventDetailsInformationContainer>

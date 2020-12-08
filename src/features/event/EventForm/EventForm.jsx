@@ -23,11 +23,16 @@ import firebase from '../../../app/config/firebase';
 import { toast } from 'react-toastify';
 
 const EventFormContainer = styled(Container)`
-  margin: 10rem auto;
+  margin: 6rem auto;
+
+  @media(max-width: 597px) {
+    margin-top: 2rem;
+  }
 `;
 
 const EventFormHeading = styled.h2`
   margin-bottom: 3rem;
+  font-size: 1.3rem;
   font-weight: 600;
   color: #222;
 `;

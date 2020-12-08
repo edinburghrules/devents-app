@@ -103,7 +103,7 @@ class Filters extends React.Component {
                 <Spinner animation='border' size='sm' variant='light' />
               ) : (
                 <span>
-                  <img style={{height: '1rem', marginRight: '.5rem'}} src='/assets/search.png'/>
+                  <img style={{height: '1rem', marginRight: '.5rem'}} src='/assets/search.png' alt='search'/>
                   Search
                 </span>
               )}

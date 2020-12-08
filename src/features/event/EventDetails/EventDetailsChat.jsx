@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Row, Container, Form, Button, Col } from 'react-bootstrap';
+import { Form, Button, Container } from 'react-bootstrap';
 import EventDetailsChatMessage from './EventDetailsChatMessage';
 import firebase from '../../../app/config/firebase';
 
@@ -49,11 +49,14 @@ class EventDetailsChat extends React.Component {
       .collection('event_chats')
       .where('eventId', '==', this.props.eventId)
       .onSnapshot((querySnapshot) => {
-        querySnapshot.docChanges().forEach(change => {
+        querySnapshot.docChanges().forEach((change) => {
           if (change.type === 'added') {
-            initMessages.push({messageData: change.doc.data(), id: change.doc.id});
+            initMessages.push({
+              messageData: change.doc.data(),
+              id: change.doc.id,
+            });
           }
-        })
+        });
         this.setState({
           messages: [...initMessages],
         });
@@ -77,18 +80,15 @@ class EventDetailsChat extends React.Component {
   handleSubmit = (e) => {
     e.preventDefault();
     if (this.state.newMessage.length > 0) {
-      firebase
-        .firestore()
-        .collection('event_chats')
-        .add({
-          eventId: this.props.eventId,
-          displayName: this.props.currentUser.displayName,
-          message: this.state.newMessage,
-          photoURL: this.props.currentUser.photoURL,
-          date: new Date(),
-          userId: this.props.currentUser.uid,
-          replies: [],
-        });
+      firebase.firestore().collection('event_chats').add({
+        eventId: this.props.eventId,
+        displayName: this.props.currentUser.displayName,
+        message: this.state.newMessage,
+        photoURL: this.props.currentUser.photoURL,
+        date: new Date(),
+        userId: this.props.currentUser.uid,
+        replies: [],
+      });
 
       this.setState((prevState) => ({
         prevState,
@@ -103,30 +103,30 @@ class EventDetailsChat extends React.Component {
 
     return (
       <Container>
-            <EventChatHeading>Discussion</EventChatHeading>
-            {messages.length === 0 && <NoPosts>No posts to show</NoPosts>}
-            {messages &&
-              messages.map((message, index) => {
-                return (
-                  <EventDetailsChatMessage
-                    eventId={eventId}
-                    key={index}
-                    message={message}
-                    currentUser={currentUser}
-                  />
-                );
-              })}
-            <EventChatForm onSubmit={this.handleSubmit}>
-              <Form.Control
-                id='newMessage'
-                onChange={this.handleChange}
-                placeholder='Type a message'
-                value={newMessage}
+        <EventChatHeading>Discussion</EventChatHeading>
+        {messages.length === 0 && <NoPosts>No posts to show</NoPosts>}
+        {messages &&
+          messages.map((message, index) => {
+            return (
+              <EventDetailsChatMessage
+                eventId={eventId}
+                key={index}
+                message={message}
+                currentUser={currentUser}
               />
-              <EventChatSendButton type='submit'>
-                <img src='/assets/send.png' alt='submit'/>
-              </EventChatSendButton>
-            </EventChatForm>
+            );
+          })}
+        <EventChatForm onSubmit={this.handleSubmit}>
+          <Form.Control
+            id='newMessage'
+            onChange={this.handleChange}
+            placeholder='Type a message'
+            value={newMessage}
+          />
+          <EventChatSendButton type='submit'>
+            <img src='/assets/send.png' alt='submit' />
+          </EventChatSendButton>
+        </EventChatForm>
       </Container>
     );
   }

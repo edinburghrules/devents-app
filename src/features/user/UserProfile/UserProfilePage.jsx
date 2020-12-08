@@ -8,6 +8,10 @@ import UserProfileAbout from './UserProfileAbout';
 
 const UserProfileContainer = styled(Container)`
   margin-top: 8rem;
+
+  @media(max-width: 767px) {
+    margin-top: 2rem;
+  }
 `;
 
 const UserProfileCard = styled.div`

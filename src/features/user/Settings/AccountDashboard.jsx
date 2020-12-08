@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Col, Row, Container } from 'react-bootstrap';
+import { Container } from 'react-bootstrap';
 import { Route, Switch, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import AccountNav from './AccountNav';
@@ -12,45 +12,63 @@ import AccountEvents from './AccountEvents';
 import { fromUnixTime } from 'date-fns';
 
 const AccountDashboardContainer = styled(Container)`
-  margin-top: 10rem;
+  margin-top: 6rem;
+  display: grid;
+  grid-template-columns: 25% 75%;
+
+  @media(max-width: 992px) {
+    margin-top: 2rem;
+    grid-template-columns: 100%;
+  }
 `;
 
-const AccountDashboard = ({ providerId, profile, pastEvents, futureEvents, hosting }) => {
+const AccountNavContainer = styled.div`
+  @media(max-width: 992px) {
+    grid-column: 1/3;
+  }
+`;
+
+const AccountPagesContainer = styled.div`
+
+`;
+
+const AccountDashboard = ({
+  providerId,
+  profile,
+  pastEvents,
+  futureEvents,
+  hosting,
+}) => {
   return (
-    <div className='page-content'>
-      <AccountDashboardContainer>
-        <Row>
-          <Col>
-            <AccountNav userId={profile.uid} />
-          </Col>
-          <Col lg={9}>
-            <Switch>
-              <Redirect exact from='/user' to='/' />
-              <Route
-                path='/user-profile/:id'
-                render={() => <UserProfilePage />}
-              />
-              <Route
-                path='/user/photo'
-                render={() => <PhotoPage profilePhoto={profile.photoURL} />}
-              />
-              <Route
-                path='/user/change-password'
-                render={() => <ChangePasswordPage providerId={providerId} />}
-              />
-              <Route
-                path='/user/edit-profile/:id'
-                render={() => <EditProfile profile={profile && profile} />}
-              />
-              <Route
-                path='/user/user-events'
-                render={() => <AccountEvents events={{pastEvents, futureEvents, hosting}} />}
-              />
-            </Switch>
-          </Col>
-        </Row>
-      </AccountDashboardContainer>
-    </div>
+    <AccountDashboardContainer>
+    <AccountNavContainer>
+      <AccountNav userId={profile.uid} />
+    </AccountNavContainer>
+    <AccountPagesContainer>
+      <Switch>
+        <Redirect exact from='/user' to='/' />
+        <Route path='/user-profile/:id' render={() => <UserProfilePage />} />
+        <Route
+          path='/user/photo'
+          render={() => <PhotoPage profilePhoto={profile.photoURL} />}
+        />
+        <Route
+          path='/user/change-password'
+          render={() => <ChangePasswordPage providerId={providerId} />}
+        />
+        <Route
+          path='/user/edit-profile/:id'
+          render={() => <EditProfile profile={profile && profile} />}
+        />
+        <Route
+          path='/user/user-events'
+          render={() => (
+            <AccountEvents events={{ pastEvents, futureEvents, hosting }} />
+          )}
+        />
+      </Switch>
+      </AccountPagesContainer>
+    </AccountDashboardContainer>
   );
 };
 

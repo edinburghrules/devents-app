@@ -1,9 +1,9 @@
 import React from 'react';
+import { Container } from 'react-bootstrap';
 import styled from 'styled-components';
 import renderHTML from 'react-render-html';
 
-const UserProfileAboutContainer = styled.div`
-  margin-top: 2rem;
+const UserProfileAboutContainer = styled(Container)`
 `;
 
 const Heading = styled.h3`
@@ -11,6 +11,8 @@ const Heading = styled.h3`
   font-size: 1.3rem;
   display: flex;
   align-items: center;
+  margin-bottom: 2rem;
+  margin-top: 4rem;
 `;
 
 const UserProfileInterests = styled.div`
@@ -22,7 +24,16 @@ const UserProfileAboutList = styled.ul`
   padding: 0;
   font-weight: 400;
   line-height: 2.2;
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+
+  @media(max-width: 1200px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media(max-width: 767px) {
+    grid-template-columns: 1fr;
+  }
 `;
 
 const UserProfileAboutListItem = styled.li`

@@ -5,6 +5,11 @@ import { Button } from 'react-bootstrap';
 
 const UserProfileEditContainer = styled.div`
   margin-left: auto;
+
+  @media(max-width: 767px) {
+    margin-left: 0;
+    margin-top: 1rem;
+  }
 `;
 
 const UserProfileEditButton = styled(Button)`

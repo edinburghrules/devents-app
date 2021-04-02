@@ -1,8 +1,8 @@
-import React from 'react';
-import styled from 'styled-components';
-import { fromUnixTime, format } from 'date-fns';
-import UserProfileEdit from './UserProfileEdit';
-import UserProfileFollow from './UserProfileFollow';
+import React from "react";
+import styled from "styled-components";
+import { fromUnixTime, format } from "date-fns";
+import UserProfileEdit from "./UserProfileEdit";
+import UserProfileFollow from "./UserProfileFollow";
 
 const UserProfileHeaderContainer = styled.div`
   display: flex;
@@ -44,18 +44,19 @@ const UserProfileHeaderJoinDate = styled.h6`
 `;
 
 const UserProfileHeader = ({ userDetails, currentUser }) => {
+  console.log(userDetails);
   let date = fromUnixTime(userDetails && userDetails.joined.seconds);
-  let parsedJoinDate = format(date && date, 'EEEE, do MMMM yyyy');
+  let parsedJoinDate = format(date && date, "EEEE, do MMMM yyyy");
   return (
     <UserProfileHeaderContainer>
       <div>
         <UserProfileHeaderImg
-          src={(userDetails && userDetails.photoURL) || '/assets/profile.png'}
-          alt='user'
+          src={(userDetails && userDetails.photoURL) || "/assets/profile.png"}
+          alt="user"
         />
       </div>
       <UserProfileHeaderInfo>
-        <UsersName>{userDetails && userDetails.name}</UsersName>
+        <UsersName>{userDetails && userDetails.displayName}</UsersName>
         {userDetails.occupation && <h6>{userDetails.occupation}</h6>}
         {userDetails.homeCity && <h6>{userDetails.homeCity}</h6>}
         {userDetails.joined && (
@@ -65,7 +66,7 @@ const UserProfileHeader = ({ userDetails, currentUser }) => {
         )}
       </UserProfileHeaderInfo>
       {currentUser === null ? (
-        ''
+        ""
       ) : currentUser === userDetails.uid ? (
         <UserProfileEdit />
       ) : (

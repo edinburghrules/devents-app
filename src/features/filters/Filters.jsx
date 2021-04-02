@@ -1,18 +1,24 @@
-import React from 'react';
-import styled from 'styled-components';
-import { Form, Button, Spinner, Container } from 'react-bootstrap';
-import { connect } from 'react-redux';
-import { withRouter } from 'react-router';
-import { withFormik, Field } from 'formik';
-import { geocodeByAddress, getLatLng } from 'react-places-autocomplete';
-import { getEvents } from '../../app/redux/actions/eventActions';
-import SearchTextInput from '../../app/form-inputs/SearchTextInput';
-import SearchAreaInput from '../../app/form-inputs/SearchLocationInput';
-import { startSearching, stopSearching } from '../../app/redux/actions/asyncActions';
-import { supplySearchLocation, supplyCoords } from '../../app/redux/actions/userActions';
+import React from "react";
+import styled from "styled-components";
+import { Form, Button, Spinner, Container } from "react-bootstrap";
+import { connect } from "react-redux";
+import { withRouter } from "react-router";
+import { withFormik, Field } from "formik";
+import { geocodeByAddress, getLatLng } from "react-places-autocomplete";
+import { getEvents } from "../../app/redux/actions/eventActions";
+import SearchTextInput from "../../app/form-inputs/SearchTextInput";
+import SearchAreaInput from "../../app/form-inputs/SearchLocationInput";
+import {
+  startSearching,
+  stopSearching,
+} from "../../app/redux/actions/asyncActions";
+import {
+  supplySearchLocation,
+  supplyCoords,
+} from "../../app/redux/actions/userActions";
 import getAddressDetails, {
   getFormattedAddress,
-} from '../../app/utils/locationHelper';
+} from "../../app/utils/locationHelper";
 
 const SearchFiltersCard = styled(Container)`
   border: 1px solid #ddd;
@@ -23,8 +29,8 @@ const SearchFiltersCard = styled(Container)`
   @media (max-width: 595px) {
     padding: 30px 0;
     max-width: 90%;
+    margin-top: 5rem;
   }
-
 `;
 
 const SearchFiltersContainer = styled(Form.Group)`
@@ -37,7 +43,7 @@ const SearchFiltersForm = styled(Form)`
   justify-content: space-around;
   align-items: center;
 
-  @media(max-width: 992px) {
+  @media (max-width: 992px) {
     flex-direction: column;
     width: 100%;
   }
@@ -47,7 +53,7 @@ const SearchFiltersInputs = styled.div`
   width: 80%;
   display: flex;
 
-  @media(max-width: 992px) {
+  @media (max-width: 992px) {
     flex-direction: column;
     margin-bottom: 1rem;
   }
@@ -88,22 +94,26 @@ class Filters extends React.Component {
             <SearchFiltersInputs>
               <Field
                 as={SearchTextInput}
-                name='searchText'
-                placeholder='Find your next event'
+                name="searchText"
+                placeholder="Find your next event"
               />
               <Field
                 getCoords={this.getCoords}
                 component={SearchAreaInput}
-                name='searchLocation'
-                searchOptions={{ types: ['(cities)'] }}
+                name="searchLocation"
+                searchOptions={{ types: ["(cities)"] }}
               />
             </SearchFiltersInputs>
-            <SearchButton type='submit'>
+            <SearchButton type="submit">
               {searching ? (
-                <Spinner animation='border' size='sm' variant='light' />
+                <Spinner animation="border" size="sm" variant="light" />
               ) : (
                 <span>
-                  <img style={{height: '1rem', marginRight: '.5rem'}} src='/assets/search.png' alt='search'/>
+                  <img
+                    style={{ height: "1rem", marginRight: ".5rem" }}
+                    src="/assets/search.png"
+                    alt="search"
+                  />
                   Search
                 </span>
               )}
@@ -118,13 +128,13 @@ class Filters extends React.Component {
 const eventFilters = withFormik({
   mapPropsToValues: (props) => {
     return {
-      searchText: '',
-      searchLocation: props.searchLocation || '',
+      searchText: "",
+      searchLocation: props.searchLocation || "",
     };
   },
   handleSubmit: async (values, formikBag) => {
     const { props } = formikBag;
-    if (values.searchLocation !== '') {
+    if (values.searchLocation !== "") {
       try {
         props.startSearching();
         await props.getEvents(searchCoords);
@@ -137,7 +147,7 @@ const eventFilters = withFormik({
         props.supplySearchLocation(formattedAddress);
         props.history.push(
           `/search-results/${
-            values.searchText === '' ? 'no-search-string' : values.searchText
+            values.searchText === "" ? "no-search-string" : values.searchText
           }`
         );
         props.stopSearching();
@@ -161,7 +171,7 @@ const mapDispatchToProps = {
   supplyCoords,
   supplySearchLocation,
   startSearching,
-  stopSearching
+  stopSearching,
 };
 
 export default connect(

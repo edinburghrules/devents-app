@@ -1,10 +1,9 @@
-import React from 'react';
-import { Container } from 'react-bootstrap';
-import styled from 'styled-components';
-import renderHTML from 'react-render-html';
+import React from "react";
+import { Container } from "react-bootstrap";
+import styled from "styled-components";
+import renderHTML from "react-render-html";
 
-const UserProfileAboutContainer = styled(Container)`
-`;
+const UserProfileAboutContainer = styled(Container)``;
 
 const Heading = styled.h3`
   font-weight: 600;
@@ -27,11 +26,11 @@ const UserProfileAboutList = styled.ul`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
 
-  @media(max-width: 1200px) {
+  @media (max-width: 1200px) {
     grid-template-columns: repeat(2, 1fr);
   }
 
-  @media(max-width: 767px) {
+  @media (max-width: 767px) {
     grid-template-columns: 1fr;
   }
 `;
@@ -46,13 +45,13 @@ const UserProfileAbout = (props) => {
   const { about, interests } = props.userDetails;
   return (
     <UserProfileAboutContainer>
-      {about !== '<p><br></p>' && (
+      {about && (
         <React.Fragment>
           <Heading>About</Heading>
           {renderHTML(about)}
         </React.Fragment>
       )}
-      {interests.length > 0 && (
+      {interests && interests.length > 0 && (
         <UserProfileInterests>
           <Heading>Interests</Heading>
           <UserProfileAboutList>
@@ -61,9 +60,9 @@ const UserProfileAbout = (props) => {
                 return (
                   <UserProfileAboutListItem key={index}>
                     <span
-                      className='mr-1'
-                      role='img'
-                      aria-labelledby='tick icon'
+                      className="mr-1"
+                      role="img"
+                      aria-labelledby="tick icon"
                     >
                       ✅
                     </span>

@@ -1,31 +1,31 @@
 /* global google */
-import React, { Component } from 'react';
-import styled from 'styled-components';
-import { Form, Alert, Spinner, Container, Button } from 'react-bootstrap';
-import { addDays, fromUnixTime } from 'date-fns';
-import { withFormik, Field } from 'formik';
-import { connect } from 'react-redux';
-import * as Yup from 'yup';
-import { geocodeByAddress, getLatLng } from 'react-places-autocomplete';
-import TextInput from '../../../app/form-inputs/TextInput';
-import CategoryInput from '../../../app/form-inputs/CategoryInput';
-import DatePickerInput from '../../../app/form-inputs/DatePickerInput';
-import PlaceInput from '../../../app/form-inputs/PlaceInput';
-import CostInput from '../../../app/form-inputs/CostInput';
-import EventFormPhoto from '../../../app/form-inputs/EventFormPhoto';
-import RichText from '../../../app/form-inputs/RichText';
+import React, { Component } from "react";
+import styled from "styled-components";
+import { Form, Alert, Spinner, Container, Button } from "react-bootstrap";
+import { addDays, fromUnixTime } from "date-fns";
+import { withFormik, Field } from "formik";
+import { connect } from "react-redux";
+import * as Yup from "yup";
+import { geocodeByAddress, getLatLng } from "react-places-autocomplete";
+import TextInput from "../../../app/form-inputs/TextInput";
+import CategoryInput from "../../../app/form-inputs/CategoryInput";
+import DatePickerInput from "../../../app/form-inputs/DatePickerInput";
+import PlaceInput from "../../../app/form-inputs/PlaceInput";
+import CostInput from "../../../app/form-inputs/CostInput";
+import EventFormPhoto from "../../../app/form-inputs/EventFormPhoto";
+import RichText from "../../../app/form-inputs/RichText";
 import {
   createEvent,
   editEvent,
   eventPhotoUpload,
-} from '../../../app/redux/actions/eventActions';
-import firebase from '../../../app/config/firebase';
-import { toast } from 'react-toastify';
+} from "../../../app/redux/actions/eventActions";
+import firebase from "../../../app/config/firebase";
+import { toast } from "react-toastify";
 
 const EventFormContainer = styled(Container)`
   margin: 6rem auto;
 
-  @media(max-width: 597px) {
+  @media (max-width: 597px) {
     margin-top: 2rem;
   }
 `;
@@ -80,7 +80,7 @@ const NotificationIcon = styled.img`
 
 let coords;
 
-const coordsFromLS = localStorage.getItem('coords');
+const coordsFromLS = localStorage.getItem("coords");
 
 if (coordsFromLS) {
   coords = JSON.parse(coordsFromLS);
@@ -91,24 +91,32 @@ if (coordsFromLS) {
   };
 }
 
-
-
 class EventForm extends Component {
   componentWillUnmount = () => {
     if (
       this.props.event &&
       this.props.location.pathname === `/manage-event/${this.props.event.id}`
     ) {
-      localStorage.removeItem('editEventFieldValues');
+      localStorage.removeItem("editEventFieldValues");
+    }
+  };
+
+  componentDidMount = async () => {
+    if (this.props.values.city) {
+      const geoCodeFetch = await geocodeByAddress(this.props.values.city);
+      const results = await getLatLng(geoCodeFetch[0]);
+      coords.venue = results;
     }
   };
 
   getCoords = async (name, city) => {
+    console.log(name, city);
     try {
       const geoCodeFetch = await geocodeByAddress(city);
       const results = await getLatLng(geoCodeFetch[0]);
+      console.log(results);
       coords[name] = results;
-      localStorage.setItem('coords', JSON.stringify(coords));
+      localStorage.setItem("coords", JSON.stringify(coords));
     } catch (err) {
       console.log(err);
     }
@@ -116,16 +124,16 @@ class EventForm extends Component {
 
   saveToLocalStorage = () => {
     if (this.props.values)
-      if (this.props.location.pathname === '/create-event') {
+      if (this.props.location.pathname === "/create-event") {
         localStorage.setItem(
-          'createEventFieldValues',
+          "createEventFieldValues",
           JSON.stringify(this.props.values)
         );
       } else if (
         this.props.location.pathname === `/manage-event/${this.props.event.id}`
       ) {
         localStorage.setItem(
-          'editEventFieldValues',
+          "editEventFieldValues",
           JSON.stringify(this.props.values)
         );
       }
@@ -145,87 +153,89 @@ class EventForm extends Component {
 
     this.saveToLocalStorage();
 
+    console.log(coords);
+
     return (
       <EventFormContainer>
         <EventFormHeading>
-          {event && event.id ? 'Edit Your Event' : 'Host Your Event'}
+          {event && event.id ? "Edit Your Event" : "Host Your Event"}
         </EventFormHeading>
         <fieldset disabled={values.cancelled}>
-          <Form id='eventForm' onSubmit={handleSubmit} noValidate={true}>
+          <Form id="eventForm" onSubmit={handleSubmit} noValidate={true}>
             <Field
               as={TextInput}
-              name='title'
-              placeholder='Enter event title'
+              name="title"
+              placeholder="Enter event title"
             />
-            {touched.title && errors.hasOwnProperty('title') && (
-              <Alert variant='danger'>{errors.title}</Alert>
+            {touched.title && errors.hasOwnProperty("title") && (
+              <Alert variant="danger">{errors.title}</Alert>
             )}
 
             <Field
               as={TextInput}
-              name='summary'
-              placeholder='Enter event summary'
+              name="summary"
+              placeholder="Enter event summary"
             />
-            {touched.summary && errors.hasOwnProperty('summary') && (
-              <Alert variant='danger'>{errors.summary}</Alert>
+            {touched.summary && errors.hasOwnProperty("summary") && (
+              <Alert variant="danger">{errors.summary}</Alert>
             )}
 
-            <Field component={CategoryInput} name='category' />
-            {touched.category && errors.hasOwnProperty('category') && (
-              <Alert variant='danger'>{errors.summary}</Alert>
+            <Field component={CategoryInput} name="category" />
+            {touched.category && errors.hasOwnProperty("category") && (
+              <Alert variant="danger">{errors.summary}</Alert>
             )}
 
             <Field
               defaultValue={event && event.cost}
               component={CostInput}
-              name='cost'
+              name="cost"
             />
 
             <Field
               component={RichText}
-              name='description'
-              placeholder='Enter event description'
+              name="description"
+              placeholder="Enter event description"
             />
-            {touched.description && errors.hasOwnProperty('description') && (
-              <Alert variant='danger'>{errors.description}</Alert>
+            {touched.description && errors.hasOwnProperty("description") && (
+              <Alert variant="danger">{errors.description}</Alert>
             )}
 
             <Field
               component={DatePickerInput}
-              name='date'
-              placeholderText='Enter event date'
+              name="date"
+              placeholderText="Enter event date"
             />
-            {touched.date && errors.hasOwnProperty('date') && (
-              <Alert variant='danger'>{errors.date}</Alert>
+            {touched.date && errors.hasOwnProperty("date") && (
+              <Alert variant="danger">{errors.date}</Alert>
             )}
 
             <Field
               component={PlaceInput}
-              name='city'
+              name="city"
               getCoords={this.getCoords}
-              searchOptions={{ types: ['(cities)'] }}
+              searchOptions={{ types: ["(cities)"] }}
             />
-            {touched.city && errors.hasOwnProperty('city') && (
-              <Alert variant='danger'>{errors.city}</Alert>
+            {touched.city && errors.hasOwnProperty("city") && (
+              <Alert variant="danger">{errors.city}</Alert>
             )}
 
             <Field
               component={PlaceInput}
-              name='venue'
+              name="venue"
               getCoords={this.getCoords}
               searchOptions={{
                 location: new google.maps.LatLng(coords.city),
                 radius: 2000,
-                types: ['establishment'],
+                types: ["establishment"],
               }}
             />
-            {touched.venue && errors.hasOwnProperty('venue') && (
-              <Alert variant='danger'>{errors.venue}</Alert>
+            {touched.venue && errors.hasOwnProperty("venue") && (
+              <Alert variant="danger">{errors.venue}</Alert>
             )}
 
-            <Field component={EventFormPhoto} name='photo' />
-            {touched.photo && errors.hasOwnProperty('photo') && (
-              <Alert className='mt-3' variant='danger'>
+            <Field component={EventFormPhoto} name="photo" />
+            {touched.photo && errors.hasOwnProperty("photo") && (
+              <Alert className="mt-3" variant="danger">
                 {errors.photo}
               </Alert>
             )}
@@ -237,28 +247,28 @@ class EventForm extends Component {
           </Form>
         </fieldset>
         {event && event.id && (
-          <Form.Label style={{ marginTop: '2rem' }}>Cancel Event</Form.Label>
+          <Form.Label style={{ marginTop: "2rem" }}>Cancel Event</Form.Label>
         )}
-        {location.pathname !== '/create-event' && (
+        {location.pathname !== "/create-event" && (
           <Form.Check
-            name='cancelled'
+            name="cancelled"
             onChange={() => {
-              setFieldValue('cancelled', !values.cancelled);
+              setFieldValue("cancelled", !values.cancelled);
             }}
-            type='switch'
-            id='custom-switch'
+            type="switch"
+            id="custom-switch"
             checked={values.cancelled}
-            label={''}
+            label={""}
           />
         )}
         <EventFormButtons>
-          <EventFormSubmitBtn form='eventForm' type='submit'>
+          <EventFormSubmitBtn form="eventForm" type="submit">
             {isSubmitting ? (
-              <Spinner animation='border' variant='light' />
+              <Spinner animation="border" variant="light" />
             ) : event && event.id ? (
-              <img alt='plus' src='/assets/plus.png'/>
+              <img alt="plus" src="/assets/plus.png" />
             ) : (
-              <img alt='plus' src='/assets/plus.png'/>
+              <img alt="plus" src="/assets/plus.png" />
             )}
           </EventFormSubmitBtn>
         </EventFormButtons>
@@ -274,13 +284,13 @@ const formikEventForm = withFormik({
     let fieldValuesJSON;
     let fieldValuesParsed;
 
-    if (location.pathname === '/create-event') {
-      fieldValuesJSON = localStorage.getItem('createEventFieldValues');
+    if (location.pathname === "/create-event") {
+      fieldValuesJSON = localStorage.getItem("createEventFieldValues");
       if (fieldValuesJSON) {
         fieldValuesParsed = JSON.parse(fieldValuesJSON);
       }
     } else if (location.pathname === `/manage-event/${event.id}`) {
-      fieldValuesJSON = localStorage.getItem('editEventFieldValues');
+      fieldValuesJSON = localStorage.getItem("editEventFieldValues");
       fieldValuesParsed = JSON.parse(fieldValuesJSON);
     }
 
@@ -306,39 +316,39 @@ const formikEventForm = withFormik({
       };
     } else {
       return {
-        title: (fieldValuesParsed && fieldValuesParsed.title) || '',
-        summary: (fieldValuesParsed && fieldValuesParsed.summary) || '',
-        description: (fieldValuesParsed && fieldValuesParsed.description) || '',
+        title: (fieldValuesParsed && fieldValuesParsed.title) || "",
+        summary: (fieldValuesParsed && fieldValuesParsed.summary) || "",
+        description: (fieldValuesParsed && fieldValuesParsed.description) || "",
         date:
           (fieldValuesParsed && new Date(fieldValuesParsed.date)) ||
           addDays(new Date(), 1),
-        city: (fieldValuesParsed && fieldValuesParsed.city) || '',
-        venue: (fieldValuesParsed && fieldValuesParsed.venue) || '',
-        category: (fieldValuesParsed && fieldValuesParsed.category) || '',
+        city: (fieldValuesParsed && fieldValuesParsed.city) || "",
+        venue: (fieldValuesParsed && fieldValuesParsed.venue) || "",
+        category: (fieldValuesParsed && fieldValuesParsed.category) || "",
         cost: (fieldValuesParsed && fieldValuesParsed.cost) || 0,
         cancelled: false,
-        photo: '',
+        photo: "",
       };
     }
   },
   validationSchema: Yup.object().shape({
     title: Yup.string()
-      .min(4, 'Your event must have a title of at least 4 characters.')
-      .required('You must provide the title of your event.'),
+      .min(4, "Your event must have a title of at least 4 characters.")
+      .required("You must provide the title of your event."),
     summary: Yup.string()
-      .min(6, 'Your event must have a summary of at least 10 characters.')
-      .required('You must provide a summary of your event.'),
+      .min(6, "Your event must have a summary of at least 10 characters.")
+      .required("You must provide a summary of your event."),
     description: Yup.string()
-      .max(2000, 'Too long!')
-      .min(6, 'Too short!')
-      .required('You must provide a description of your event.'),
-    category: Yup.string().required('Event description is required.'),
+      .max(2000, "Too long!")
+      .min(6, "Too short!")
+      .required("You must provide a description of your event."),
+    category: Yup.string().required("Event description is required."),
     city: Yup.string().required(
-      'You must provide the city or town of your event.'
+      "You must provide the city or town of your event."
     ),
-    venue: Yup.string().required('You must provide an event venue.'),
-    date: Yup.date().required('Please provide and event date.').nullable(),
-    photo: Yup.string().required('Please add a photo for your event.'),
+    venue: Yup.string().required("You must provide an event venue."),
+    date: Yup.date().required("Please provide and event date.").nullable(),
+    photo: Yup.string().required("Please add a photo for your event."),
   }),
   handleSubmit: async (values, formikBag) => {
     const {
@@ -360,7 +370,7 @@ const formikEventForm = withFormik({
       }
     };
 
-    if (location.pathname === '/create-event') {
+    if (location.pathname === "/create-event") {
       try {
         const newEvent = {
           ...values,
@@ -371,7 +381,7 @@ const formikEventForm = withFormik({
         };
         let createdEventId = await createEvent(newEvent);
         await eventPhotoUpload(values.photo, createdEventId, true);
-        clearLocalStorage(['createEventFieldValues', 'coords']);
+        clearLocalStorage(["createEventFieldValues", "coords"]);
         history.push(`/event/${createdEventId}`);
       } catch (err) {
         console.log(err);
@@ -385,11 +395,12 @@ const formikEventForm = withFormik({
           coords.venue.lng
         ),
       };
+
       try {
         let editedEventId = await editEvent(editedEvent);
         if (values.photo.src) {
           await eventPhotoUpload(values.photo, editedEventId, false);
-          clearLocalStorage(['editEventFieldValues']);
+          clearLocalStorage(["editEventFieldValues"]);
           history.push(`/event/${editedEvent.id}`);
         } else {
           history.push(`/event/${editedEvent.id}`);
@@ -399,11 +410,11 @@ const formikEventForm = withFormik({
         history.push(`/manage-event/${editedEvent.id}`);
         toast.error(
           <Notification>
-            <NotificationIcon src='/assets/notification.png' />
+            <NotificationIcon src="/assets/notification.png" />
             There has been an error uploading event photo. Please try again.
           </Notification>,
           {
-            position: 'bottom-right',
+            position: "bottom-right",
             autoClose: 5000,
             hideProgressBar: true,
           }
